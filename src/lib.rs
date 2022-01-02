@@ -28,6 +28,11 @@ pub trait MixedNum
     fn mixed_powi( &self, exp: i32 ) -> Self;
 }
 
+pub trait MixedConsts
+{
+    /// The pi constant. 3.141...
+    fn pi() -> Self;
+}
 
 macro_rules! impl_mixed_num_for_primitive{
     ( $T:ty ) => {
@@ -59,7 +64,6 @@ macro_rules! impl_mixed_num_for_primitive{
         impl MixedNum for $T
         {
             #[inline(always)]
-
             fn mixed_max_value() -> Self {
                 return Self::max_value();
             }
@@ -74,6 +78,14 @@ macro_rules! impl_mixed_num_for_primitive{
             #[inline(always)]
             fn mixed_powi( &self, exp: i32 ) -> Self {
                 return self.powi( exp );
+            }
+        }
+
+        impl MixedConsts for $T
+        {
+            #[inline(always)]
+            fn pi() -> Self {
+                return 3.1415926535897932384626433832795028841971693993751058209749445923078164062 as $T;
             }
         }
     }
@@ -127,6 +139,14 @@ macro_rules! impl_mixed_num_for_fixed{
             #[inline(always)]
             fn mixed_powi( &self, exp: i32 ) -> Self {
                 return trig::powi( *self, exp as usize );
+            }
+        }
+
+        impl MixedConsts for $T
+        {
+            #[inline(always)]
+            fn pi() -> Self {
+                return Self::from_num(3.1415926535897932384626433832795028841971693993751058209749445923078164062);
             }
         }
     }
