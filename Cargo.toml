@@ -19,6 +19,7 @@ crate-type = ["lib"]
 [dependencies]
 fixed  = "1.10.0"
 cordic = "0.1.5"
+typenum = "1.15.0"
 
 [dependencies.num]
 version = "0.4"

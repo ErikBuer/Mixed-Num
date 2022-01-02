@@ -5,32 +5,340 @@
 #![crate_name = "mixed_num"]
 #![no_std]
 
-use num::traits::float::FloatCore;
+use fixed;
 
-struct Mixed<T>{
-    number:T
+
+pub trait MixedNum<T> {
+    fn mixed_from_num( number:T ) -> Self;
+    fn mixed_to_num( &self )      -> T;
 }
 
-impl<T> Mixed<T> {
-    /// Create a new mixed number.
-    #[allow(dead_code)]
-    fn new( number: T ) -> Self
-    {
-        Mixed {
-            number: number,
-        }
+impl MixedNum<f32> for f32
+{   
+    #[inline(always)]
+    fn mixed_from_num( number:f32 ) -> Self {
+        return number;
+    }
+
+    #[inline(always)]
+    fn mixed_to_num( &self ) -> f32 {
+        return *self;
     }
 }
 
-pub trait TypeConversion<T> {
-    fn from_num( number:T ) -> Self;
-    //fn to_num( &self )      -> T;
-}
-
-impl TypeConversion<T> for Mixed<f32>
+impl MixedNum<f64> for f32
 {
-    fn from_num( number:T ) -> Self {
-        return Mixed::new( number );
+    #[inline(always)]
+    fn mixed_from_num( number:f64 ) -> Self {
+        return number as f32;
+    }
+    #[inline(always)]
+    fn mixed_to_num( &self ) -> f64 {
+        return *self as f64;
+    }
+}
+
+impl MixedNum<f32> for f64
+{   
+    #[inline(always)]
+    fn mixed_from_num( number:f32 ) -> Self {
+        return number as f64;
     }
 
+    #[inline(always)]
+    fn mixed_to_num( &self ) -> f32 {
+        return *self as f32;
+    }
 }
+
+impl MixedNum<f64> for f64
+{
+    #[inline(always)]
+    fn mixed_from_num( number:f64 ) -> Self {
+        return number as f64;
+    }
+    #[inline(always)]
+    fn mixed_to_num( &self ) -> f64 {
+        return *self;
+    }
+}
+
+
+#[macro_export]
+macro_rules! impl_mixed_num_for_fixed{
+    ( $T:ty ) => {
+
+        impl MixedNum<f32> for $T
+        {
+            #[inline(always)]
+            fn mixed_from_num( number:f32 ) -> Self {
+                return Self::from_num(number);
+            }
+            #[inline(always)]
+            fn mixed_to_num( &self ) -> f32 {
+                return self.to_num::<f32>();
+            }
+        }
+
+    }
+}
+
+
+impl_mixed_num_for_fixed!(fixed::FixedU8<fixed::types::extra::U0>);
+impl_mixed_num_for_fixed!(fixed::FixedU8<fixed::types::extra::U1>);
+impl_mixed_num_for_fixed!(fixed::FixedU8<fixed::types::extra::U2>);
+impl_mixed_num_for_fixed!(fixed::FixedU8<fixed::types::extra::U3>);
+impl_mixed_num_for_fixed!(fixed::FixedU8<fixed::types::extra::U4>);
+impl_mixed_num_for_fixed!(fixed::FixedU8<fixed::types::extra::U5>);
+impl_mixed_num_for_fixed!(fixed::FixedU8<fixed::types::extra::U6>);
+impl_mixed_num_for_fixed!(fixed::FixedU8<fixed::types::extra::U7>);
+impl_mixed_num_for_fixed!(fixed::FixedU8<fixed::types::extra::U8>);
+
+impl_mixed_num_for_fixed!(fixed::FixedI8<fixed::types::extra::U0>);
+impl_mixed_num_for_fixed!(fixed::FixedI8<fixed::types::extra::U1>);
+impl_mixed_num_for_fixed!(fixed::FixedI8<fixed::types::extra::U2>);
+impl_mixed_num_for_fixed!(fixed::FixedI8<fixed::types::extra::U3>);
+impl_mixed_num_for_fixed!(fixed::FixedI8<fixed::types::extra::U4>);
+impl_mixed_num_for_fixed!(fixed::FixedI8<fixed::types::extra::U5>);
+impl_mixed_num_for_fixed!(fixed::FixedI8<fixed::types::extra::U6>);
+impl_mixed_num_for_fixed!(fixed::FixedI8<fixed::types::extra::U7>);
+impl_mixed_num_for_fixed!(fixed::FixedI8<fixed::types::extra::U8>);
+
+
+impl_mixed_num_for_fixed!(fixed::FixedU16<fixed::types::extra::U0>);
+impl_mixed_num_for_fixed!(fixed::FixedU16<fixed::types::extra::U1>);
+impl_mixed_num_for_fixed!(fixed::FixedU16<fixed::types::extra::U2>);
+impl_mixed_num_for_fixed!(fixed::FixedU16<fixed::types::extra::U3>);
+impl_mixed_num_for_fixed!(fixed::FixedU16<fixed::types::extra::U4>);
+impl_mixed_num_for_fixed!(fixed::FixedU16<fixed::types::extra::U5>);
+impl_mixed_num_for_fixed!(fixed::FixedU16<fixed::types::extra::U6>);
+impl_mixed_num_for_fixed!(fixed::FixedU16<fixed::types::extra::U7>);
+impl_mixed_num_for_fixed!(fixed::FixedU16<fixed::types::extra::U8>);
+impl_mixed_num_for_fixed!(fixed::FixedU16<fixed::types::extra::U9>);
+impl_mixed_num_for_fixed!(fixed::FixedU16<fixed::types::extra::U10>);
+impl_mixed_num_for_fixed!(fixed::FixedU16<fixed::types::extra::U11>);
+impl_mixed_num_for_fixed!(fixed::FixedU16<fixed::types::extra::U12>);
+impl_mixed_num_for_fixed!(fixed::FixedU16<fixed::types::extra::U13>);
+impl_mixed_num_for_fixed!(fixed::FixedU16<fixed::types::extra::U14>);
+impl_mixed_num_for_fixed!(fixed::FixedU16<fixed::types::extra::U15>);
+impl_mixed_num_for_fixed!(fixed::FixedU16<fixed::types::extra::U16>);
+
+impl_mixed_num_for_fixed!(fixed::FixedI16<fixed::types::extra::U0>);
+impl_mixed_num_for_fixed!(fixed::FixedI16<fixed::types::extra::U1>);
+impl_mixed_num_for_fixed!(fixed::FixedI16<fixed::types::extra::U2>);
+impl_mixed_num_for_fixed!(fixed::FixedI16<fixed::types::extra::U3>);
+impl_mixed_num_for_fixed!(fixed::FixedI16<fixed::types::extra::U4>);
+impl_mixed_num_for_fixed!(fixed::FixedI16<fixed::types::extra::U5>);
+impl_mixed_num_for_fixed!(fixed::FixedI16<fixed::types::extra::U6>);
+impl_mixed_num_for_fixed!(fixed::FixedI16<fixed::types::extra::U7>);
+impl_mixed_num_for_fixed!(fixed::FixedI16<fixed::types::extra::U8>);
+impl_mixed_num_for_fixed!(fixed::FixedI16<fixed::types::extra::U9>);
+impl_mixed_num_for_fixed!(fixed::FixedI16<fixed::types::extra::U10>);
+impl_mixed_num_for_fixed!(fixed::FixedI16<fixed::types::extra::U11>);
+impl_mixed_num_for_fixed!(fixed::FixedI16<fixed::types::extra::U12>);
+impl_mixed_num_for_fixed!(fixed::FixedI16<fixed::types::extra::U13>);
+impl_mixed_num_for_fixed!(fixed::FixedI16<fixed::types::extra::U14>);
+impl_mixed_num_for_fixed!(fixed::FixedI16<fixed::types::extra::U15>);
+impl_mixed_num_for_fixed!(fixed::FixedI16<fixed::types::extra::U16>);
+
+
+impl_mixed_num_for_fixed!(fixed::FixedU32<fixed::types::extra::U0>);
+impl_mixed_num_for_fixed!(fixed::FixedU32<fixed::types::extra::U1>);
+impl_mixed_num_for_fixed!(fixed::FixedU32<fixed::types::extra::U2>);
+impl_mixed_num_for_fixed!(fixed::FixedU32<fixed::types::extra::U3>);
+impl_mixed_num_for_fixed!(fixed::FixedU32<fixed::types::extra::U4>);
+impl_mixed_num_for_fixed!(fixed::FixedU32<fixed::types::extra::U5>);
+impl_mixed_num_for_fixed!(fixed::FixedU32<fixed::types::extra::U6>);
+impl_mixed_num_for_fixed!(fixed::FixedU32<fixed::types::extra::U7>);
+impl_mixed_num_for_fixed!(fixed::FixedU32<fixed::types::extra::U8>);
+impl_mixed_num_for_fixed!(fixed::FixedU32<fixed::types::extra::U9>);
+impl_mixed_num_for_fixed!(fixed::FixedU32<fixed::types::extra::U10>);
+impl_mixed_num_for_fixed!(fixed::FixedU32<fixed::types::extra::U11>);
+impl_mixed_num_for_fixed!(fixed::FixedU32<fixed::types::extra::U12>);
+impl_mixed_num_for_fixed!(fixed::FixedU32<fixed::types::extra::U13>);
+impl_mixed_num_for_fixed!(fixed::FixedU32<fixed::types::extra::U14>);
+impl_mixed_num_for_fixed!(fixed::FixedU32<fixed::types::extra::U15>);
+impl_mixed_num_for_fixed!(fixed::FixedU32<fixed::types::extra::U16>);
+impl_mixed_num_for_fixed!(fixed::FixedU32<fixed::types::extra::U17>);
+impl_mixed_num_for_fixed!(fixed::FixedU32<fixed::types::extra::U18>);
+impl_mixed_num_for_fixed!(fixed::FixedU32<fixed::types::extra::U19>);
+impl_mixed_num_for_fixed!(fixed::FixedU32<fixed::types::extra::U20>);
+impl_mixed_num_for_fixed!(fixed::FixedU32<fixed::types::extra::U21>);
+impl_mixed_num_for_fixed!(fixed::FixedU32<fixed::types::extra::U22>);
+impl_mixed_num_for_fixed!(fixed::FixedU32<fixed::types::extra::U23>);
+impl_mixed_num_for_fixed!(fixed::FixedU32<fixed::types::extra::U24>);
+impl_mixed_num_for_fixed!(fixed::FixedU32<fixed::types::extra::U25>);
+impl_mixed_num_for_fixed!(fixed::FixedU32<fixed::types::extra::U26>);
+impl_mixed_num_for_fixed!(fixed::FixedU32<fixed::types::extra::U27>);
+impl_mixed_num_for_fixed!(fixed::FixedU32<fixed::types::extra::U28>);
+impl_mixed_num_for_fixed!(fixed::FixedU32<fixed::types::extra::U29>);
+impl_mixed_num_for_fixed!(fixed::FixedU32<fixed::types::extra::U30>);
+impl_mixed_num_for_fixed!(fixed::FixedU32<fixed::types::extra::U31>);
+impl_mixed_num_for_fixed!(fixed::FixedU32<fixed::types::extra::U32>);
+
+impl_mixed_num_for_fixed!(fixed::FixedI32<fixed::types::extra::U0>);
+impl_mixed_num_for_fixed!(fixed::FixedI32<fixed::types::extra::U1>);
+impl_mixed_num_for_fixed!(fixed::FixedI32<fixed::types::extra::U2>);
+impl_mixed_num_for_fixed!(fixed::FixedI32<fixed::types::extra::U3>);
+impl_mixed_num_for_fixed!(fixed::FixedI32<fixed::types::extra::U4>);
+impl_mixed_num_for_fixed!(fixed::FixedI32<fixed::types::extra::U5>);
+impl_mixed_num_for_fixed!(fixed::FixedI32<fixed::types::extra::U6>);
+impl_mixed_num_for_fixed!(fixed::FixedI32<fixed::types::extra::U7>);
+impl_mixed_num_for_fixed!(fixed::FixedI32<fixed::types::extra::U8>);
+impl_mixed_num_for_fixed!(fixed::FixedI32<fixed::types::extra::U9>);
+impl_mixed_num_for_fixed!(fixed::FixedI32<fixed::types::extra::U10>);
+impl_mixed_num_for_fixed!(fixed::FixedI32<fixed::types::extra::U11>);
+impl_mixed_num_for_fixed!(fixed::FixedI32<fixed::types::extra::U12>);
+impl_mixed_num_for_fixed!(fixed::FixedI32<fixed::types::extra::U13>);
+impl_mixed_num_for_fixed!(fixed::FixedI32<fixed::types::extra::U14>);
+impl_mixed_num_for_fixed!(fixed::FixedI32<fixed::types::extra::U15>);
+impl_mixed_num_for_fixed!(fixed::FixedI32<fixed::types::extra::U16>);
+impl_mixed_num_for_fixed!(fixed::FixedI32<fixed::types::extra::U17>);
+impl_mixed_num_for_fixed!(fixed::FixedI32<fixed::types::extra::U18>);
+impl_mixed_num_for_fixed!(fixed::FixedI32<fixed::types::extra::U19>);
+impl_mixed_num_for_fixed!(fixed::FixedI32<fixed::types::extra::U20>);
+impl_mixed_num_for_fixed!(fixed::FixedI32<fixed::types::extra::U21>);
+impl_mixed_num_for_fixed!(fixed::FixedI32<fixed::types::extra::U22>);
+impl_mixed_num_for_fixed!(fixed::FixedI32<fixed::types::extra::U23>);
+impl_mixed_num_for_fixed!(fixed::FixedI32<fixed::types::extra::U24>);
+impl_mixed_num_for_fixed!(fixed::FixedI32<fixed::types::extra::U25>);
+impl_mixed_num_for_fixed!(fixed::FixedI32<fixed::types::extra::U26>);
+impl_mixed_num_for_fixed!(fixed::FixedI32<fixed::types::extra::U27>);
+impl_mixed_num_for_fixed!(fixed::FixedI32<fixed::types::extra::U28>);
+impl_mixed_num_for_fixed!(fixed::FixedI32<fixed::types::extra::U29>);
+impl_mixed_num_for_fixed!(fixed::FixedI32<fixed::types::extra::U30>);
+impl_mixed_num_for_fixed!(fixed::FixedI32<fixed::types::extra::U31>);
+impl_mixed_num_for_fixed!(fixed::FixedI32<fixed::types::extra::U32>);
+
+
+impl_mixed_num_for_fixed!(fixed::FixedU64<fixed::types::extra::U0>);
+impl_mixed_num_for_fixed!(fixed::FixedU64<fixed::types::extra::U1>);
+impl_mixed_num_for_fixed!(fixed::FixedU64<fixed::types::extra::U2>);
+impl_mixed_num_for_fixed!(fixed::FixedU64<fixed::types::extra::U3>);
+impl_mixed_num_for_fixed!(fixed::FixedU64<fixed::types::extra::U4>);
+impl_mixed_num_for_fixed!(fixed::FixedU64<fixed::types::extra::U5>);
+impl_mixed_num_for_fixed!(fixed::FixedU64<fixed::types::extra::U6>);
+impl_mixed_num_for_fixed!(fixed::FixedU64<fixed::types::extra::U7>);
+impl_mixed_num_for_fixed!(fixed::FixedU64<fixed::types::extra::U8>);
+impl_mixed_num_for_fixed!(fixed::FixedU64<fixed::types::extra::U9>);
+impl_mixed_num_for_fixed!(fixed::FixedU64<fixed::types::extra::U10>);
+impl_mixed_num_for_fixed!(fixed::FixedU64<fixed::types::extra::U11>);
+impl_mixed_num_for_fixed!(fixed::FixedU64<fixed::types::extra::U12>);
+impl_mixed_num_for_fixed!(fixed::FixedU64<fixed::types::extra::U13>);
+impl_mixed_num_for_fixed!(fixed::FixedU64<fixed::types::extra::U14>);
+impl_mixed_num_for_fixed!(fixed::FixedU64<fixed::types::extra::U15>);
+impl_mixed_num_for_fixed!(fixed::FixedU64<fixed::types::extra::U16>);
+impl_mixed_num_for_fixed!(fixed::FixedU64<fixed::types::extra::U17>);
+impl_mixed_num_for_fixed!(fixed::FixedU64<fixed::types::extra::U18>);
+impl_mixed_num_for_fixed!(fixed::FixedU64<fixed::types::extra::U19>);
+impl_mixed_num_for_fixed!(fixed::FixedU64<fixed::types::extra::U20>);
+impl_mixed_num_for_fixed!(fixed::FixedU64<fixed::types::extra::U21>);
+impl_mixed_num_for_fixed!(fixed::FixedU64<fixed::types::extra::U22>);
+impl_mixed_num_for_fixed!(fixed::FixedU64<fixed::types::extra::U23>);
+impl_mixed_num_for_fixed!(fixed::FixedU64<fixed::types::extra::U24>);
+impl_mixed_num_for_fixed!(fixed::FixedU64<fixed::types::extra::U25>);
+impl_mixed_num_for_fixed!(fixed::FixedU64<fixed::types::extra::U26>);
+impl_mixed_num_for_fixed!(fixed::FixedU64<fixed::types::extra::U27>);
+impl_mixed_num_for_fixed!(fixed::FixedU64<fixed::types::extra::U28>);
+impl_mixed_num_for_fixed!(fixed::FixedU64<fixed::types::extra::U29>);
+impl_mixed_num_for_fixed!(fixed::FixedU64<fixed::types::extra::U30>);
+impl_mixed_num_for_fixed!(fixed::FixedU64<fixed::types::extra::U31>);
+impl_mixed_num_for_fixed!(fixed::FixedU64<fixed::types::extra::U32>);
+impl_mixed_num_for_fixed!(fixed::FixedU64<fixed::types::extra::U33>);
+impl_mixed_num_for_fixed!(fixed::FixedU64<fixed::types::extra::U34>);
+impl_mixed_num_for_fixed!(fixed::FixedU64<fixed::types::extra::U35>);
+impl_mixed_num_for_fixed!(fixed::FixedU64<fixed::types::extra::U36>);
+impl_mixed_num_for_fixed!(fixed::FixedU64<fixed::types::extra::U37>);
+impl_mixed_num_for_fixed!(fixed::FixedU64<fixed::types::extra::U38>);
+impl_mixed_num_for_fixed!(fixed::FixedU64<fixed::types::extra::U39>);
+impl_mixed_num_for_fixed!(fixed::FixedU64<fixed::types::extra::U40>);
+impl_mixed_num_for_fixed!(fixed::FixedU64<fixed::types::extra::U41>);
+impl_mixed_num_for_fixed!(fixed::FixedU64<fixed::types::extra::U42>);
+impl_mixed_num_for_fixed!(fixed::FixedU64<fixed::types::extra::U43>);
+impl_mixed_num_for_fixed!(fixed::FixedU64<fixed::types::extra::U44>);
+impl_mixed_num_for_fixed!(fixed::FixedU64<fixed::types::extra::U45>);
+impl_mixed_num_for_fixed!(fixed::FixedU64<fixed::types::extra::U46>);
+impl_mixed_num_for_fixed!(fixed::FixedU64<fixed::types::extra::U47>);
+impl_mixed_num_for_fixed!(fixed::FixedU64<fixed::types::extra::U48>);
+impl_mixed_num_for_fixed!(fixed::FixedU64<fixed::types::extra::U49>);
+impl_mixed_num_for_fixed!(fixed::FixedU64<fixed::types::extra::U50>);
+impl_mixed_num_for_fixed!(fixed::FixedU64<fixed::types::extra::U51>);
+impl_mixed_num_for_fixed!(fixed::FixedU64<fixed::types::extra::U52>);
+impl_mixed_num_for_fixed!(fixed::FixedU64<fixed::types::extra::U53>);
+impl_mixed_num_for_fixed!(fixed::FixedU64<fixed::types::extra::U54>);
+impl_mixed_num_for_fixed!(fixed::FixedU64<fixed::types::extra::U55>);
+impl_mixed_num_for_fixed!(fixed::FixedU64<fixed::types::extra::U56>);
+impl_mixed_num_for_fixed!(fixed::FixedU64<fixed::types::extra::U57>);
+impl_mixed_num_for_fixed!(fixed::FixedU64<fixed::types::extra::U58>);
+impl_mixed_num_for_fixed!(fixed::FixedU64<fixed::types::extra::U59>);
+impl_mixed_num_for_fixed!(fixed::FixedU64<fixed::types::extra::U60>);
+impl_mixed_num_for_fixed!(fixed::FixedU64<fixed::types::extra::U61>);
+impl_mixed_num_for_fixed!(fixed::FixedU64<fixed::types::extra::U62>);
+impl_mixed_num_for_fixed!(fixed::FixedU64<fixed::types::extra::U63>);
+impl_mixed_num_for_fixed!(fixed::FixedU64<fixed::types::extra::U64>);
+
+impl_mixed_num_for_fixed!(fixed::FixedI64<fixed::types::extra::U0>);
+impl_mixed_num_for_fixed!(fixed::FixedI64<fixed::types::extra::U1>);
+impl_mixed_num_for_fixed!(fixed::FixedI64<fixed::types::extra::U2>);
+impl_mixed_num_for_fixed!(fixed::FixedI64<fixed::types::extra::U3>);
+impl_mixed_num_for_fixed!(fixed::FixedI64<fixed::types::extra::U4>);
+impl_mixed_num_for_fixed!(fixed::FixedI64<fixed::types::extra::U5>);
+impl_mixed_num_for_fixed!(fixed::FixedI64<fixed::types::extra::U6>);
+impl_mixed_num_for_fixed!(fixed::FixedI64<fixed::types::extra::U7>);
+impl_mixed_num_for_fixed!(fixed::FixedI64<fixed::types::extra::U8>);
+impl_mixed_num_for_fixed!(fixed::FixedI64<fixed::types::extra::U9>);
+impl_mixed_num_for_fixed!(fixed::FixedI64<fixed::types::extra::U10>);
+impl_mixed_num_for_fixed!(fixed::FixedI64<fixed::types::extra::U11>);
+impl_mixed_num_for_fixed!(fixed::FixedI64<fixed::types::extra::U12>);
+impl_mixed_num_for_fixed!(fixed::FixedI64<fixed::types::extra::U13>);
+impl_mixed_num_for_fixed!(fixed::FixedI64<fixed::types::extra::U14>);
+impl_mixed_num_for_fixed!(fixed::FixedI64<fixed::types::extra::U15>);
+impl_mixed_num_for_fixed!(fixed::FixedI64<fixed::types::extra::U16>);
+impl_mixed_num_for_fixed!(fixed::FixedI64<fixed::types::extra::U17>);
+impl_mixed_num_for_fixed!(fixed::FixedI64<fixed::types::extra::U18>);
+impl_mixed_num_for_fixed!(fixed::FixedI64<fixed::types::extra::U19>);
+impl_mixed_num_for_fixed!(fixed::FixedI64<fixed::types::extra::U20>);
+impl_mixed_num_for_fixed!(fixed::FixedI64<fixed::types::extra::U21>);
+impl_mixed_num_for_fixed!(fixed::FixedI64<fixed::types::extra::U22>);
+impl_mixed_num_for_fixed!(fixed::FixedI64<fixed::types::extra::U23>);
+impl_mixed_num_for_fixed!(fixed::FixedI64<fixed::types::extra::U24>);
+impl_mixed_num_for_fixed!(fixed::FixedI64<fixed::types::extra::U25>);
+impl_mixed_num_for_fixed!(fixed::FixedI64<fixed::types::extra::U26>);
+impl_mixed_num_for_fixed!(fixed::FixedI64<fixed::types::extra::U27>);
+impl_mixed_num_for_fixed!(fixed::FixedI64<fixed::types::extra::U28>);
+impl_mixed_num_for_fixed!(fixed::FixedI64<fixed::types::extra::U29>);
+impl_mixed_num_for_fixed!(fixed::FixedI64<fixed::types::extra::U30>);
+impl_mixed_num_for_fixed!(fixed::FixedI64<fixed::types::extra::U31>);
+impl_mixed_num_for_fixed!(fixed::FixedI64<fixed::types::extra::U32>);
+impl_mixed_num_for_fixed!(fixed::FixedI64<fixed::types::extra::U33>);
+impl_mixed_num_for_fixed!(fixed::FixedI64<fixed::types::extra::U34>);
+impl_mixed_num_for_fixed!(fixed::FixedI64<fixed::types::extra::U35>);
+impl_mixed_num_for_fixed!(fixed::FixedI64<fixed::types::extra::U36>);
+impl_mixed_num_for_fixed!(fixed::FixedI64<fixed::types::extra::U37>);
+impl_mixed_num_for_fixed!(fixed::FixedI64<fixed::types::extra::U38>);
+impl_mixed_num_for_fixed!(fixed::FixedI64<fixed::types::extra::U39>);
+impl_mixed_num_for_fixed!(fixed::FixedI64<fixed::types::extra::U40>);
+impl_mixed_num_for_fixed!(fixed::FixedI64<fixed::types::extra::U41>);
+impl_mixed_num_for_fixed!(fixed::FixedI64<fixed::types::extra::U42>);
+impl_mixed_num_for_fixed!(fixed::FixedI64<fixed::types::extra::U43>);
+impl_mixed_num_for_fixed!(fixed::FixedI64<fixed::types::extra::U44>);
+impl_mixed_num_for_fixed!(fixed::FixedI64<fixed::types::extra::U45>);
+impl_mixed_num_for_fixed!(fixed::FixedI64<fixed::types::extra::U46>);
+impl_mixed_num_for_fixed!(fixed::FixedI64<fixed::types::extra::U47>);
+impl_mixed_num_for_fixed!(fixed::FixedI64<fixed::types::extra::U48>);
+impl_mixed_num_for_fixed!(fixed::FixedI64<fixed::types::extra::U49>);
+impl_mixed_num_for_fixed!(fixed::FixedI64<fixed::types::extra::U50>);
+impl_mixed_num_for_fixed!(fixed::FixedI64<fixed::types::extra::U51>);
+impl_mixed_num_for_fixed!(fixed::FixedI64<fixed::types::extra::U52>);
+impl_mixed_num_for_fixed!(fixed::FixedI64<fixed::types::extra::U53>);
+impl_mixed_num_for_fixed!(fixed::FixedI64<fixed::types::extra::U54>);
+impl_mixed_num_for_fixed!(fixed::FixedI64<fixed::types::extra::U55>);
+impl_mixed_num_for_fixed!(fixed::FixedI64<fixed::types::extra::U56>);
+impl_mixed_num_for_fixed!(fixed::FixedI64<fixed::types::extra::U57>);
+impl_mixed_num_for_fixed!(fixed::FixedI64<fixed::types::extra::U58>);
+impl_mixed_num_for_fixed!(fixed::FixedI64<fixed::types::extra::U59>);
+impl_mixed_num_for_fixed!(fixed::FixedI64<fixed::types::extra::U60>);
+impl_mixed_num_for_fixed!(fixed::FixedI64<fixed::types::extra::U61>);
+impl_mixed_num_for_fixed!(fixed::FixedI64<fixed::types::extra::U62>);
+impl_mixed_num_for_fixed!(fixed::FixedI64<fixed::types::extra::U63>);
+impl_mixed_num_for_fixed!(fixed::FixedI64<fixed::types::extra::U64>);
