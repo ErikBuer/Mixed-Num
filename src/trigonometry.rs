@@ -76,7 +76,7 @@ pub fn sign<T>( x:T ) -> T
 /// 
 #[allow(dead_code)]
 pub fn sin<T>( x: T ) -> T
-    where T: crate::MixedNum
+    where T: crate::MixedNum + crate::MixedNumSigned
 {
     let pi_half:T = T::pi()/T::mixed_from_num(2);
 
@@ -144,7 +144,7 @@ pub fn sin<T>( x: T ) -> T
 /// 
 #[allow(dead_code)]
 pub fn cos<T>( x: T ) -> T
-    where T: crate::MixedNum
+    where T: crate::MixedNum + crate::MixedNumSigned
 {
     // shift to enable use of more accurate sinepolynomial method.
     let pi_half = T::pi()/T::mixed_from_num(2);
@@ -171,7 +171,7 @@ pub fn cos<T>( x: T ) -> T
 /// assert_eq!{ wrapped_phi.to_num::<f32>(), -0.2831853 };
 /// ``` 
 pub fn wrap_phase<T>( phi: T ) -> T 
-    where T: crate::MixedNum
+    where T: crate::MixedNum + crate::MixedNumSigned
 {
     let pi  = T::pi();
     let tau = T::mixed_from_num(2)*pi;
