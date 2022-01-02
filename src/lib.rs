@@ -5,8 +5,6 @@
 #![crate_name = "mixed_num"]
 #![no_std]
 
-use core::iter::Copied;
-
 use fixed;
 use num::traits::float::FloatCore;
 use fixed_trigonometry as trig;
@@ -36,6 +34,7 @@ pub trait MixedNum
                 + core::ops::Sub<Output = Self>
                 + core::ops::Neg<Output = Self>
                 + core::ops::Add<Output = Self>
+                + core::ops::Mul<Output = Self>
                 + core::ops::AddAssign
                 + core::ops::SubAssign
                 + Copy
