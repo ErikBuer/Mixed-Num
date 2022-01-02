@@ -32,8 +32,8 @@ pub trait MixedTrigonometry
 
 pub trait MixedConsts
 {
-    /// The pi constant. 3.141...
-    fn pi() -> Self;
+    /// The mixed_pi constant. 3.141...
+    fn mixed_pi() -> Self;
 }
 
 pub trait MixedNum
@@ -167,7 +167,7 @@ macro_rules! impl_mixed_num_for_primitive{
         impl MixedConsts for $T
         {
             #[inline(always)]
-            fn pi() -> Self {
+            fn mixed_pi() -> Self {
                 return 3.1415926535897932384626433832795028841971693993751058209749445923078164062 as $T;
             }
         }
@@ -231,7 +231,7 @@ macro_rules! impl_mixed_num_for_fixed{
         impl MixedConsts for $T
         {
             #[inline(always)]
-            fn pi() -> Self {
+            fn mixed_pi() -> Self {
                 return Self::from_num(3.1415926535897932384626433832795028841971693993751058209749445923078164062);
             }
         }

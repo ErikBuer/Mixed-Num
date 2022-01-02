@@ -1,5 +1,9 @@
 # Release Notes
 
+## Release 0.1.2 (2022-01-02)
+
+- Changed `pi` to `mixed_pi` to avoid name conflict.
+
 ## Release 0.1.1 (2022-01-02)
 
 - Added support for unsigned fixed point numbers.

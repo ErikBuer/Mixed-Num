@@ -78,20 +78,20 @@ pub fn sign<T>( x:T ) -> T
 pub fn sin<T>( x: T ) -> T
     where T: crate::MixedNum + crate::MixedNumSigned
 {
-    let pi_half:T = T::pi()/T::mixed_from_num(2);
+    let mixed_pi_half:T = T::mixed_pi()/T::mixed_from_num(2);
 
     let mut x_: T = x;
 
     // Ensure that the angle is within the accurate range of the tailor series. 
-    if x_ < -pi_half
+    if x_ < -mixed_pi_half
     {   
-        let delta:T = x+pi_half;
-        x_ = -pi_half+delta.mixed_abs();
+        let delta:T = x+mixed_pi_half;
+        x_ = -mixed_pi_half+delta.mixed_abs();
     }
-    else if pi_half < x
+    else if mixed_pi_half < x
     {
-        let delta:T = x-pi_half;
-        x_ = pi_half-delta.mixed_abs();
+        let delta:T = x-mixed_pi_half;
+        x_ = mixed_pi_half-delta.mixed_abs();
     }
 
     // Calculate sine by using 
@@ -147,9 +147,9 @@ pub fn cos<T>( x: T ) -> T
     where T: crate::MixedNum + crate::MixedNumSigned
 {
     // shift to enable use of more accurate sinepolynomial method.
-    let pi_half = T::pi()/T::mixed_from_num(2);
+    let mixed_pi_half = T::mixed_pi()/T::mixed_from_num(2);
 
-    let mut x_shifted = x+pi_half;
+    let mut x_shifted = x+mixed_pi_half;
     x_shifted = wrap_phase(x_shifted);
     return sin(x_shifted);
 }
@@ -173,16 +173,16 @@ pub fn cos<T>( x: T ) -> T
 pub fn wrap_phase<T>( phi: T ) -> T 
     where T: crate::MixedNum + crate::MixedNumSigned
 {
-    let pi  = T::pi();
-    let tau = T::mixed_from_num(2)*pi;
+    let mixed_pi  = T::mixed_pi();
+    let tau = T::mixed_from_num(2)*mixed_pi;
  
     let mut temp_scalar = phi;
     
-    while temp_scalar < -pi
+    while temp_scalar < -mixed_pi
     {
         temp_scalar = temp_scalar + tau;
     }
-    while pi <= temp_scalar
+    while mixed_pi <= temp_scalar
     {
         temp_scalar = temp_scalar - tau;
     }
