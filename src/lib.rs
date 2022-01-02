@@ -6,69 +6,87 @@
 #![no_std]
 
 use fixed;
+use num::traits::float::FloatCore;
 
 
-pub trait MixedNum<T> {
+pub trait MixedNumConversion<T> {
+    /// Generic type cast from numeric type T.
     fn mixed_from_num( number:T ) -> Self;
+    /// Generic type cast to  numeric type T.
     fn mixed_to_num( &self )      -> T;
 }
 
-impl MixedNum<f32> for f32
-{   
-    #[inline(always)]
-    fn mixed_from_num( number:f32 ) -> Self {
-        return number;
-    }
-
-    #[inline(always)]
-    fn mixed_to_num( &self ) -> f32 {
-        return *self;
-    }
-}
-
-impl MixedNum<f64> for f32
+pub trait MixedNum
 {
-    #[inline(always)]
-    fn mixed_from_num( number:f64 ) -> Self {
-        return number as f32;
-    }
-    #[inline(always)]
-    fn mixed_to_num( &self ) -> f64 {
-        return *self as f64;
-    }
-}
-
-impl MixedNum<f32> for f64
-{   
-    #[inline(always)]
-    fn mixed_from_num( number:f32 ) -> Self {
-        return number as f64;
-    }
-
-    #[inline(always)]
-    fn mixed_to_num( &self ) -> f32 {
-        return *self as f32;
-    }
-}
-
-impl MixedNum<f64> for f64
-{
-    #[inline(always)]
-    fn mixed_from_num( number:f64 ) -> Self {
-        return number as f64;
-    }
-    #[inline(always)]
-    fn mixed_to_num( &self ) -> f64 {
-        return *self;
-    }
+    /// Maximum value of the type.
+    fn mixed_max_value() -> Self;
+    /// Minimum value of the type.
+    fn mixed_min_value() -> Self;
+    /// Absolute value.
+    fn mixed_abs( &self ) -> Self;
+    /// Integer valued power.
+    fn mixed_powi( &self, exp: i32 ) -> Self;
 }
 
 
-#[macro_export]
+macro_rules! impl_mixed_num_for_primitive{
+    ( $T:ty ) => {
+
+        impl MixedNumConversion<f32> for $T
+        {
+            #[inline(always)]
+            fn mixed_from_num( number:f32 ) -> Self {
+                return number as Self;
+            }
+            #[inline(always)]
+            fn mixed_to_num( &self ) -> f32 {
+                return *self as f32;
+            }
+        }
+
+        impl MixedNumConversion<f64> for $T
+        {
+            #[inline(always)]
+            fn mixed_from_num( number:f64 ) -> Self {
+                return number as Self;
+            }
+            #[inline(always)]
+            fn mixed_to_num( &self ) -> f64 {
+                return *self as f64;
+            }
+        }
+
+        impl MixedNum for $T
+        {
+            #[inline(always)]
+
+            fn mixed_max_value() -> Self {
+                return Self::max_value();
+            }
+            #[inline(always)]
+            fn mixed_min_value() -> Self {
+                return Self::min_value();
+            }
+            #[inline(always)]
+            fn mixed_abs(&self) -> Self {
+                return self.abs();
+            }
+            #[inline(always)]
+            fn mixed_powi( &self, exp: i32 ) -> Self {
+                return self.powi( exp );
+            }
+        }
+    }
+}
+
+impl_mixed_num_for_primitive!(f32);
+impl_mixed_num_for_primitive!(f64);
+
+
 macro_rules! impl_mixed_num_for_fixed{
     ( $T:ty ) => {
 
-        impl MixedNum<f32> for $T
+        impl MixedNumConversion<f32> for $T
         {
             #[inline(always)]
             fn mixed_from_num( number:f32 ) -> Self {
@@ -80,6 +98,17 @@ macro_rules! impl_mixed_num_for_fixed{
             }
         }
 
+        impl MixedNumConversion<f64> for $T
+        {
+            #[inline(always)]
+            fn mixed_from_num( number:f64 ) -> Self {
+                return Self::from_num(number);
+            }
+            #[inline(always)]
+            fn mixed_to_num( &self ) -> f64 {
+                return self.to_num::<f64>();
+            }
+        }
     }
 }
 
