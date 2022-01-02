@@ -1,9 +1,6 @@
 [package]
 name = "mixed-num"
 version = "0.1.0"
-edition = "2021"
-
-version = "0.1.0"
 authors = ["Erik Buer"]
 edition = "2021"
 description = "A trait for generic implementations of numerical methods."
@@ -26,4 +23,3 @@ cordic = "0.1.5"
 [dependencies.num]
 version = "0.4"
 default-features = false
-
