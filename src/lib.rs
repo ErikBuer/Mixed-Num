@@ -5,6 +5,8 @@
 #![crate_name = "mixed_num"]
 #![no_std]
 
+use core::iter::Copied;
+
 use fixed;
 use num::traits::float::FloatCore;
 use fixed_trigonometry as trig;
@@ -28,6 +30,15 @@ pub trait MixedNum
     where Self: MixedConsts 
                 + MixedNumConversion<i32> + MixedNumConversion<i64>
                 + MixedNumConversion<f32> + MixedNumConversion<f64>
+                + core::cmp::PartialOrd
+                + core::marker::Sized
+                + core::ops::Div<Output = Self>
+                + core::ops::Sub<Output = Self>
+                + core::ops::Neg<Output = Self>
+                + core::ops::Add<Output = Self>
+                + core::ops::AddAssign
+                + core::ops::SubAssign
+                + Copy
 {
     /// Maximum value of the type.
     fn mixed_max_value() -> Self;
