@@ -1,10 +1,13 @@
 # Release Notes
 
+## Release 0.1.3 (2022-01-02)
+
+- Added `mixed_is_positive` method.
+
 ## Release 0.1.2 (2022-01-02)
 
 - Changed `pi` to `mixed_pi` to avoid name conflict.
 - Changed `sign` to `mixed_sign` to avoid name conflict.
-- Added `mixed_is_positive` method.
 
 ## Release 0.1.1 (2022-01-02)
 
