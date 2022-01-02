@@ -7,6 +7,6 @@ It uses [num](https://crates.io/crates/num) for floating point generics.
 
 The [package](https://crates.io/crates/Mixed-Num).
 
-The [documentation](https://docs.rs/Mixed-Num/).
+The [documentation](https://docs.rs/Mixed-Num).
 
 Release notes are found under RELEASES.md.
