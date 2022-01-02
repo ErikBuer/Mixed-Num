@@ -5,17 +5,32 @@
 #![crate_name = "mixed_num"]
 #![no_std]
 
-pub trait MixedNum {
-    fn from_num<T>( number:T ) -> Self;
-    //fn to_num<T>( &self )      -> T;
-    //fn zero()-> Self;
-    //fn one() -> Self;
-    //fn max() -> Self;
-    //fn min() -> Self;
+use num::traits::float::FloatCore;
+
+struct Mixed<T>{
+    number:T
 }
 
-impl MixedNum for f32 {
-    fn from_num<T>( number:T ) -> Self {
-        return T as ;
+impl<T> Mixed<T> {
+    /// Create a new mixed number.
+    #[allow(dead_code)]
+    fn new( number: T ) -> Self
+    {
+        Mixed {
+            number: number,
+        }
     }
+}
+
+pub trait TypeConversion<T> {
+    fn from_num( number:T ) -> Self;
+    //fn to_num( &self )      -> T;
+}
+
+impl TypeConversion<T> for Mixed<f32>
+{
+    fn from_num( number:T ) -> Self {
+        return Mixed::new( number );
+    }
+
 }
