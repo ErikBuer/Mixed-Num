@@ -61,7 +61,9 @@ pub trait MixedNum
     fn mixed_powi( &self, exp: i32 ) -> Self;
     /// Get the sign of the argument with a unit value.
     /// Zero is of positive sign.
-    fn sign( &self ) -> Self;
+    fn mixed_sign( &self ) -> Self;
+    /// Zero is of positive sign.
+    fn mixed_is_positive( &self ) -> bool;
 }
 
 pub trait MixedNumSigned
@@ -159,8 +161,12 @@ macro_rules! impl_mixed_num_for_primitive{
             fn mixed_powi( &self, exp: i32 ) -> Self {
                 return self.powi( exp );
             }
-            fn sign( &self) -> Self {
+            fn mixed_sign( &self) -> Self {
                 return trigonometry::sign(*self);
+            }
+            #[inline(always)]
+            fn mixed_is_positive( &self) -> bool {
+                return self.is_sign_positive();
             }
         }
 
@@ -261,8 +267,12 @@ macro_rules! impl_mixed_num_for_fixed_unsigned{
                 return trig::powi( *self, exp as usize );
             }
             #[inline(always)]
-            fn sign( &self) -> Self {
+            fn mixed_sign( &self) -> Self {
                 return trigonometry::sign(*self);
+            }
+            #[inline(always)]
+            fn mixed_is_positive( &self) -> bool {
+                return true;
             }
         }
     }
@@ -290,8 +300,13 @@ macro_rules! impl_mixed_num_for_fixed_signed{
             fn mixed_powi( &self, exp: i32 ) -> Self {
                 return trig::powi( *self, exp as usize );
             }
-            fn sign( &self) -> Self {
+            #[inline(always)]
+            fn mixed_sign( &self) -> Self {
                 return trigonometry::sign(*self);
+            }
+            #[inline(always)]
+            fn mixed_is_positive( &self) -> bool {
+                return self.is_positive();
             }
         }
     }
