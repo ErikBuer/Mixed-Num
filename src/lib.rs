@@ -9,6 +9,8 @@ use fixed;
 use num::traits::float::FloatCore;
 use fixed_trigonometry as trig;
 
+mod trigonometry;
+
 pub trait MixedNumConversion<T> {
     /// Generic type cast from numeric type T.
     fn mixed_from_num( number:T ) -> Self;
@@ -16,7 +18,16 @@ pub trait MixedNumConversion<T> {
     fn mixed_to_num( &self )      -> T;
 }
 
+pub trait MixedConsts
+{
+    /// The pi constant. 3.141...
+    fn pi() -> Self;
+}
+
 pub trait MixedNum
+    where Self: MixedConsts 
+                + MixedNumConversion<i32> + MixedNumConversion<i64>
+                + MixedNumConversion<f32> + MixedNumConversion<f64>
 {
     /// Maximum value of the type.
     fn mixed_max_value() -> Self;
@@ -26,12 +37,9 @@ pub trait MixedNum
     fn mixed_abs( &self ) -> Self;
     /// Integer valued power.
     fn mixed_powi( &self, exp: i32 ) -> Self;
-}
-
-pub trait MixedConsts
-{
-    /// The pi constant. 3.141...
-    fn pi() -> Self;
+    /// Get the sign of the argument with a unit value.
+    /// Zero is of positive sign.
+    fn sign( &self ) -> Self;
 }
 
 macro_rules! impl_mixed_num_for_primitive{
@@ -61,6 +69,30 @@ macro_rules! impl_mixed_num_for_primitive{
             }
         }
 
+        impl MixedNumConversion<i32> for $T
+        {
+            #[inline(always)]
+            fn mixed_from_num( number:i32 ) -> Self {
+                return number as Self;
+            }
+            #[inline(always)]
+            fn mixed_to_num( &self ) -> i32 {
+                return *self as i32;
+            }
+        }
+
+        impl MixedNumConversion<i64> for $T
+        {
+            #[inline(always)]
+            fn mixed_from_num( number:i64 ) -> Self {
+                return number as Self;
+            }
+            #[inline(always)]
+            fn mixed_to_num( &self ) -> i64 {
+                return *self as i64;
+            }
+        }
+
         impl MixedNum for $T
         {
             #[inline(always)]
@@ -78,6 +110,9 @@ macro_rules! impl_mixed_num_for_primitive{
             #[inline(always)]
             fn mixed_powi( &self, exp: i32 ) -> Self {
                 return self.powi( exp );
+            }
+            fn sign( &self) -> Self {
+                return trigonometry::sign(*self);
             }
         }
 
@@ -122,6 +157,30 @@ macro_rules! impl_mixed_num_for_fixed{
             }
         }
 
+        impl MixedNumConversion<i32> for $T
+        {
+            #[inline(always)]
+            fn mixed_from_num( number:i32 ) -> Self {
+                return Self::from_num(number);
+            }
+            #[inline(always)]
+            fn mixed_to_num( &self ) -> i32 {
+                return self.to_num::<i32>();
+            }
+        }
+
+        impl MixedNumConversion<i64> for $T
+        {
+            #[inline(always)]
+            fn mixed_from_num( number:i64 ) -> Self {
+                return Self::from_num(number);
+            }
+            #[inline(always)]
+            fn mixed_to_num( &self ) -> i64 {
+                return self.to_num::<i64>();
+            }
+        }
+
         impl MixedNum for $T
         {
             #[inline(always)]
@@ -139,6 +198,9 @@ macro_rules! impl_mixed_num_for_fixed{
             #[inline(always)]
             fn mixed_powi( &self, exp: i32 ) -> Self {
                 return trig::powi( *self, exp as usize );
+            }
+            fn sign( &self) -> Self {
+                return trigonometry::sign(*self);
             }
         }
 
