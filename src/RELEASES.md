@@ -2,7 +2,7 @@
 
 ## Release 0.1.3 (2022-01-02)
 
-- Added `mixed_is_positive` method.
+- Added `mixed_is_positive` and `mixed_is_negative`.
 
 ## Release 0.1.2 (2022-01-02)
 
