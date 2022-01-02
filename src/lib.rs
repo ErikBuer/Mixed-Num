@@ -1,6 +1,8 @@
 //! 
 //! No-STD abstraction layer enabling numerical functions to be implemented once, and simultaneously support both fixed and floating point types.
 //! 
+//! This is an experimental library.
+//! 
 
 #![crate_name = "mixed_num"]
 #![no_std]
@@ -18,6 +20,16 @@ pub trait MixedNumConversion<T> {
     fn mixed_to_num( &self )      -> T;
 }
 
+pub trait MixedTrigonometry
+{
+    /// Take the sin of x. Implementation varies with type.
+    fn mixed_sin(&self) -> Self;
+    /// Take the sin of x. Implementation varies with type.
+    fn mixed_cos(&self) -> Self;
+    /// Take the sin of x. Implementation varies with type.
+    fn mixed_atan(&self) -> Self;
+}
+
 pub trait MixedConsts
 {
     /// The pi constant. 3.141...
@@ -28,6 +40,7 @@ pub trait MixedNum
     where Self: MixedConsts 
                 + MixedNumConversion<i32> + MixedNumConversion<i64>
                 + MixedNumConversion<f32> + MixedNumConversion<f64>
+                //+ MixedTrigonometry // TODO
                 + core::cmp::PartialOrd
                 + core::marker::Sized
                 + core::ops::Div<Output = Self>
@@ -102,6 +115,27 @@ macro_rules! impl_mixed_num_for_primitive{
                 return *self as i64;
             }
         }
+
+        /*  // TODO
+        impl MixedTrigonometry for $T
+        {
+            /// Take the sin of self. Implementation varies with type.
+            #[inline(always)]
+            fn mixed_sin(&self) -> Self {
+
+            }
+            /// Take the cos of self. Implementation varies with type.
+            #[inline(always)]
+            fn mixed_cos(&self) -> Self {
+
+            }
+            /// Take the sin of self. Implementation varies with type.
+            #[inline(always)]
+            fn mixed_atan(&self) -> Self {
+
+            }
+        }
+        */
 
         impl MixedNum for $T
         {
