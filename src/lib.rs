@@ -40,7 +40,7 @@ pub trait MixedNum
     where Self: MixedConsts 
                 + MixedNumConversion<i32> + MixedNumConversion<i64>
                 + MixedNumConversion<f32> + MixedNumConversion<f64>
-                //+ MixedTrigonometry // TODO
+                //+ MixedTrigonometry
                 + core::cmp::PartialOrd
                 + core::marker::Sized
                 + core::ops::Div<Output = Self>
@@ -124,26 +124,29 @@ macro_rules! impl_mixed_num_for_primitive{
             }
         }
 
-        /*  // TODO
+        /*
         impl MixedTrigonometry for $T
         {
             /// Take the sin of self. Implementation varies with type.
             #[inline(always)]
             fn mixed_sin(&self) -> Self {
-
+                return trigonometry::sin(*self);
             }
             /// Take the cos of self. Implementation varies with type.
             #[inline(always)]
             fn mixed_cos(&self) -> Self {
-
+                return trigonometry::cos(*self);
             }
-            /// Take the sin of self. Implementation varies with type.
+            /// Take the atan of self. Implementation varies with type.
             #[inline(always)]
             fn mixed_atan(&self) -> Self {
-
+                return trigonometry::cos(*self);
             }
+        } */
+
+        impl MixedNumSigned  for $T
+        {
         }
-        */
 
         impl MixedNum for $T
         {
@@ -291,6 +294,10 @@ macro_rules! impl_mixed_num_for_fixed_unsigned{
 macro_rules! impl_mixed_num_for_fixed_signed{
     ( $T:ty ) => {
         impl_mixed_num_for_fixed!($T);
+
+        impl MixedNumSigned  for $T
+        {
+        }
 
         impl MixedNum for $T
         {
