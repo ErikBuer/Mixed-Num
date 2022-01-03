@@ -1,5 +1,9 @@
 # Release Notes
 
+## Release 0.1.4 (2022-01-03)
+
+- Implemented trait `MixedNumSigned` for siged types.
+
 ## Release 0.1.3 (2022-01-02)
 
 - Added `mixed_is_positive` and `mixed_is_negative`.
