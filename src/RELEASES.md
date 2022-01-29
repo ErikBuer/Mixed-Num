@@ -2,8 +2,10 @@
 
 ## Release 0.1.5 (2022-01-29)
 
+- Removed dependency fixed_trigonomtry.
 - Implemented trait `MixedSqrt` with the NIIRF approximation.
 - Implemented `MixedTrigonometry` trait for signed types.
+- Implemented `powi` function to enable removing the fixed_trigonometry dep.
 
 ## Release 0.1.4 (2022-01-03)
 

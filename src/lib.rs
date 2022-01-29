@@ -10,9 +10,8 @@
 
 use fixed;
 use num::traits::float::FloatCore;
-use fixed_trigonometry as fixed_trig;
 
-mod trigonometry;
+pub mod trigonometry;
 
 pub trait MixedNumConversion<T> {
     /// Generic type cast from numeric type T.
@@ -361,7 +360,7 @@ macro_rules! impl_mixed_num_for_fixed_unsigned{
             }
             #[inline(always)]
             fn mixed_powi( &self, exp: i32 ) -> Self {
-                return fixed_trig::powi( *self, exp as usize );
+                return trigonometry::powi( *self, exp as usize );
             }
             #[inline(always)]
             fn mixed_sign( &self) -> Self {
@@ -403,7 +402,7 @@ macro_rules! impl_mixed_num_for_fixed_signed{
             }
             #[inline(always)]
             fn mixed_powi( &self, exp: i32 ) -> Self {
-                return fixed_trig::powi( *self, exp as usize );
+                return trigonometry::powi( *self, exp as usize );
             }
             #[inline(always)]
             fn mixed_sign( &self) -> Self {
@@ -432,12 +431,12 @@ macro_rules! impl_mixed_num_for_fixed_signed{
             /// Take the sin of self. Implementation varies with type.
             #[inline(always)]
             fn mixed_sin(&self) -> Self {
-                return fixed_trig::sin(*self);
+                return cordic::sin(*self);
             }
             /// Take the cos of self. Implementation varies with type.
             #[inline(always)]
             fn mixed_cos(&self) -> Self {
-                return fixed_trig::cos(*self);
+                return cordic::cos(*self);
             }
             /// Take the atan of self. Implementation varies with type.
             #[inline(always)]
@@ -459,9 +458,9 @@ impl_mixed_num_for_fixed_unsigned!(fixed::FixedU8<fixed::types::extra::U2>);
 impl_mixed_num_for_fixed_unsigned!(fixed::FixedU8<fixed::types::extra::U3>);
 impl_mixed_num_for_fixed_unsigned!(fixed::FixedU8<fixed::types::extra::U4>);
 impl_mixed_num_for_fixed_unsigned!(fixed::FixedU8<fixed::types::extra::U5>);
-impl_mixed_num_for_fixed_unsigned!(fixed::FixedU8<fixed::types::extra::U6>);
-impl_mixed_num_for_fixed_unsigned!(fixed::FixedU8<fixed::types::extra::U7>);
-impl_mixed_num_for_fixed_unsigned!(fixed::FixedU8<fixed::types::extra::U8>);
+//impl_mixed_num_for_fixed_unsigned!(fixed::FixedU8<fixed::types::extra::U6>);
+//impl_mixed_num_for_fixed_unsigned!(fixed::FixedU8<fixed::types::extra::U7>);
+//impl_mixed_num_for_fixed_unsigned!(fixed::FixedU8<fixed::types::extra::U8>);
 
 impl_mixed_num_for_fixed_signed!(fixed::FixedI8<fixed::types::extra::U0>);
 impl_mixed_num_for_fixed_signed!(fixed::FixedI8<fixed::types::extra::U1>);
@@ -469,9 +468,9 @@ impl_mixed_num_for_fixed_signed!(fixed::FixedI8<fixed::types::extra::U2>);
 impl_mixed_num_for_fixed_signed!(fixed::FixedI8<fixed::types::extra::U3>);
 impl_mixed_num_for_fixed_signed!(fixed::FixedI8<fixed::types::extra::U4>);
 impl_mixed_num_for_fixed_signed!(fixed::FixedI8<fixed::types::extra::U5>);
-impl_mixed_num_for_fixed_signed!(fixed::FixedI8<fixed::types::extra::U6>);
-impl_mixed_num_for_fixed_signed!(fixed::FixedI8<fixed::types::extra::U7>);
-impl_mixed_num_for_fixed_signed!(fixed::FixedI8<fixed::types::extra::U8>);
+//impl_mixed_num_for_fixed_signed!(fixed::FixedI8<fixed::types::extra::U6>);
+//impl_mixed_num_for_fixed_signed!(fixed::FixedI8<fixed::types::extra::U7>);
+//impl_mixed_num_for_fixed_signed!(fixed::FixedI8<fixed::types::extra::U8>);
 
 
 impl_mixed_num_for_fixed_unsigned!(fixed::FixedU16<fixed::types::extra::U0>);
@@ -488,9 +487,9 @@ impl_mixed_num_for_fixed_unsigned!(fixed::FixedU16<fixed::types::extra::U10>);
 impl_mixed_num_for_fixed_unsigned!(fixed::FixedU16<fixed::types::extra::U11>);
 impl_mixed_num_for_fixed_unsigned!(fixed::FixedU16<fixed::types::extra::U12>);
 impl_mixed_num_for_fixed_unsigned!(fixed::FixedU16<fixed::types::extra::U13>);
-impl_mixed_num_for_fixed_unsigned!(fixed::FixedU16<fixed::types::extra::U14>);
-impl_mixed_num_for_fixed_unsigned!(fixed::FixedU16<fixed::types::extra::U15>);
-impl_mixed_num_for_fixed_unsigned!(fixed::FixedU16<fixed::types::extra::U16>);
+//impl_mixed_num_for_fixed_unsigned!(fixed::FixedU16<fixed::types::extra::U14>);
+//impl_mixed_num_for_fixed_unsigned!(fixed::FixedU16<fixed::types::extra::U15>);
+//impl_mixed_num_for_fixed_unsigned!(fixed::FixedU16<fixed::types::extra::U16>);
 
 impl_mixed_num_for_fixed_signed!(fixed::FixedI16<fixed::types::extra::U0>);
 impl_mixed_num_for_fixed_signed!(fixed::FixedI16<fixed::types::extra::U1>);
@@ -506,9 +505,9 @@ impl_mixed_num_for_fixed_signed!(fixed::FixedI16<fixed::types::extra::U10>);
 impl_mixed_num_for_fixed_signed!(fixed::FixedI16<fixed::types::extra::U11>);
 impl_mixed_num_for_fixed_signed!(fixed::FixedI16<fixed::types::extra::U12>);
 impl_mixed_num_for_fixed_signed!(fixed::FixedI16<fixed::types::extra::U13>);
-impl_mixed_num_for_fixed_signed!(fixed::FixedI16<fixed::types::extra::U14>);
-impl_mixed_num_for_fixed_signed!(fixed::FixedI16<fixed::types::extra::U15>);
-impl_mixed_num_for_fixed_signed!(fixed::FixedI16<fixed::types::extra::U16>);
+//impl_mixed_num_for_fixed_signed!(fixed::FixedI16<fixed::types::extra::U14>);
+//impl_mixed_num_for_fixed_signed!(fixed::FixedI16<fixed::types::extra::U15>);
+//impl_mixed_num_for_fixed_signed!(fixed::FixedI16<fixed::types::extra::U16>);
 
 
 impl_mixed_num_for_fixed_unsigned!(fixed::FixedU32<fixed::types::extra::U0>);
@@ -541,9 +540,9 @@ impl_mixed_num_for_fixed_unsigned!(fixed::FixedU32<fixed::types::extra::U26>);
 impl_mixed_num_for_fixed_unsigned!(fixed::FixedU32<fixed::types::extra::U27>);
 impl_mixed_num_for_fixed_unsigned!(fixed::FixedU32<fixed::types::extra::U28>);
 impl_mixed_num_for_fixed_unsigned!(fixed::FixedU32<fixed::types::extra::U29>);
-impl_mixed_num_for_fixed_unsigned!(fixed::FixedU32<fixed::types::extra::U30>);
-impl_mixed_num_for_fixed_unsigned!(fixed::FixedU32<fixed::types::extra::U31>);
-impl_mixed_num_for_fixed_unsigned!(fixed::FixedU32<fixed::types::extra::U32>);
+//impl_mixed_num_for_fixed_unsigned!(fixed::FixedU32<fixed::types::extra::U30>);
+//impl_mixed_num_for_fixed_unsigned!(fixed::FixedU32<fixed::types::extra::U31>);
+//impl_mixed_num_for_fixed_unsigned!(fixed::FixedU32<fixed::types::extra::U32>);
 
 impl_mixed_num_for_fixed_signed!(fixed::FixedI32<fixed::types::extra::U0>);
 impl_mixed_num_for_fixed_signed!(fixed::FixedI32<fixed::types::extra::U1>);
@@ -575,9 +574,9 @@ impl_mixed_num_for_fixed_signed!(fixed::FixedI32<fixed::types::extra::U26>);
 impl_mixed_num_for_fixed_signed!(fixed::FixedI32<fixed::types::extra::U27>);
 impl_mixed_num_for_fixed_signed!(fixed::FixedI32<fixed::types::extra::U28>);
 impl_mixed_num_for_fixed_signed!(fixed::FixedI32<fixed::types::extra::U29>);
-impl_mixed_num_for_fixed_signed!(fixed::FixedI32<fixed::types::extra::U30>);
-impl_mixed_num_for_fixed_signed!(fixed::FixedI32<fixed::types::extra::U31>);
-impl_mixed_num_for_fixed_signed!(fixed::FixedI32<fixed::types::extra::U32>);
+//impl_mixed_num_for_fixed_signed!(fixed::FixedI32<fixed::types::extra::U30>);
+//impl_mixed_num_for_fixed_signed!(fixed::FixedI32<fixed::types::extra::U31>);
+//impl_mixed_num_for_fixed_signed!(fixed::FixedI32<fixed::types::extra::U32>);
 
 
 impl_mixed_num_for_fixed_unsigned!(fixed::FixedU64<fixed::types::extra::U0>);
@@ -642,9 +641,9 @@ impl_mixed_num_for_fixed_unsigned!(fixed::FixedU64<fixed::types::extra::U58>);
 impl_mixed_num_for_fixed_unsigned!(fixed::FixedU64<fixed::types::extra::U59>);
 impl_mixed_num_for_fixed_unsigned!(fixed::FixedU64<fixed::types::extra::U60>);
 impl_mixed_num_for_fixed_unsigned!(fixed::FixedU64<fixed::types::extra::U61>);
-impl_mixed_num_for_fixed_unsigned!(fixed::FixedU64<fixed::types::extra::U62>);
-impl_mixed_num_for_fixed_unsigned!(fixed::FixedU64<fixed::types::extra::U63>);
-impl_mixed_num_for_fixed_unsigned!(fixed::FixedU64<fixed::types::extra::U64>);
+//impl_mixed_num_for_fixed_unsigned!(fixed::FixedU64<fixed::types::extra::U62>);
+//impl_mixed_num_for_fixed_unsigned!(fixed::FixedU64<fixed::types::extra::U63>);
+//impl_mixed_num_for_fixed_unsigned!(fixed::FixedU64<fixed::types::extra::U64>);
 
 impl_mixed_num_for_fixed_signed!(fixed::FixedI64<fixed::types::extra::U0>);
 impl_mixed_num_for_fixed_signed!(fixed::FixedI64<fixed::types::extra::U1>);
@@ -708,6 +707,6 @@ impl_mixed_num_for_fixed_signed!(fixed::FixedI64<fixed::types::extra::U58>);
 impl_mixed_num_for_fixed_signed!(fixed::FixedI64<fixed::types::extra::U59>);
 impl_mixed_num_for_fixed_signed!(fixed::FixedI64<fixed::types::extra::U60>);
 impl_mixed_num_for_fixed_signed!(fixed::FixedI64<fixed::types::extra::U61>);
-impl_mixed_num_for_fixed_signed!(fixed::FixedI64<fixed::types::extra::U62>);
-impl_mixed_num_for_fixed_signed!(fixed::FixedI64<fixed::types::extra::U63>);
-impl_mixed_num_for_fixed_signed!(fixed::FixedI64<fixed::types::extra::U64>);
+//impl_mixed_num_for_fixed_signed!(fixed::FixedI64<fixed::types::extra::U62>);
+//impl_mixed_num_for_fixed_signed!(fixed::FixedI64<fixed::types::extra::U63>);
+//impl_mixed_num_for_fixed_signed!(fixed::FixedI64<fixed::types::extra::U64>);
