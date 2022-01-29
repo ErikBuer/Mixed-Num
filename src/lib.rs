@@ -1,6 +1,6 @@
 //! 
 //! No-STD abstraction layer enabling numerical functions to be implemented once, and simultaneously support both fixed and floating point types.
-//! The crate focueses on computationally efficient implementations 
+//! The crate focueses on computationally efficient implementations of numerical operations.
 //! 
 //! This is an experimental library.
 //! 
@@ -452,7 +452,6 @@ macro_rules! impl_mixed_num_for_fixed_signed{
         }
     }
 }
-
 
 impl_mixed_num_for_fixed_unsigned!(fixed::FixedU8<fixed::types::extra::U0>);
 impl_mixed_num_for_fixed_unsigned!(fixed::FixedU8<fixed::types::extra::U1>);
