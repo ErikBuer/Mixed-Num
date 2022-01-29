@@ -53,7 +53,7 @@ fn atan_poly_2<T>( y: T, x: T ) -> T
 /// ## Example
 /// 
 /// ```
-/// use fixed_trigonometry::*;
+/// use mixed_num::trigonometry::*;
 /// use fixed::{types::extra::U28, FixedI32};
 /// 
 /// let arg = atan::atan2( FixedI32::<U28>::from_num(0.6), FixedI32::<U28>::from_num(0.4) );
@@ -175,7 +175,7 @@ pub fn atan2<T>( y: T, x: T ) -> T
 /// ## Example
 /// 
 /// ```
-/// use fixed_trigonometry::*;
+/// use mixed_num::trigonometry::*;
 /// use fixed::{types::extra::U28, FixedI32};
 /// 
 /// let arg = atan::atan( FixedI32::<U28>::from_num(0.6)/FixedI32::<U28>::from_num(0.4) );

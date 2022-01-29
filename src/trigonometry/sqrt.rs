@@ -30,7 +30,7 @@ use crate::MixedNum;
 /// ## Example
 /// 
 /// ```
-/// use fixed_trigonometry::*;
+/// use mixed_num::trigonometry::*;
 /// use fixed::{types::extra::U28, FixedI32};
 /// 
 /// let mut x =  FixedI32::<U28>::from_num(0.23);
@@ -143,14 +143,19 @@ pub fn niirf<T>( x: T, iterations: usize ) -> T
         y = beta(x_)*(x_-y.mixed_powi(2))+y;
     }
 
-    // Denormalize the solution.
-    if 0 < norm
+    while norm.abs() != 0
     {
-        y = y*T::mixed_from_num(2).mixed_powi(norm);
-    }
-    else if norm < 0
-    {
-        y = y/T::mixed_from_num(2).mixed_powi(norm);
+        // Denormalize the solution.
+        if 0 < norm
+        {
+            y = y*T::mixed_from_num(2);
+            norm-=1;
+        }
+        else if norm < 0
+        {
+            y = y/T::mixed_from_num(2);
+            norm+=1;
+        }
     }
     return y;
 }

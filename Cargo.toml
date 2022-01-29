@@ -18,7 +18,6 @@ crate-type = ["lib"]
 
 [dependencies]
 fixed  = "1.10.0"
-fixed_trigonometry = "0.3.2"
 cordic = "0.1.5"
 typenum = "1.15.0"
 

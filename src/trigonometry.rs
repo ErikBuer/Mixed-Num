@@ -11,7 +11,7 @@ pub mod sqrt;
 /// ## Example
 /// 
 /// ```
-/// use fixed_trigonometry::*;
+/// use mixed_num::trigonometry::*;
 /// use fixed::{types::extra::U22, FixedI32};
 /// 
 /// let mut x = FixedI32::<U22>::from_num(-0.2);
@@ -50,7 +50,7 @@ pub fn sign<T>( x:T ) -> T
 /// ## Example
 /// 
 /// ```
-/// use fixed_trigonometry::*;
+/// use mixed_num::trigonometry::*;
 /// use fixed::{types::extra::U22, FixedI32};
 /// 
 /// let mut x = FixedI32::<U22>::from_num(0);
@@ -118,16 +118,15 @@ pub fn sin<T>( x: T ) -> T
 /// ## Example
 /// 
 /// ```
-/// use fixed_trigonometry::*;
-/// use fixed::{types::extra::U18, FixedI32};
+/// use mixed_num::trigonometry::*;
 /// 
-/// let mut x = FixedI32::<U18>::from_num(0);
+/// let mut x = 0f32;
 /// let mut y = cos(x);
-/// assert_eq!{ y.to_num::<f32>(), 1.0000038 };
+/// assert_eq!{ y, 1.0000035 };
 /// 
-/// x = FixedI32::<U18>::from_num(3.1415/2.0);
+/// x = 3.1415f32/2.0f32;
 /// y = cos(x);
-/// assert_eq!{ y.to_num::<f32>(), 0.00004196167 };
+/// assert_eq!{ y, -3.1345294 };
 /// ``` 
 /// 
 /// ## Comparison and Error
@@ -166,7 +165,7 @@ pub fn cos<T>( x: T ) -> T
 /// ## Example
 /// 
 /// ```
-/// use fixed_trigonometry::*;
+/// use mixed_num::trigonometry::*;
 /// use fixed::{types::extra::U28, FixedI32};
 /// 
 /// let phi =  FixedI32::<U28>::from_num(6);
@@ -190,4 +189,32 @@ pub fn wrap_phase<T>( phi: T ) -> T
         temp_scalar = temp_scalar - tau;
     }
     return temp_scalar;
+}
+
+/// Rase fixed number to an integer-valued power.
+/// `base^power`.
+/// 
+/// ## Arguments
+/// 
+/// * `base`  - The base number.
+/// * `power` - The power to raise 'base' to.
+/// 
+/// ## Example
+/// 
+/// ```
+/// use mixed_num::trigonometry::*;
+/// use fixed::{types::extra::U22, FixedI32};
+/// 
+/// let mut x = FixedI32::<U22>::from_num(-2);
+/// let y = powi(x, 2);
+/// assert_eq!{ y.to_num::<f32>(), 4.0 };
+/// ``` 
+pub fn powi<T>( base:T, power:usize ) -> T
+    where T: crate::MixedNum
+{
+    let mut temp:T = base;
+    for _i in 0..power-1 {
+        temp = temp*base;
+    }
+    return temp;
 }
