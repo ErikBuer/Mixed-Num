@@ -1,5 +1,6 @@
 //! 
 //! No-STD abstraction layer enabling numerical functions to be implemented once, and simultaneously support both fixed and floating point types.
+//! The crate focueses on computationally efficient implementations 
 //! 
 //! This is an experimental library.
 //! 
@@ -22,12 +23,14 @@ pub trait MixedNumConversion<T> {
 
 pub trait MixedTrigonometry
 {
-    /// Take the sin of x. Implementation varies with type.
+    /// Take the sin of `self`. Implementation varies with type.
     fn mixed_sin(&self) -> Self;
-    /// Take the sin of x. Implementation varies with type.
+    /// Take the sin of `self`. Implementation varies with type.
     fn mixed_cos(&self) -> Self;
-    /// Take the sin of x. Implementation varies with type.
+    /// Take the sin of `self`. Implementation varies with type.
     fn mixed_atan(&self) -> Self;
+    /// Take the atan2 of `self`/other. Implementation varies with type.
+    fn mixed_atan2(&self, other:Self) -> Self;
 }
 
 pub trait MixedWrapPhase
@@ -171,20 +174,25 @@ macro_rules! impl_mixed_num_for_primitive{
 
         impl MixedTrigonometry for $T
         {
-            /// Take the sin of self. Implementation varies with type.
+            /// Take the sin of self.
             #[inline(always)]
             fn mixed_sin(&self) -> Self {
                 return trigonometry::sin(*self);
             }
-            /// Take the cos of self. Implementation varies with type.
+            /// Take the cos of self.
             #[inline(always)]
             fn mixed_cos(&self) -> Self {
                 return trigonometry::cos(*self);
             }
-            /// Take the atan of self. Implementation varies with type.
+            /// Take the atan of self.
             #[inline(always)]
             fn mixed_atan(&self) -> Self {
                 return trigonometry::atan::atan(*self);
+            }
+            /// Take the atan of self.
+            #[inline(always)]
+            fn mixed_atan2(&self, other:Self) -> Self {
+                return trigonometry::atan::atan2(*self, other);
             }
         }
 
@@ -435,6 +443,11 @@ macro_rules! impl_mixed_num_for_fixed_signed{
             #[inline(always)]
             fn mixed_atan(&self) -> Self {
                 return trigonometry::atan::atan(*self);
+            }
+            /// Take the atan of self. Implementation varies with type.
+            #[inline(always)]
+            fn mixed_atan2(&self, other:Self) -> Self {
+                return trigonometry::atan::atan2(*self, other);
             }
         }
     }
