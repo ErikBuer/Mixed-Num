@@ -1,5 +1,10 @@
 # Release Notes
 
+## Release 0.1.5 (2022-01-29)
+
+- Implemented trait `MixedSqrt` with the NIIRF approximation.
+- Implemented `MixedTrigonometry` trait for signed types.
+
 ## Release 0.1.4 (2022-01-03)
 
 - Implemented trait `MixedNumSigned` for siged types.

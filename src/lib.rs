@@ -1,5 +1,6 @@
 //! 
 //! No-STD abstraction layer enabling numerical functions to be implemented once, and simultaneously support both fixed and floating point types.
+//! The crate focueses on computationally efficient implementations of numerical operations.
 //! 
 //! This is an experimental library.
 //! 
@@ -9,7 +10,7 @@
 
 use fixed;
 use num::traits::float::FloatCore;
-use fixed_trigonometry as trig;
+use fixed_trigonometry as fixed_trig;
 
 mod trigonometry;
 
@@ -22,12 +23,20 @@ pub trait MixedNumConversion<T> {
 
 pub trait MixedTrigonometry
 {
-    /// Take the sin of x. Implementation varies with type.
+    /// Take the sin of `self`. Implementation varies with type.
     fn mixed_sin(&self) -> Self;
-    /// Take the sin of x. Implementation varies with type.
+    /// Take the sin of `self`. Implementation varies with type.
     fn mixed_cos(&self) -> Self;
-    /// Take the sin of x. Implementation varies with type.
+    /// Take the sin of `self`. Implementation varies with type.
     fn mixed_atan(&self) -> Self;
+    /// Take the atan2 of `self`/other. Implementation varies with type.
+    fn mixed_atan2(&self, other:Self) -> Self;
+}
+
+pub trait MixedWrapPhase
+{
+    /// Wrapps `self` to the -π=<x<π range.
+    fn mixed_wrap_phase(&self) -> Self;
 }
 
 pub trait MixedConsts
@@ -36,11 +45,50 @@ pub trait MixedConsts
     fn mixed_pi() -> Self;
 }
 
+pub trait MixedSqrt
+{
+    /// The generic square root implementation for the `MixedSqrt` trait. The implimentation may change with time.
+    /// To stay on this excact implementation, use the `mixed_niirf` function.
+    fn mixed_sqrt(&self) -> Self;
+    /// A fast implementation of the square root using the Nonlinear IIR Filter (NIIRF) method \[1\].
+    /// 
+    /// Only valid for positive values of `self`. Negative values are forced positive before converison.
+    /// Accurate to 5*10⁻⁴ with two iterations \[2\].
+    /// 
+    /// The structure of the estimator is illustrated below \[1\].
+    /// 
+    /// ![Alt version](https://raw.githubusercontent.com/ErikBuer/Fixed-Trigonometry/main/figures/niirf.svg)
+    /// 
+    /// The method utilizes a lookup-table for the acceleration factor β.
+    /// 
+    /// β(x) can be calculated from the following formula, yielding even greater accuracy at a computational cost.
+    /// ```Julia
+    /// β(x) = 0.763x^2-1.5688x+1.314 
+    /// ```
+    /// 
+    /// \[1\] N.Mikami et al., A new DSP-oriented algorithm for calculation of square root using a non-linear digital filter, IEEE Trans. on Signal Processing, July 1992, pp. 1663-1669.
+    /// 
+    /// \[2\] R. G. Lyons, Streamlining Digital Signal Processing, Second Edition, IEEE Press, 2012.
+    /// 
+    /// 
+    /// ## Accuracy and Comparison
+    /// 
+    /// The figure below shows error of the NIIRF implementation, compared to the `std::f32::sqrt` implementation.
+    /// 
+    /// ![Alt version](https://github.com/ErikBuer/Fixed-Trigonometry/blob/main/figures/niirf_sqrt_comparison.png?raw=true)
+    /// 
+    /// Another fixed point implementation of the square root can be found in the cordic crate. 
+    /// 
+    /// Below is the error comparison between the two implementations.
+    /// 
+    /// ![Alt version](https://github.com/ErikBuer/Fixed-Trigonometry/blob/main/figures/sqrt_error_comparison.png?raw=true)
+    fn mixed_niirf(&self) -> Self;
+}
+
 pub trait MixedNum
     where Self: MixedConsts 
                 + MixedNumConversion<i32> + MixedNumConversion<i64>
                 + MixedNumConversion<f32> + MixedNumConversion<f64>
-                //+ MixedTrigonometry
                 + core::cmp::PartialOrd
                 + core::marker::Sized
                 + core::ops::Div<Output = Self>
@@ -124,28 +172,54 @@ macro_rules! impl_mixed_num_for_primitive{
             }
         }
 
-        /*
         impl MixedTrigonometry for $T
         {
-            /// Take the sin of self. Implementation varies with type.
+            /// Take the sin of self.
             #[inline(always)]
             fn mixed_sin(&self) -> Self {
                 return trigonometry::sin(*self);
             }
-            /// Take the cos of self. Implementation varies with type.
+            /// Take the cos of self.
             #[inline(always)]
             fn mixed_cos(&self) -> Self {
                 return trigonometry::cos(*self);
             }
-            /// Take the atan of self. Implementation varies with type.
+            /// Take the atan of self.
             #[inline(always)]
             fn mixed_atan(&self) -> Self {
-                return trigonometry::cos(*self);
+                return trigonometry::atan::atan(*self);
             }
-        } */
+            /// Take the atan of self.
+            #[inline(always)]
+            fn mixed_atan2(&self, other:Self) -> Self {
+                return trigonometry::atan::atan2(*self, other);
+            }
+        }
 
-        impl MixedNumSigned  for $T
+        impl MixedSqrt for $T
         {
+            /// Take the square root of self.
+            #[inline(always)]
+            fn mixed_sqrt(&self) -> Self {
+                return trigonometry::sqrt::niirf(*self, 2);
+            }
+            /// Take the square root of self.
+            #[inline(always)]
+            fn mixed_niirf(&self) -> Self {
+                return trigonometry::sqrt::niirf(*self, 2);
+            }
+        }
+
+        impl MixedWrapPhase for $T
+        {
+            #[inline(always)]
+            fn mixed_wrap_phase(&self) -> Self {
+                return trigonometry::wrap_phase(*self);
+            }
+        }
+
+        impl MixedNumSigned for $T
+        {   
         }
 
         impl MixedNum for $T
@@ -250,6 +324,20 @@ macro_rules! impl_mixed_num_for_fixed{
                 return Self::from_num(3.1415926535897932384626433832795028841971693993751058209749445923078164062);
             }
         }
+
+        impl MixedSqrt for $T
+        {
+            /// Take the square root of self.
+            #[inline(always)]
+            fn mixed_sqrt(&self) -> Self {
+                return trigonometry::sqrt::niirf(*self, 2);
+            }
+            /// Take the square root of self.
+            #[inline(always)]
+            fn mixed_niirf(&self) -> Self {
+                return trigonometry::sqrt::niirf(*self, 2);
+            }
+        }
     }
 }
 
@@ -273,7 +361,7 @@ macro_rules! impl_mixed_num_for_fixed_unsigned{
             }
             #[inline(always)]
             fn mixed_powi( &self, exp: i32 ) -> Self {
-                return trig::powi( *self, exp as usize );
+                return fixed_trig::powi( *self, exp as usize );
             }
             #[inline(always)]
             fn mixed_sign( &self) -> Self {
@@ -315,7 +403,7 @@ macro_rules! impl_mixed_num_for_fixed_signed{
             }
             #[inline(always)]
             fn mixed_powi( &self, exp: i32 ) -> Self {
-                return trig::powi( *self, exp as usize );
+                return fixed_trig::powi( *self, exp as usize );
             }
             #[inline(always)]
             fn mixed_sign( &self) -> Self {
@@ -330,9 +418,40 @@ macro_rules! impl_mixed_num_for_fixed_signed{
                 return self.is_negative();
             }
         }
+
+        impl MixedWrapPhase for $T
+        {
+            #[inline(always)]
+            fn mixed_wrap_phase(&self) -> Self {
+                return trigonometry::wrap_phase(*self);
+            }
+        }
+
+        impl MixedTrigonometry for $T
+        {
+            /// Take the sin of self. Implementation varies with type.
+            #[inline(always)]
+            fn mixed_sin(&self) -> Self {
+                return fixed_trig::sin(*self);
+            }
+            /// Take the cos of self. Implementation varies with type.
+            #[inline(always)]
+            fn mixed_cos(&self) -> Self {
+                return fixed_trig::cos(*self);
+            }
+            /// Take the atan of self. Implementation varies with type.
+            #[inline(always)]
+            fn mixed_atan(&self) -> Self {
+                return trigonometry::atan::atan(*self);
+            }
+            /// Take the atan of self. Implementation varies with type.
+            #[inline(always)]
+            fn mixed_atan2(&self, other:Self) -> Self {
+                return trigonometry::atan::atan2(*self, other);
+            }
+        }
     }
 }
-
 
 impl_mixed_num_for_fixed_unsigned!(fixed::FixedU8<fixed::types::extra::U0>);
 impl_mixed_num_for_fixed_unsigned!(fixed::FixedU8<fixed::types::extra::U1>);
