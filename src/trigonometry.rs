@@ -1,3 +1,6 @@
+pub mod atan;
+pub mod sqrt;
+
 /// Get the sign of the argument with a unit value.
 /// Zero is of positive sign.
 /// 
