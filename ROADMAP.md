@@ -1,6 +1,3 @@
 # ROADMAP
 
-- [x] Implement mixed_from_num for u32.
-- [ ] Implement STD methods for sin/cos/etc, when available.
-- [x] Implement `mixed_zero` and `mixed_one` utilities.
-- [ ] Implement the `Num` trait for mixed-num.
+- [ ] Create support for complex numbers, with no-std trait impliementations.

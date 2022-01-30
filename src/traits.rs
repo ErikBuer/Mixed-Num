@@ -48,8 +48,9 @@ pub trait MixedConsts
 
 pub trait MixedSqrt
 {
-    /// The generic square root implementation for the `MixedSqrt` trait. The implimentation may change with time.
-    /// To stay on this excact implementation, use the `mixed_niirf` function.
+    /// The generic square root implementation for the `MixedSqrt` trait.
+    /// When the STD feature is enabled, its sqrt implementation is used fro f32 and f64 types.
+    /// When not, the Nonlinear IIR Filter (NIIRF) method is implemented.
     fn mixed_sqrt(&self) -> Self;
     /// A fast implementation of the square root using the Nonlinear IIR Filter (NIIRF) method \[1\].
     /// 

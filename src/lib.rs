@@ -8,6 +8,9 @@
 #![crate_name = "mixed_num"]
 #![no_std]
 
+#[cfg(feature = "std")]
+extern crate std;
+
 use fixed;
 use num::traits::float::FloatCore;
 
@@ -94,34 +97,72 @@ macro_rules! impl_mixed_num_for_primitive{
         impl MixedTrigonometry for $T
         {
             /// Take the sin of self.
+            #[cfg(not(feature="std"))]
             #[inline(always)]
             fn mixed_sin(&self) -> Self {
                 return trigonometry::sin(*self);
             }
             /// Take the cos of self.
+            #[cfg(not(feature="std"))]
             #[inline(always)]
             fn mixed_cos(&self) -> Self {
                 return trigonometry::cos(*self);
             }
             /// Take the atan of self.
+            #[cfg(not(feature="std"))]
             #[inline(always)]
             fn mixed_atan(&self) -> Self {
                 return trigonometry::atan::atan(*self);
             }
             /// Take the atan of self.
+            #[cfg(not(feature="std"))]
             #[inline(always)]
             fn mixed_atan2(&self, other:Self) -> Self {
                 return trigonometry::atan::atan2(*self, other);
+            }
+
+            /// Take the sin of self.
+            #[cfg(feature="std")]
+            #[inline(always)]
+            fn mixed_sin(&self) -> Self {
+                return self.sin();
+            }
+            /// Take the cos of self.
+            #[cfg(feature="std")]
+            #[inline(always)]
+            fn mixed_cos(&self) -> Self {
+                return self.cos();
+            }
+            /// Take the atan of self.
+            #[cfg(feature="std")]
+            #[inline(always)]
+            fn mixed_atan(&self) -> Self {
+                return self.atan();
+            }
+            /// Take the atan of self.
+            #[cfg(feature="std")]
+            #[inline(always)]
+            fn mixed_atan2(&self, other:Self) -> Self {
+                return self.atan2(self, other);
             }
         }
 
         impl MixedSqrt for $T
         {
             /// Take the square root of self.
+            #[cfg(not(feature="std"))]
             #[inline(always)]
             fn mixed_sqrt(&self) -> Self {
                 return trigonometry::sqrt::niirf(*self, 2);
             }
+
+            /// Take the square root of self.
+            #[cfg(feature="std")]
+            #[inline(always)]
+            fn mixed_sqrt(&self) -> Self {
+                return Self.sqrt();
+            }
+
             /// Take the square root of self.
             #[inline(always)]
             fn mixed_niirf(&self) -> Self {

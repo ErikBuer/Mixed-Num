@@ -4,6 +4,7 @@
 
 - Implemented trait `MixedZero` and `MixedOne` traits.
 - Implement mixed_from_num for u32 and u64.
+- Added optional STD feature. This enables STDs implementation of the trigonometric functions and `sqrt`.
 
 ## Release 0.1.5 (2022-01-29)
 
