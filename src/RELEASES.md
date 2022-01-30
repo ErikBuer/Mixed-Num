@@ -3,6 +3,7 @@
 ## Release 0.1.6 (2022-01-30)
 
 - Implemented trait `MixedZero` and `MixedOne` traits.
+- Implement mixed_from_num for u32 and u64.
 
 ## Release 0.1.5 (2022-01-29)
 
