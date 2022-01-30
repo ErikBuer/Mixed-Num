@@ -1,5 +1,9 @@
 # Release Notes
 
+## Release 0.1.6 (2022-01-30)
+
+- Implemented trait `MixedZero` and `MixedOne` traits.
+
 ## Release 0.1.5 (2022-01-29)
 
 - Removed dependency fixed_trigonomtry.
