@@ -83,7 +83,7 @@ pub fn atan2<T>( y: T, x: T ) -> T
     let pi_half = T::mixed_pi()/T::mixed_from_num(2);
 
     // Check which quadrant the result will land in.
-    if  y == T::mixed_from_num(0)
+    if  y == T::mixed_zero()
     {
         if  x.mixed_is_negative()
         {
@@ -91,12 +91,12 @@ pub fn atan2<T>( y: T, x: T ) -> T
         }
         else
         {
-            return T::mixed_from_num( 0 );
+            return T::mixed_zero();
         }
     }
     else if y.mixed_is_positive()
     {
-        if  x == T::mixed_from_num( 0 )
+        if  x == T::mixed_zero()
         {
             return T::mixed_pi()/T::mixed_from_num( 2 );
         }
@@ -116,7 +116,7 @@ pub fn atan2<T>( y: T, x: T ) -> T
         else
         {
             // Third octant.
-            if T::mixed_from_num( 0.0 ) <= y_abs - x_abs
+            if T::mixed_zero() <= y_abs - x_abs
             {
                 return pi_half - atan_poly_2( y, x );
             }
@@ -129,14 +129,14 @@ pub fn atan2<T>( y: T, x: T ) -> T
     }
     else
     {
-        if  x == T::mixed_from_num( 0 )
+        if  x == T::mixed_zero()
         {
             return -T::mixed_pi()/T::mixed_from_num( 2 );
         }
         if x.mixed_is_positive()
         {
             // Fifth octant.
-            if y_abs - x_abs < T::mixed_from_num( 0.0 )
+            if y_abs - x_abs < T::mixed_zero()
             {
                 return atan_poly_1( y, x );
             }
@@ -149,7 +149,7 @@ pub fn atan2<T>( y: T, x: T ) -> T
         else
         {
             // Seventh octant.
-            if T::mixed_from_num( 0.0 ) <= y_abs - x_abs
+            if T::mixed_zero() <= y_abs - x_abs
             {
                 return -pi_half - atan_poly_2( y, x );
             }
@@ -194,5 +194,5 @@ pub fn atan2<T>( y: T, x: T ) -> T
 pub fn atan<T>( x: T ) -> T
     where T: crate::MixedNum + crate::MixedNumSigned
 {
-    return atan2(x,T::mixed_from_num(1));
+    return atan2(x,T::mixed_one());
 }

@@ -60,9 +60,9 @@ use crate::MixedNum;
 pub fn niirf<T>( x: T, iterations: usize ) -> T 
     where T: crate::MixedNum
 {
-    if x == T::mixed_from_num(0)
+    if x == T::mixed_zero()
     {
-        return T::mixed_from_num(0);
+        return T::mixed_zero();
     }
 
     let mut x_ = x.mixed_abs();
