@@ -1,5 +1,5 @@
-mod math;
-pub use math::*;
+mod math_traits;
+pub use math_traits::*;
 
 pub trait MixedCeil
 {
