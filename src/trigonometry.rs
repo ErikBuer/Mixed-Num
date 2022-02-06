@@ -51,57 +51,45 @@ pub fn sign<T>( x:T ) -> T
 /// 
 /// ```
 /// use mixed_num::trigonometry::*;
-/// use fixed::{types::extra::U22, FixedI32};
 /// 
-/// let mut x = FixedI32::<U22>::from_num(0);
+/// let mut x:f32 = 0.0;
 /// let mut y = sin(x);
-/// assert_eq!{ y.to_num::<f32>(), 0.0 };
+/// assert_eq!{ y, 0.0 };
 /// 
-/// x = FixedI32::<U22>::from_num(3.1415/2.0);
+/// x = 3.1415/2.0;
 /// y = sin(x);
-/// assert_eq!{ y.to_num::<f32>(), 1.0000036 };
+/// assert_eq!{ y, 1.0000035 };
+/// 
+/// x = 3.1415;
+/// y = sin(x);
+/// assert_eq!{ y, 9.274483e-5 };
 /// ``` 
-/// 
-/// ## Comparison and Error
-/// 
-/// The figure below shows the comparison between the polynomial sine, and the `std::f32::sin` implementation.
-/// The Difference between the two is plotted as the error.
-/// 
-/// ![Alt version](https://github.com/ErikBuer/Fixed-Trigonometry/blob/main/figures/polynomial_sine_comparison.png?raw=true)
-/// 
-/// The error of the method is compared to the sine implementation in the cordic crate.
-/// 
-/// The comparison is done for U22 signed fixed point.
-/// 
-/// The figure below is missing numbers on the y axis, but it is plotted on a linear scale, showing the relative error between the two methods.
-/// 
-/// ![Alt version](https://github.com/ErikBuer/Fixed-Trigonometry/blob/main/figures/cordic_poly_sine_error_comparison.png?raw=true)
 /// 
 #[allow(dead_code)]
 pub fn sin<T>( x: T ) -> T
-    where T: crate::MixedNum + crate::MixedNumSigned
+    where T: crate::MixedNum + crate::MixedNumSigned + crate::MixedPi
 {
-    let mixed_pi_half:T = T::mixed_pi()/T::mixed_from_num(2);
+    let mixed_pi_half = T::mixed_pi()/T::mixed_from_num(2);
 
-    let mut x_: T = x;
+    let mut x_ = x;
 
     // Ensure that the angle is within the accurate range of the tailor series. 
-    if x_ < -mixed_pi_half
+    if x < -mixed_pi_half
     {   
         let delta:T = x+mixed_pi_half;
-        x_ = -mixed_pi_half+delta.mixed_abs();
+        x_ = -mixed_pi_half-delta;
     }
     else if mixed_pi_half < x
     {
         let delta:T = x-mixed_pi_half;
-        x_ = mixed_pi_half-delta.mixed_abs();
+        x_ = mixed_pi_half-delta;
     }
 
     // Calculate sine by using 
-    let mut sinx = x_-( x.mixed_powi(3)/T::mixed_from_num(6) );
-    sinx += x.mixed_powi(5)/T::mixed_from_num(120);
-    sinx -= (x.mixed_powi(7)/T::mixed_from_num(315)) / T::mixed_from_num(16);
-    sinx += (((x.mixed_powi(9)/T::mixed_from_num(81))/<T>::mixed_from_num(7))/T::mixed_from_num(5)) / T::mixed_from_num(128);
+    let mut sinx = x_-( x_.mixed_powi(3)/T::mixed_from_num(6) );
+    sinx += x_.mixed_powi(5)/T::mixed_from_num(120);
+    sinx -= x_.mixed_powi(7)/T::mixed_from_num(5040);
+    sinx += x_.mixed_powi(9)/T::mixed_from_num(362880);
     return sinx;
 }
 
@@ -126,7 +114,7 @@ pub fn sin<T>( x: T ) -> T
 /// 
 /// x = 3.1415f32/2.0f32;
 /// y = cos(x);
-/// assert_eq!{ y, -3.1345294 };
+/// assert_eq!{ y, 4.6491623e-5 };
 /// ``` 
 /// 
 /// ## Comparison and Error

@@ -1,5 +1,10 @@
 # Release Notes
 
+## Release 0.1.7 (2022-02-06)
+
+- Implemented `mixed_tau` method for the `MixedPi` trait.
+- Corrected error in `trigonometry::sine`. Added a plotter test for inspection.
+
 ## Release 0.1.6 (2022-01-30)
 
 - Implemented trait `MixedZero` and `MixedOne` traits.

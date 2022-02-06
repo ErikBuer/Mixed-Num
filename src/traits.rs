@@ -39,6 +39,7 @@ pub trait MixedPi
 {
     /// The mixed_pi constant. 3.141...
     fn mixed_pi() -> Self;
+    fn mixed_tau() -> Self;
 }
 
 pub trait MixedConsts
