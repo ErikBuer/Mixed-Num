@@ -6,6 +6,7 @@
 - asin, acos, exp, sincos and atan are implemented for fixed and float, using the libm and cordic crate.
 - Implemented exp10, exp2, floor, ceil, cbrt, tan, sinh, cosh and tanh for float types, using the libm crate.
 - Implemented log, log10 and log2 for float types, using the libm crate.
+- Implemented decibel conversion for floaring point types.
 
 ## Release 0.1.7 (2022-02-06)
 
