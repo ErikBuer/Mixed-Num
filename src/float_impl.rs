@@ -3,6 +3,11 @@ use num::traits::float::FloatCore;
 
 use libm;
 
+mod f32_impl;
+pub use f32_impl::*;
+mod f64_impl;
+pub use f64_impl::*;
+
 
 macro_rules! impl_mixed_num_for_primitive{
     ( $T:ty ) => {
@@ -157,340 +162,65 @@ macro_rules! impl_mixed_num_for_primitive{
         impl MixedConsts for $T
         {
         }
-    }
-}
 
-// ________________________________________________________________________________________________________________________________________
-// Implementations for f32
+        impl DbMag for $T
+        {
+            fn mixed_mag2db(&self) -> Self
+            {
+                return <$T>::mixed_from_num(20)*self.mixed_log10();
+            }
+            fn mixed_db2mag(&self) -> Self
+            {
+                let exponent: $T = *self/<$T>::mixed_from_num(20i32);
+                return exponent.mixed_exp10();
+            }
+        }
 
-
-impl MixedSin for f32
-{
-    #[inline(always)]
-    fn mixed_sin(&self) -> Self {
-        return libm::sinf(*self);
-    }
-    #[inline(always)]
-    fn mixed_sincos(&self) -> (Self, Self) 
-        where Self: Sized
-    {
-        return libm::sincosf(*self);
-    }   
-    #[inline(always)]
-    fn mixed_asin(&self) -> Self {
-        return libm::asinf(*self);
-    }
-}
-
-impl MixedSinh for f32
-{
-    #[inline(always)]
-    fn mixed_sinh(&self) -> Self {
-        return libm::sinhf(*self);
-    }
-    #[inline(always)]
-    fn mixed_asinh(&self) -> Self {
-        return libm::asinhf(*self);
-    }
-}
-
-impl MixedCos for f32
-{
-    #[inline(always)]
-    fn mixed_cos(&self) -> Self {
-        return libm::cosf(*self);
-    }
-    #[inline(always)]
-    fn mixed_acos(&self) -> Self {
-        return libm::acosf(*self);
-    }
-}
-
-impl MixedCosh for f32
-{
-    #[inline(always)]
-    fn mixed_cosh(&self) -> Self {
-        return libm::coshf(*self);
-    }
-    #[inline(always)]
-    fn mixed_acosh(&self) -> Self {
-        return libm::acoshf(*self);
-    }
-}
-
-impl MixedTrigonometry for f32
-{ 
-}
-
-impl MixedTan for f32
-{
-    #[inline(always)]
-    fn mixed_tan(&self) -> Self {
-        return libm::tanf(*self);
-    }
-}
-
-impl MixedTanh for f32
-{
-    #[inline(always)]
-    fn mixed_tanh(&self) -> Self {
-        return libm::tanhf(*self);
-    }
-    #[inline(always)]
-    fn mixed_atanh(&self) -> Self {
-        return libm::atanhf(*self);
-    }
-}
-
-impl MixedAtan for f32
-{
-    #[inline(always)]
-    fn mixed_atan(&self) -> Self {
-        return libm::atanf(*self);
-    }
-    #[inline(always)]
-    fn mixed_atan2(&self, other:Self) -> Self {
-        return libm::atan2f(*self,other);
-    }
-    #[inline(always)]
-    fn mixed_atan2_poly(&self, other:Self) -> Self {
-        return trigonometry::atan::atan2(*self, other);
-    }
-}
-
-impl MixedSqrt for f32
-{
-    #[inline(always)]
-    fn mixed_sqrt(&self) -> Self {
-        return libm::sqrtf(*self);
-    }
-
-    #[inline(always)]
-    fn mixed_niirf(&self) -> Self {
-        return trigonometry::sqrt::niirf(*self, 2);
-    }
-}
-
-impl MixedCbrt for f32
-{
-    #[inline(always)]
-    fn mixed_cbrt(&self) -> Self {
-        return libm::cbrtf(*self);
-    }
-}
-
-impl MixedCeil for f32
-{
-    #[inline(always)]
-    fn mixed_ceil(&self) -> Self {
-        return libm::ceilf(*self);
-    }
-}
-impl MixedFloor for f32
-{
-    #[inline(always)]
-    fn mixed_floor(&self) -> Self {
-        return libm::floorf(*self);
-    }
-}
-
-impl MixedExp for f32
-{
-    #[inline(always)]
-    fn mixed_exp(&self) -> Self {
-        return libm::expf(*self);
-    }
-}
-
-impl MixedExp10 for f32
-{
-    #[inline(always)]
-    fn mixed_exp10(&self) -> Self {
-        return libm::exp10f(*self);
-    }
-}
-
-impl MixedExp2 for f32
-{
-    #[inline(always)]
-    fn mixed_exp2(&self) -> Self {
-        return libm::exp2f(*self);
-    }
-}
-
-impl MixedPow for f32
-{
-    #[inline(always)]
-    fn mixed_pow(&self, power:f32) -> Self {
-        return libm::powf(*self, power);
+        impl DbPow for $T
+        {
+            fn mixed_pow2db(&self) -> Self
+            {
+                return <$T>::mixed_from_num(10)*self.mixed_log10();
+            }
+            fn mixed_db2pow(&self) -> Self
+            {
+                let exponent: $T = *self/<$T>::mixed_from_num(10i32);
+                return exponent.mixed_exp10();
+            }
+        }
     }
 }
 
 impl_mixed_num_for_primitive!(f32);
-
-
-// ________________________________________________________________________________________________________________________________________
-// Implementations for f64
-
-impl MixedSin for f64
-{
-    #[inline(always)]
-    fn mixed_sin(&self) -> Self {
-        return libm::sin(*self);
-    }
-    #[inline(always)]
-    fn mixed_sincos(&self) -> (Self, Self) 
-        where Self: Sized
-    {
-        return libm::sincos(*self);
-    }   
-    #[inline(always)]
-    fn mixed_asin(&self) -> Self {
-        return libm::asin(*self);
-    }
-}
-
-impl MixedSinh for f64
-{
-    #[inline(always)]
-    fn mixed_sinh(&self) -> Self {
-        return libm::sinh(*self);
-    }
-    #[inline(always)]
-    fn mixed_asinh(&self) -> Self {
-        return libm::asinh(*self);
-    }
-}
-
-impl MixedCos for f64
-{
-    #[inline(always)]
-    fn mixed_cos(&self) -> Self {
-        return libm::cos(*self);
-    }
-    #[inline(always)]
-    fn mixed_acos(&self) -> Self {
-        return libm::acos(*self);
-    }
-}
-
-impl MixedCosh for f64
-{
-    #[inline(always)]
-    fn mixed_cosh(&self) -> Self {
-        return libm::cosh(*self);
-    }
-    #[inline(always)]
-    fn mixed_acosh(&self) -> Self {
-        return libm::acosh(*self);
-    }
-}
-
-impl MixedTrigonometry for f64
-{ 
-}
-
-impl MixedTan for f64
-{
-    #[inline(always)]
-    fn mixed_tan(&self) -> Self {
-        return libm::tan(*self);
-    }
-}
-
-impl MixedTanh for f64
-{
-    #[inline(always)]
-    fn mixed_tanh(&self) -> Self {
-        return libm::tanh(*self);
-    }
-    #[inline(always)]
-    fn mixed_atanh(&self) -> Self {
-        return libm::atanh(*self);
-    }
-}
-
-impl MixedCbrt for f64
-{
-    #[inline(always)]
-    fn mixed_cbrt(&self) -> Self {
-        return libm::cbrt(*self);
-    }
-}
-
-impl MixedAtan for f64
-{
-    #[inline(always)]
-    fn mixed_atan(&self) -> Self {
-        return libm::atan(*self);
-    }
-    #[inline(always)]
-    fn mixed_atan2(&self, other:Self) -> Self {
-        return libm::atan2(*self,other);
-    }
-    #[inline(always)]
-    fn mixed_atan2_poly(&self, other:Self) -> Self {
-        return trigonometry::atan::atan2(*self, other);
-    }
-}
-
-impl MixedSqrt for f64
-{
-    #[inline(always)]
-    fn mixed_sqrt(&self) -> Self {
-        return libm::sqrt(*self);
-    }
-
-    #[inline(always)]
-    fn mixed_niirf(&self) -> Self {
-        return trigonometry::sqrt::niirf(*self, 2);
-    }
-}
-
-impl MixedCeil for f64
-{
-    #[inline(always)]
-    fn mixed_ceil(&self) -> Self {
-        return libm::ceil(*self);
-    }
-}
-impl MixedFloor for f64
-{
-    #[inline(always)]
-    fn mixed_floor(&self) -> Self {
-        return libm::floor(*self);
-    }
-}
-
-impl MixedExp for f64
-{
-    #[inline(always)]
-    fn mixed_exp(&self) -> Self {
-        return libm::exp(*self);
-    }
-}
-impl MixedExp10 for f64
-{
-    #[inline(always)]
-    fn mixed_exp10(&self) -> Self {
-        return libm::exp10(*self);
-    }
-}
-
-impl MixedExp2 for f64
-{
-    #[inline(always)]
-    fn mixed_exp2(&self) -> Self {
-        return libm::exp2(*self);
-    }
-}
-
-impl MixedPow for f64
-{
-    #[inline(always)]
-    fn mixed_pow(&self, power:f64) -> Self {
-        return libm::pow(*self, power);
-    }
-}
-
 impl_mixed_num_for_primitive!(f64);
+
+
+#[cfg(test)]
+mod tests {
+    // Note this useful idiom: importing names from outer (for mod tests) scope.
+    use super::*;
+
+    #[test]
+    fn pow2db() {
+        let numb = 2f32;
+        assert_eq!(numb.mixed_pow2db(), 3.0103002);
+    }
+
+    #[test]
+    fn db2pow() {
+        let numb = 10f32;
+        assert_eq!(numb.mixed_db2pow(), 10.0);
+    }
+
+    #[test]
+    fn mag2db() {
+        let numb = 2f32;
+        assert_eq!(numb.mixed_mag2db(), 6.0206003);
+    }
+
+    #[test]
+    fn db2mag() {
+        let numb = 10f32;
+        assert_eq!(numb.mixed_db2mag(), 3.1622777);
+    }
+}
