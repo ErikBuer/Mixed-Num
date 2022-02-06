@@ -162,6 +162,8 @@ macro_rules! impl_mixed_num_for_primitive{
     }
 }
 
+// ________________________________________________________________________________________________________________________________________
+// Implementations for f32
 
 
 impl MixedSin for f32
@@ -194,12 +196,9 @@ impl MixedCos for f32
     /// Take the arccos of self. Implementation varies with type.
     #[inline(always)]
     fn mixed_acos(&self) -> Self {
-        return libm::cosf(*self);
+        return libm::acosf(*self);
     }
 }
-
-
-// Implementations for f32
 
 impl MixedTrigonometry for f32
 { 
@@ -254,6 +253,86 @@ impl_mixed_num_for_primitive!(f32);
 // ________________________________________________________________________________________________________________________________________
 // Implementations for f64
 
+impl MixedSin for f64
+{
+    /// Take the sin of self. Implementation varies with type.
+    #[inline(always)]
+    fn mixed_sin(&self) -> Self {
+        return libm::sin(*self);
+    }
+    #[inline(always)]
+    fn mixed_sincos(&self) -> (Self, Self) 
+        where Self: Sized
+    {
+        return libm::sincos(*self);
+    }   
+    /// Take the arcsin of self. Implementation varies with type.
+    #[inline(always)]
+    fn mixed_asin(&self) -> Self {
+        return libm::asin(*self);
+    }
+}
 
+impl MixedCos for f64
+{
+    /// Take the cos of self. Implementation varies with type.
+    #[inline(always)]
+    fn mixed_cos(&self) -> Self {
+        return libm::cos(*self);
+    }
+    /// Take the arccos of self. Implementation varies with type.
+    #[inline(always)]
+    fn mixed_acos(&self) -> Self {
+        return libm::acos(*self);
+    }
+}
+
+
+impl MixedTrigonometry for f64
+{ 
+}
+
+impl MixedExp for f64
+{
+    /// Take the exp() of self. Implementation varies with type.
+    #[inline(always)]
+    fn mixed_exp(&self) -> Self {
+        return libm::exp(*self);
+    }
+}
+
+impl MixedAtan for f64
+{
+    /// Take the atan of self. Implementation varies with type.
+    #[inline(always)]
+    fn mixed_atan(&self) -> Self {
+        return libm::atan(*self);
+    }
+    /// Take the atan of self.
+    #[inline(always)]
+    fn mixed_atan2(&self, other:Self) -> Self {
+        return libm::atan2(*self,other);
+    }
+    /// Take the atan of self.
+    #[inline(always)]
+    fn mixed_atan2_poly(&self, other:Self) -> Self {
+        return trigonometry::atan::atan2(*self, other);
+    }
+}
+
+impl MixedSqrt for f64
+{
+    /// Take the square root of self.
+    #[inline(always)]
+    fn mixed_sqrt(&self) -> Self {
+        return libm::sqrt(*self);
+    }
+
+    /// Take the square root of self.
+    #[inline(always)]
+    fn mixed_niirf(&self) -> Self {
+        return trigonometry::sqrt::niirf(*self, 2);
+    }
+}
 
 impl_mixed_num_for_primitive!(f64);

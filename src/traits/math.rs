@@ -159,7 +159,7 @@ pub trait MixedTrigonometry: MixedSin + MixedCos + MixedAtan
 
 pub trait MixedExp
 {
-    /// Take the exp() of `self`.
+    /// Take the exponential, base e, of `self`.
     fn mixed_exp(&self) -> Self;
 }
 
