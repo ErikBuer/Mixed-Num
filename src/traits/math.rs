@@ -1,118 +1,41 @@
-/* 
-acos	Arccosine (f64)
-acosf	Arccosine (f32)
-acosh	Inverse hyperbolic cosine (f64)
-acoshf	Inverse hyperbolic cosine (f32)
-asin	Arcsine (f64)
-asinf	Arcsine (f32)
-asinh	Inverse hyperbolic sine (f64)
-asinhf	Inverse hyperbolic sine (f32)
-atan	Arctangent (f64)
-atan2	Arctangent of y/x (f64)
-atan2f	Arctangent of y/x (f32)
-atanf	Arctangent (f32)
-atanh	Inverse hyperbolic tangent (f64)
-atanhf	Inverse hyperbolic tangent (f32)
-cbrt	Computes the cube root of the argument.
-cbrtf	Cube root (f32)
-ceil	Ceil (f64)
-ceilf	Ceil (f32)
-copysign	Sign of Y, magnitude of X (f64)
-copysignf	Sign of Y, magnitude of X (f32)
-cos	
-cosf	
-cosh	Hyperbolic cosine (f64)
-coshf	Hyperbolic cosine (f64)
-erf	Error function (f64)
-erfc	Error function (f64)
-erfcf	Error function (f32)
-erff	Error function (f32)
-exp	Exponential, base e (f64)
-exp2	Exponential, base 2 (f64)
-exp2f	Exponential, base 2 (f32)
-exp10	
-exp10f	
-expf	Exponential, base e (f32)
-expm1	Exponential, base e, of x-1 (f64)
-expm1f	Exponential, base e, of x-1 (f32)
-fabs	Absolute value (magnitude) (f64) Calculates the absolute value (magnitude) of the argument x, by direct manipulation of the bit representation of x.
-fabsf	Absolute value (magnitude) (f32) Calculates the absolute value (magnitude) of the argument x, by direct manipulation of the bit representation of x.
-fdim	Positive difference (f64)
-fdimf	Positive difference (f32)
-floor	Floor (f64)
-floorf	Floor (f32)
-fma	Floating multiply add (f64)
-fmaf	Floating multiply add (f32)
-fmax	
-fmaxf	
-fmin	
-fminf	
-fmod	
-fmodf	
-frexp	
-frexpf	
-hypot	
-hypotf	
-ilogb	
-ilogbf	
-j0	
-j0f	
-j1	
-j1f	
-jn	
-jnf	
-ldexp	
-ldexpf	
-lgamma	
-lgamma_r	
-lgammaf	
-lgammaf_r	
-log	
-log1p	
-log1pf	
-log2	
-log2f	
-log10	
-log10f	
-logf	
-modf	
-modff	
-nextafter	
-nextafterf	
-pow	
-powf	
-remainder	
-remainderf	
-remquo	
-remquof	
-round	
-roundf	
-scalbn	
-scalbnf	
-sin	
-sincos	
-sincosf	
-sinf	
-sinh	
-sinhf	
-sqrt	
-sqrtf	
-tan	
-tanf	
-tanh	
-tanhf	
-tgamma	
-tgammaf	
-trunc	
-truncf	
-y0	
-y0f	
-y1	
-y1f	
-yn	
-ynf
-*/
+use crate::*;
 
+pub trait MixedOps
+    where Self: MixedConsts 
+                + MixedNumConversion<i32> + MixedNumConversion<i64>
+                + MixedNumConversion<f32> + MixedNumConversion<f64>
+                + core::cmp::PartialOrd
+                + core::marker::Sized
+                + core::ops::AddAssign
+                + core::ops::SubAssign
+                + num::traits::NumOps
+                + Copy
+{
+    /// Absolute value.
+    fn mixed_abs( &self ) -> Self;
+    /// Integer valued power.
+    fn mixed_powi( &self, exp: i32 ) -> Self;
+}
+
+pub trait MixedWrapPhase
+{
+    /// Wrapps `self` to the -π=<x<π range.
+    fn mixed_wrap_phase(&self) -> Self;
+}
+
+pub trait MixedTan
+{
+    /// Take the tan of `self`. Implementation varies with type.
+    fn mixed_tan(&self) -> Self;
+}
+
+pub trait MixedTanh
+{
+    /// Take the hyperbolic tangent (tanh) of `self`. Implementation varies with type.
+    fn mixed_tanh(&self) -> Self;
+    /// Take the inverse hyperbolic tangent (atanh) of `self`. Implementation varies with type.
+    fn mixed_atanh(&self) -> Self;
+}
 
 pub trait MixedAtan
 {
@@ -145,6 +68,14 @@ pub trait MixedSin
     fn mixed_asin(&self) -> Self;
 }
 
+pub trait MixedSinh
+{
+    /// Take the hyperbolic sin of `self`. Implementation varies with type.
+    fn mixed_sinh(&self) -> Self;
+    /// Take the inverse hyperbolic sin of `self`. Implementation varies with type.
+    fn mixed_asinh(&self) -> Self;
+}
+
 pub trait MixedCos
 {
     /// Take the cos of `self`. Implementation varies with type.
@@ -153,6 +84,15 @@ pub trait MixedCos
     fn mixed_acos(&self) -> Self;
 }
 
+pub trait MixedCosh
+{
+    /// Take the cosh of `self`. Implementation varies with type.
+    fn mixed_cosh(&self) -> Self;
+    /// Take the arccosh of `self`. Implementation varies with type.
+    fn mixed_acosh(&self) -> Self;
+}
+
+// Trait kept for legacy reasons
 pub trait MixedTrigonometry: MixedSin + MixedCos + MixedAtan
 {
 }
@@ -200,4 +140,28 @@ pub trait MixedSqrt
     /// 
     /// ![Alt version](https://github.com/ErikBuer/Fixed-Trigonometry/blob/main/figures/sqrt_error_comparison.png?raw=true)
     fn mixed_niirf(&self) -> Self;
+}
+
+pub trait MixedCbrt
+{
+    /// Take the cube root of self.
+    fn mixed_cbrt(&self) -> Self;
+}
+
+pub trait MixedExp10
+{
+    /// Take the exponential, base 10, of `self`.
+    fn mixed_exp10(&self) -> Self;
+}
+
+pub trait MixedExp2
+{
+    /// Take the exponential, base 10, of `self`.
+    fn mixed_exp2(&self) -> Self;
+}
+
+pub trait MixedPow
+{
+    /// Take the exponential, base 10, of `self`.
+    fn mixed_pow(&self, power:Self) -> Self;
 }
