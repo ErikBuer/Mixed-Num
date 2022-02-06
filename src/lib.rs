@@ -241,6 +241,10 @@ macro_rules! impl_mixed_num_for_primitive{
             fn mixed_pi() -> Self {
                 return 3.1415926535897932384626433832795028841971693993751058209749445923078164062 as $T;
             }
+            #[inline(always)]
+            fn mixed_tau() -> Self {
+                return 6.2831853071795864769252867665590057683943387987502116419498891846156328124 as $T;
+            }
         }
 
         impl MixedConsts for $T
@@ -332,6 +336,10 @@ macro_rules! impl_mixed_num_for_fixed{
             #[inline(always)]
             fn mixed_pi() -> Self {
                 return Self::from_num(3.1415926535897932384626433832795028841971693993751058209749445923078164062);
+            }
+            #[inline(always)]
+            fn mixed_tau() -> Self {
+                return Self::from_num(6.2831853071795864769252867665590057683943387987502116419498891846156328124);
             }
         }
 
@@ -751,3 +759,4 @@ impl_mixed_num_for_fixed_signed!(fixed::FixedI64<fixed::types::extra::U61>);
 //impl_mixed_num_for_fixed_signed!(fixed::FixedI64<fixed::types::extra::U62>);
 //impl_mixed_num_for_fixed_signed!(fixed::FixedI64<fixed::types::extra::U63>);
 //impl_mixed_num_for_fixed_signed!(fixed::FixedI64<fixed::types::extra::U64>);
+
