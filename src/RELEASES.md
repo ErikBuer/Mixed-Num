@@ -1,5 +1,10 @@
 # Release Notes
 
+## Release 0.1.8 (2022-02-06)
+
+- Implemented math methods from libm and cordic:
+- asin, acos, exp, sincos and atan are implemented for fixed and float, using the libm and cordic crate.
+
 ## Release 0.1.7 (2022-02-06)
 
 - Implemented `mixed_tau` method for the `MixedPi` trait.
