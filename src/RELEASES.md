@@ -2,7 +2,7 @@
 
 ## Release 0.1.9 (2022-03-13)
 
-- Bumbps dependencies
+- Bumps dependencies
 
 ## Release 0.1.8 (2022-02-06)
 
