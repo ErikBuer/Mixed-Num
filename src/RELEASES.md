@@ -1,5 +1,9 @@
 # Release Notes
 
+## Release 0.1.9 (2022-03-13)
+
+- Bumbps dependencies
+
 ## Release 0.1.8 (2022-02-06)
 
 - Implemented math methods from libm and cordic:
