@@ -67,7 +67,7 @@ pub fn sign<T>( x:T ) -> T
 /// 
 #[allow(dead_code)]
 pub fn sin<T>( x: T ) -> T
-    where T: crate::MixedNum + crate::MixedNumSigned + crate::MixedPi
+    where T: crate::MixedNum + crate::MixedOps + crate::MixedPowi + crate::MixedNumSigned + crate::MixedPi
 {
     let mixed_pi_half = T::mixed_pi()/T::mixed_from_num(2);
 
@@ -134,7 +134,7 @@ pub fn sin<T>( x: T ) -> T
 /// 
 #[allow(dead_code)]
 pub fn cos<T>( x: T ) -> T
-    where T: crate::MixedNum + crate::MixedNumSigned
+    where T: crate::MixedNum + crate::MixedOps + crate::MixedPowi + crate::MixedWrapPhase + crate::MixedPi + crate::MixedNumSigned
 {
     // shift to enable use of more accurate sinepolynomial method.
     let mixed_pi_half = T::mixed_pi()/T::mixed_from_num(2);
@@ -161,7 +161,7 @@ pub fn cos<T>( x: T ) -> T
 /// assert_eq!{ wrapped_phi.to_num::<f32>(), -0.2831853 };
 /// ``` 
 pub fn wrap_phase<T>( phi: T ) -> T 
-    where T: crate::MixedNum + crate::MixedNumSigned
+    where T: crate::MixedNum + crate::MixedOps + crate::MixedPi + crate::MixedNumSigned
 {
     let mixed_pi  = T::mixed_pi();
     let tau = T::mixed_from_num(2)*mixed_pi;
@@ -198,8 +198,13 @@ pub fn wrap_phase<T>( phi: T ) -> T
 /// assert_eq!{ y.to_num::<f32>(), 4.0 };
 /// ``` 
 pub fn powi<T>( base:T, power:usize ) -> T
-    where T: crate::MixedNum
+    where T: crate::MixedNum + crate::MixedOps 
 {
+    if power==0
+    {
+        return T::mixed_from_num(1);
+    }
+
     let mut temp:T = base;
     for _i in 0..power-1 {
         temp = temp*base;
