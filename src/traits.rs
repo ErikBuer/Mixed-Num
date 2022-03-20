@@ -67,6 +67,11 @@ pub trait MixedNum
     fn mixed_is_negative( &self ) -> bool;
 }
 
+pub trait MixedComplex
+{
+
+}
+
 pub trait MixedNumSigned
     where Self: core::ops::Neg<Output = Self>
 {
