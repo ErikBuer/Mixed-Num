@@ -132,10 +132,18 @@ macro_rules! impl_mixed_num_for_fixed_unsigned{
 
         impl MixedOps for $T
         {
+        }
+
+        impl MixedAbs for $T
+        {
             #[inline(always)]
             fn mixed_abs( &self ) -> Self {
                 return *self; // Is itself for unsigned.
             }
+        }
+
+        impl MixedPowi for $T
+        {
             #[inline(always)]
             fn mixed_powi( &self, exp: i32 ) -> Self {
                 return trigonometry::powi( *self, exp as usize );
@@ -178,10 +186,18 @@ macro_rules! impl_mixed_num_for_fixed_signed{
 
         impl MixedOps for $T
         {
+        }
+
+        impl MixedAbs for $T
+        {
             #[inline(always)]
             fn mixed_abs( &self ) -> Self {
                 return self.abs();
             }
+        }
+
+        impl MixedPowi for $T
+        {
             #[inline(always)]
             fn mixed_powi( &self, exp: i32 ) -> Self {
                 return trigonometry::powi( *self, exp as usize );

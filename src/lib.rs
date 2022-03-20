@@ -38,3 +38,6 @@ pub use float_impl::*;
 
 mod fixed_impl;
 pub use fixed_impl::*;
+
+mod int_impl;
+pub use int_impl::*;
