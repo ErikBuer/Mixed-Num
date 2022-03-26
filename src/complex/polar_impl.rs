@@ -29,7 +29,7 @@ impl <T: MixedNum + MixedNumSigned + MixedWrapPhase + MixedTrigonometry> NewFrom
     }
 }
 
-impl <T: MixedNum + MixedNumConversion<T2>, T2: MixedNum> MixedNumConversion<T2> for Polar<T>
+impl <T: MixedNum + MixedNumConversion<T2> + MixedZero, T2: MixedNum> MixedNumConversion<T2> for Polar<T>
 {
     #[inline(always)]
     fn mixed_from_num( number:T2 ) -> Self {

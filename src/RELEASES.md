@@ -1,5 +1,11 @@
 # Release Notes
 
+## Release 0.2.0 (2022-03-20)
+
+- Larger changes of which traits groups.
+- Corects powi funciton for n⁰=1.
+- Implements mixed num traits for intiger types.
+
 ## Release 0.1.9 (2022-03-13)
 
 - Bumps dependencies

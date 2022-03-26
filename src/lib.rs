@@ -42,3 +42,6 @@ pub use fixed_impl::*;
 pub mod complex;
 #[allow(unused)]
 use complex::*;
+
+mod int_impl;
+pub use int_impl::*;

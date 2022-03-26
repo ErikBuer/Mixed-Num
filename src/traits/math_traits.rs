@@ -1,18 +1,26 @@
 use crate::*;
 
 pub trait MixedOps
-    where Self: MixedConsts 
-                + MixedNumConversion<i32> + MixedNumConversion<i64>
+    where Self: MixedNumConversion<i32> + MixedNumConversion<i64>
                 + MixedNumConversion<f32> + MixedNumConversion<f64>
                 + core::cmp::PartialOrd
                 + core::marker::Sized
                 + core::ops::AddAssign
                 + core::ops::SubAssign
+                + core::ops::MulAssign
                 + num::traits::NumOps
                 + Copy
 {
+}
+
+pub trait MixedAbs
+{
     /// Absolute value.
     fn mixed_abs( &self ) -> Self;
+}
+
+pub trait MixedPowi
+{
     /// Integer valued power.
     fn mixed_powi( &self, exp: i32 ) -> Self;
 }

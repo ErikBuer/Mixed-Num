@@ -45,9 +45,7 @@ pub trait MixedConsts
 }
 
 pub trait MixedNum
-    where Self: MixedConsts 
-                + MixedOps
-                + MixedNumConversion<u32> + MixedNumConversion<u64>
+    where Self:   MixedNumConversion<u32> + MixedNumConversion<u64>
                 + MixedNumConversion<i32> + MixedNumConversion<i64>
                 + MixedNumConversion<f32> + MixedNumConversion<f64>
                 + core::cmp::PartialOrd

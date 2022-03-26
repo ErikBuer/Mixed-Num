@@ -92,16 +92,24 @@ macro_rules! impl_mixed_num_for_primitive{
             }
         }
 
-        impl MixedOps for $T
+        impl MixedAbs for $T
         {
             #[inline(always)]
             fn mixed_abs( &self ) -> Self {
                 return self.abs();
             }
+        }
+
+        impl MixedPowi for $T
+        {
             #[inline(always)]
             fn mixed_powi( &self, exp: i32 ) -> Self {
                 return self.powi( exp );
             }
+        }
+        
+        impl MixedOps for $T
+        {
         }
 
         impl MixedNumSigned for $T

@@ -84,7 +84,7 @@ pub fn add<T>( a: Complex<T>, b: Complex<T> ) -> Complex<T>
 /// c = a-b
 /// 
 pub fn sub<T>( a: Complex<T>, b: Complex<T> ) -> Complex<T>
-    where T: MixedNum + MixedNumSigned
+    where T: MixedNum + MixedNumSigned +  core::ops::Sub<Output = T>
 {
     let c_cartesian = Complex::<T>{
         re: a.re - b.re,

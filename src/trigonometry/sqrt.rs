@@ -1,4 +1,4 @@
-use crate::MixedNum;
+use crate::{MixedNum};
 
 // This file is a modified version of a file grabbed from the fixed trigonometry crate.
 
@@ -58,7 +58,7 @@ use crate::MixedNum;
 /// 
 /// ![Alt version](https://github.com/ErikBuer/Fixed-Trigonometry/blob/main/figures/sqrt_error_comparison.png?raw=true)
 pub fn niirf<T>( x: T, iterations: usize ) -> T 
-    where T: crate::MixedNum
+    where T: crate::MixedNum + crate::MixedZero + crate::MixedAbs + crate::MixedOps + crate::MixedPowi
 {
     if x == T::mixed_zero()
     {
