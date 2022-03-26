@@ -12,7 +12,7 @@ impl<T> Polar<T>
     }
 }
 
-impl <T: MixedNum + MixedNumSigned + MixedSqrt + MixedAtan> NewFromCartesian<T> for Polar<T>
+impl <T: MixedNum + MixedNumSigned + MixedSqrt + MixedAtan + MixedPowi + MixedAbs + MixedOps > NewFromCartesian<T> for Polar<T>
 {
     /// Type cast from real number T to Complex<T>.
     fn new_from_cartesian( re:T, im:T ) -> Self
@@ -50,7 +50,7 @@ impl <T: MixedNum + MixedZero> MixedZero for Polar<T>
     }
 }
 
-impl <T: MixedNum + MixedZero> MixedOne for Polar<T>
+impl <T: MixedNum + MixedZero + MixedOne> MixedOne for Polar<T>
 {
     /// Return the zero value of type Self.
     #[inline(always)]

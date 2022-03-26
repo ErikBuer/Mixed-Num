@@ -21,7 +21,7 @@ impl <T: MixedNum + MixedNumSigned> NewFromCartesian<T> for Complex<T>
     }
 }
 
-impl <T: MixedNum + MixedNumSigned + MixedWrapPhase + MixedTrigonometry> NewFromPolar<T> for Complex<T>
+impl <T: MixedNum + MixedNumSigned + MixedWrapPhase + MixedTrigonometry + MixedOps> NewFromPolar<T> for Complex<T>
 {
     fn new_from_polar( mag:T, ang:T ) -> Self
     {
@@ -50,7 +50,7 @@ impl <T: MixedNum + MixedZero> MixedZero for Complex<T>
     }
 }
 
-impl <T: MixedNum + MixedZero> MixedOne for Complex<T>
+impl <T: MixedNum + MixedZero + MixedOne> MixedOne for Complex<T>
 {
     /// Return the zero value of type Self.
     #[inline(always)]

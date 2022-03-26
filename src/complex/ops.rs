@@ -7,7 +7,7 @@ use super::*;
 /// * `x` - The number transform.
 ///
 pub fn to_polar<T>( x: Complex<T> ) -> Polar<T>
-    where T:  MixedNum + MixedNumSigned + MixedSqrt + MixedAtan
+    where T:  MixedNum + MixedNumSigned + MixedSqrt + MixedAtan + MixedPowi + MixedAbs + MixedOps
 {
     let c_polar = Polar::<T>{
         mag:     abs(x),
@@ -33,7 +33,7 @@ pub fn to_polar<T>( x: Complex<T> ) -> Polar<T>
 /// ``` 
 /// 
 pub fn abs<T>( a: Complex<T> ) -> T
-where T: MixedNum + MixedNumSigned + MixedSqrt
+where T: MixedNum + MixedNumSigned + MixedSqrt + MixedPowi + MixedOps
 {
     let r_sqr = a.re.mixed_powi(2) + a.im.mixed_powi(2);
     return r_sqr.mixed_sqrt();
@@ -56,7 +56,7 @@ where T: MixedNum + MixedNumSigned + MixedSqrt
 /// ``` 
 /// 
 pub fn to_cartsian<T>( a: Polar<T> ) -> Complex<T>
-    where T: MixedNum + MixedNumSigned + MixedTrigonometry + MixedWrapPhase
+    where T: MixedNum + MixedNumSigned + MixedTrigonometry + MixedWrapPhase + MixedOps
 {
     let theta = a.ang.mixed_wrap_phase();
     let (imag_s, real_s) = theta.mixed_sincos();
@@ -71,7 +71,7 @@ pub fn to_cartsian<T>( a: Polar<T> ) -> Complex<T>
 /// Add two complex fixed-point numbers in cartesian form.
 /// 
 pub fn add<T>( a: Complex<T>, b: Complex<T> ) -> Complex<T>
-    where T: MixedNum
+    where T: MixedNum + MixedOps
 {
     let c_cartesian = Complex::<T>{
         re: a.re + b.re,
@@ -96,7 +96,7 @@ pub fn sub<T>( a: Complex<T>, b: Complex<T> ) -> Complex<T>
 /// Multiply fixed-point complex numbers in polar form.
 /// 
 pub fn mul_polar<T>( a: Polar<T>, b: Polar<T> ) -> Polar<T>
-    where T: MixedNum + MixedNumSigned
+    where T: MixedNum + MixedNumSigned + MixedOps
 {
     if a.mag==T::mixed_from_num(0) || b.mag==T::mixed_from_num(0)
     {
@@ -109,7 +109,7 @@ pub fn mul_polar<T>( a: Polar<T>, b: Polar<T> ) -> Polar<T>
     else
     {
         let c = Polar::<T>{
-            mag:     a.mag*b.mag,
+            mag: a.mag*b.mag,
             ang: a.ang+b.ang
         };
         return c;
@@ -119,7 +119,7 @@ pub fn mul_polar<T>( a: Polar<T>, b: Polar<T> ) -> Polar<T>
 /// Multiply two polar numbers by transforming to polar, multiplying and transfomring back.
 /// 
 pub fn mul_cartesian<T>( a: Complex<T>, b: Complex<T> ) -> Complex<T>
-    where T:  MixedNum + MixedNumSigned  + MixedTrigonometry + MixedSqrt + MixedWrapPhase
+    where T:  MixedNum + MixedNumSigned  + MixedTrigonometry + MixedSqrt + MixedWrapPhase + MixedOps + MixedPowi + MixedAbs
 {
     let a_pol = to_polar(a);
     let b_pol = to_polar(b);
@@ -152,7 +152,7 @@ pub fn mul_cartesian<T>( a: Complex<T>, b: Complex<T> ) -> Complex<T>
 /// ```
 /// 
 pub fn powi<T>( base: Complex<T>, power:usize ) -> Complex<T>
-    where T: fixed::traits::FixedSigned + cordic::CordicNumber + MixedNum + MixedNumSigned + MixedAtan + MixedSin + MixedSqrt
+    where T: fixed::traits::FixedSigned + MixedNum + MixedNumSigned + MixedAtan + MixedSin + MixedSqrt + MixedPowi
 {   
     // Calculate raised magnitude.
     let temp:T = base.re.mixed_powi(2) + base.im.mixed_powi(2);
@@ -172,7 +172,7 @@ pub fn powi<T>( base: Complex<T>, power:usize ) -> Complex<T>
 /// c = a/b
 /// 
 pub fn div_cartesian<T>( a: Complex<T>, b: T  ) -> Complex<T>
-    where T: MixedNum + MixedNumSigned
+    where T: MixedNum + MixedNumSigned + MixedOps
 {
     let mut c = a;
 
