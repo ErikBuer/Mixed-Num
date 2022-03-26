@@ -208,22 +208,3 @@ pub trait DbPow
     /// Convert between Decibell (dB) and linear scale power.
     fn mixed_db2pow(&self) -> Self;
 }
-
-pub trait MixedComplexConversion<T> {
-    /// Type cast from real number T to Complex<T>.
-    fn mixed_to_complex( number:T ) -> Self;
-}
-
-pub trait NewFromCartesian<T> 
-    where Self: MixedComplex
-{
-    /// Create a complex number from cartesian coordinates.
-    fn new_from_cartesian( re:T, im:T ) -> Self;
-}
-
-pub trait NewFromPolar<T> 
-    where Self: MixedComplex
-{
-    /// Create a complex number from polar coordinates.
-    fn new_from_polar( mag:T, ang:T ) -> Self;
-}

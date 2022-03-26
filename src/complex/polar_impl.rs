@@ -66,3 +66,45 @@ impl <T: MixedNum + MixedZero> MixedComplexConversion<T>  for Polar<T>
         return Self{mag:number, ang:T::mixed_zero()};
     }
 }
+
+impl <T: MixedNum + MixedNumSigned> Mag<T> for Polar<T>
+{
+    /// Magnitude of the complex number.
+    #[inline(always)]
+    fn mag( &self ) -> T
+    {
+        return self.mag;
+    }
+    /// Magnitude of the complex number.
+    #[inline(always)]
+    fn abs( &self ) -> T
+    {
+        return self.mag;
+    }
+}
+
+impl <T: MixedNum + MixedNumSigned + MixedZero> MixedAbs for Polar<T>
+{
+    #[inline(always)]
+    fn mixed_abs( &self ) -> Self
+    {
+        return Self::new(self.mag, T::mixed_zero());
+    }
+}
+
+impl <T: MixedNum + MixedNumSigned> Arg<T> for Polar<T>
+{
+    /// Argument of the complex number.
+    #[inline(always)]
+    fn arg( &self ) -> T
+    {
+        return self.ang;
+    }
+
+    /// Angle of the complex number.
+    #[inline(always)]
+    fn ang( &self ) -> T
+    {
+        return self.ang;
+    }
+}
