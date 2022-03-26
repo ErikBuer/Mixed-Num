@@ -1,5 +1,13 @@
 use crate::*;
 
+pub trait ToComplex<T> {
+    fn to_complex( &self ) -> Complex<T>;
+}
+
+pub trait ToPolar<T> {
+    fn to_polar( &self ) -> Polar<T>;
+}
+
 pub trait MixedComplexConversion<T> {
     /// Type cast from real number T to Complex<T>.
     fn mixed_to_complex( number:T ) -> Self;

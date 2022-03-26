@@ -41,6 +41,26 @@ impl <T: MixedNum + MixedNumConversion<T2> + MixedZero, T2: MixedNum> MixedNumCo
     }
 }
 
+impl <T: MixedNum + MixedNumSigned + MixedWrapPhase + MixedOps + MixedTrigonometry> ToComplex<T> for Polar<T>
+{
+    /// Complex<T> to Polar<T>.
+    #[inline(always)]
+    fn to_complex( &self ) -> Complex<T>
+    {
+        return ops::to_cartsian(*self);
+    }
+}
+
+impl <T: MixedNum + MixedNumSigned> ToPolar<T> for Polar<T>
+{
+    /// Complex<T> to Polar<T>.
+    #[inline(always)]
+    fn to_polar( &self ) -> Polar<T>
+    {
+        return *self;
+    }
+}
+
 impl <T: MixedNum + MixedZero> MixedZero for Polar<T>
 {
     /// Return the zero value of type Self.
@@ -114,6 +134,15 @@ impl <T: MixedNum + MixedNumSigned + MixedOps> core::ops::Mul<Polar<T>> for Pola
     #[inline]
     fn mul(self, rhs: Self) -> Self {
         return ops::mul_polar(self, rhs);
+    }
+}
+
+impl <T: MixedNum + MixedNumSigned + MixedSqrt + MixedOps + MixedAbs + MixedPowi + MixedAtan + ToPolar<T>> core::ops::Mul<Complex<T>> for Polar<T> {
+    type Output = Self;
+    #[inline]
+    fn mul(self, rhs: Complex<T>) -> Self {
+        let rhs_pol = rhs.to_polar();
+        return ops::mul_polar(self, rhs_pol);
     }
 }
 
