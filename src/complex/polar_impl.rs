@@ -108,3 +108,30 @@ impl <T: MixedNum + MixedNumSigned> Arg<T> for Polar<T>
         return self.ang;
     }
 }
+
+impl <T: MixedNum + MixedNumSigned + MixedOps> core::ops::Mul<Polar<T>> for Polar<T> {
+    type Output = Self;
+    #[inline]
+    fn mul(self, rhs: Self) -> Self {
+        return ops::mul_polar(self, rhs);
+    }
+}
+
+impl <T: MixedNum + MixedNumSigned + MixedOps> core::ops::Mul<T> for Polar<T> {
+    type Output = Self;
+    #[inline]
+    fn mul(self, rhs: T) -> Self {
+        return Polar::new(self.mag*rhs, self.ang);
+    }
+}
+
+impl <T: MixedNum + MixedNumSigned + MixedOps + MixedZero> core::ops::Div<T> for Polar<T> {
+    type Output = Self;
+    #[inline]
+    fn div(self, rhs: T) -> Self {
+        if rhs == T::mixed_zero() {
+            return Polar::new(T::mixed_max_value(), self.ang);
+        }
+        return Polar::new(self.mag/rhs, self.ang);
+    }
+}

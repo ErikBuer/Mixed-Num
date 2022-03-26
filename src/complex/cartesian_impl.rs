@@ -107,3 +107,31 @@ impl <T: MixedNum + MixedNumSigned + MixedAtan> Arg<T> for Complex<T>
         return self.arg();
     }
 }
+
+
+impl <T: MixedNum + MixedNumSigned + MixedOps> core::ops::Mul<Complex<T>> for Complex<T> {
+    type Output = Self;
+    #[inline]
+    fn mul(self, rhs: Self) -> Self {
+        return ops::mul_cartesian(self, rhs);
+    }
+}
+
+impl <T: MixedNum + MixedNumSigned + MixedOps> core::ops::Mul<T> for Complex<T> {
+    type Output = Self;
+    #[inline]
+    fn mul(self, rhs: T) -> Self {
+        return Complex::new(self.re*rhs, self.im*rhs);
+    }
+}
+
+impl <T: MixedNum + MixedNumSigned + MixedOps + MixedZero> core::ops::Div<T> for Complex<T> {
+    type Output = Self;
+    #[inline]
+    fn div(self, rhs: T) -> Self {
+        if rhs == T::mixed_zero() {
+            return Complex::new(T::mixed_max_value(), T::mixed_max_value());
+        }
+        return Complex::new(self.re/rhs, self.im/rhs);
+    }
+}
