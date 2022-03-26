@@ -1,4 +1,3 @@
-use num::complex::Complex;
 use super::*;
 
 /// Cast cartesian complex fixed point number to polar form.
@@ -11,8 +10,8 @@ pub fn to_polar<T>( x: Complex<T> ) -> Polar<T>
     where T:  MixedNum + MixedNumSigned + MixedSqrt + MixedAtan
 {
     let c_polar = Polar::<T>{
-        r:     abs(x),
-        theta: x.im.mixed_atan2(x.re)
+        mag:     abs(x),
+        ang: x.im.mixed_atan2(x.re)
     };
     return c_polar;
 }
@@ -26,7 +25,7 @@ pub fn to_polar<T>( x: Complex<T> ) -> Polar<T>
 /// ## Example
 /// 
 /// ```
-/// use num::complex::Complex;
+/// use Complex;
 /// use fixed_trigonometry::complex::*;
 /// 
 /// let mut x = Complex{re:1f32, im:0f32};
@@ -40,12 +39,6 @@ where T: MixedNum + MixedNumSigned + MixedSqrt
     return r_sqr.mixed_sqrt();
 }
 
-/// Polar complex nuber.
-pub struct Polar<T> {
-    pub r: T,
-    pub theta: T,
-}
-
 /// Cast cartesian complex fixed point number to polar form.
 /// 
 /// ## Arguments
@@ -55,7 +48,7 @@ pub struct Polar<T> {
 /// ## Example
 /// 
 /// ```
-/// use num::complex::Complex;
+/// use Complex;
 /// use fixed_trigonometry::complex::*;
 /// 
 /// let mut x = Polar{r:1f32, theta:0f32};
@@ -65,12 +58,12 @@ pub struct Polar<T> {
 pub fn to_cartsian<T>( a: Polar<T> ) -> Complex<T>
     where T: MixedNum + MixedNumSigned + MixedTrigonometry + MixedWrapPhase
 {
-    let theta = a.theta.mixed_wrap_phase();
+    let theta = a.ang.mixed_wrap_phase();
     let (imag_s, real_s) = theta.mixed_sincos();
 
     let c_cartesian = Complex::<T>{
-        re: a.r*real_s,
-        im: a.r*imag_s
+        re: a.mag*real_s,
+        im: a.mag*imag_s
     };
     return c_cartesian;
 }
@@ -105,19 +98,19 @@ pub fn sub<T>( a: Complex<T>, b: Complex<T> ) -> Complex<T>
 pub fn mul_polar<T>( a: Polar<T>, b: Polar<T> ) -> Polar<T>
     where T: MixedNum + MixedNumSigned
 {
-    if a.r==T::mixed_from_num(0) || b.r==T::mixed_from_num(0)
+    if a.mag==T::mixed_from_num(0) || b.mag==T::mixed_from_num(0)
     {
         let c = Polar::<T>{
-            r:     T::mixed_from_num(0),
-            theta: T::mixed_from_num(0)
+            mag:     T::mixed_from_num(0),
+            ang: T::mixed_from_num(0)
         };
         return c;
     }
     else
     {
         let c = Polar::<T>{
-            r:     a.r*b.r,
-            theta: a.theta+b.theta
+            mag:     a.mag*b.mag,
+            ang: a.ang+b.ang
         };
         return c;
     }
@@ -148,7 +141,7 @@ pub fn mul_cartesian<T>( a: Complex<T>, b: Complex<T> ) -> Complex<T>
 /// ```
 /// use fixed_trigonometry as trig;
 /// use fixed::{types::extra::U22, FixedI32};
-/// use num::complex::Complex;
+/// use Complex;
 /// 
 /// 
 /// let x = Complex::new( FixedI32::<U22>::from_num(1), FixedI32::<U22>::from_num(1) );
@@ -158,7 +151,7 @@ pub fn mul_cartesian<T>( a: Complex<T>, b: Complex<T> ) -> Complex<T>
 /// assert_eq!{ y, result };
 /// ```
 /// 
-pub fn powi<T>( base: num::complex::Complex<T>, power:usize ) -> num::complex::Complex<T>
+pub fn powi<T>( base: Complex<T>, power:usize ) -> Complex<T>
     where T: fixed::traits::FixedSigned + cordic::CordicNumber + MixedNum + MixedNumSigned + MixedAtan + MixedSin + MixedSqrt
 {   
     // Calculate raised magnitude.
@@ -172,7 +165,7 @@ pub fn powi<T>( base: num::complex::Complex<T>, power:usize ) -> num::complex::C
     let real   = mag*real_s;
     let imag   = mag*imag_s;
 
-    return num::complex::Complex::new( real, imag);
+    return Complex::new_from_cartesian( real, imag);
 }
 
 /// Divide a cartesian complex by a real scalar.
