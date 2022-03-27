@@ -210,6 +210,13 @@ impl <T: MixedNum + MixedNumSigned + MixedOps + MixedZero> core::ops::AddAssign<
     }
 }
 
+impl <T: MixedNum + MixedNumSigned + MixedOps + MixedZero> core::ops::AddAssign<&T> for Cartesian<T> {
+    #[inline]
+    fn add_assign(&mut self, rhs: &T) {
+        self.re =  self.re+*rhs;
+    }
+}
+
 macro_rules! impl_core_ops_add_sub_for_cartesian{
     ( $T:ty ) => {
         impl <T: MixedNum + MixedNumSigned + MixedOps + MixedZero> core::ops::Add<$T> for Cartesian<T> {
@@ -275,6 +282,13 @@ impl <T: MixedNum + MixedNumSigned + MixedOps + MixedZero> core::ops::SubAssign<
     #[inline]
     fn sub_assign(&mut self, rhs: T) {
         self.re =  self.re-rhs;
+    }
+}
+
+impl <T: MixedNum + MixedNumSigned + MixedOps + MixedZero> core::ops::SubAssign<&T> for Cartesian<T> {
+    #[inline]
+    fn sub_assign(&mut self, rhs: &T) {
+        self.re =  self.re-*rhs;
     }
 }
 
