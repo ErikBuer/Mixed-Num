@@ -1,6 +1,4 @@
-//! 
 //! No-STD abstraction layer enabling numerical functions to be implemented once, and simultaneously support both real and complex numbers with, int, fixed and floating point types.
-//! 
 //! 
 //! This is an experimental library.
 //! 
