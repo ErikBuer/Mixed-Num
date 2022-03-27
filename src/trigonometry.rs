@@ -23,7 +23,7 @@ pub mod sqrt;
 /// assert_eq!{ y.to_num::<f32>(), 1.0 };
 /// ``` 
 pub fn sign<T>( x:T ) -> T
-    where T: crate::MixedNum
+    where T: crate::MixedReal
 {
     if x < T::mixed_from_num(0)
     {

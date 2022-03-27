@@ -333,7 +333,7 @@ impl_core_ops_div_cartesian_for_cartesian!(&num::Complex<T>);
 impl_core_ops_div_cartesian_for_cartesian!(&mut num::Complex<T>);
 
 
-impl <T: MixedNum + MixedNumSigned + MixedOps + MixedZero> core::ops::Div<T> for Cartesian<T> {
+impl <T: MixedReal + MixedNumSigned + MixedOps + MixedZero> core::ops::Div<T> for Cartesian<T> {
     type Output = Self;
     #[inline]
     fn div(self, rhs: T) -> Self {
@@ -344,7 +344,7 @@ impl <T: MixedNum + MixedNumSigned + MixedOps + MixedZero> core::ops::Div<T> for
     }
 }
 
-impl <T: MixedNum + MixedNumSigned + MixedOps + MixedZero> core::ops::DivAssign<T> for Cartesian<T> {
+impl <T: MixedReal + MixedNumSigned + MixedOps + MixedZero> core::ops::DivAssign<T> for Cartesian<T> {
     #[inline]
     fn div_assign(&mut self, rhs: T) {
         if rhs == T::mixed_zero() {

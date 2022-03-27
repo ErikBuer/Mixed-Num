@@ -175,7 +175,7 @@ pub fn powi<T>( base: Cartesian<T>, power:usize ) -> Cartesian<T>
 /// c = a/b
 /// 
 pub fn div_scalar_cartesian<T>( a: Cartesian<T>, b: T  ) -> Cartesian<T>
-    where T: MixedNum + MixedNumSigned + MixedOps
+    where T: MixedReal + MixedNumSigned + MixedOps
 {
     let mut c = a;
 

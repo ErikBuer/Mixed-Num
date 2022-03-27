@@ -1,6 +1,6 @@
 [package]
 name = "mixed-num"
-version = "0.3.0"
+version = "0.4.0"
 authors = ["Erik Buer"]
 edition = "2021"
 description = "A trait for generic implementations of numerical methods."

@@ -4,6 +4,10 @@ use fixed;
 macro_rules! impl_mixed_num_for_fixed{
     ( $T:ty ) => {
 
+        impl MixedNum  for $T
+        {
+        }
+
         impl MixedNumConversion<f32> for $T
         {
             #[inline(always)]
@@ -150,7 +154,7 @@ macro_rules! impl_mixed_num_for_fixed_unsigned{
             }
         }
 
-        impl MixedNum for $T
+        impl MixedReal for $T
         {
             #[inline(always)]
             fn mixed_max_value() -> Self {
@@ -204,7 +208,7 @@ macro_rules! impl_mixed_num_for_fixed_signed{
             }
         }
 
-        impl MixedNum for $T
+        impl MixedReal for $T
         {
             #[inline(always)]
             fn mixed_max_value() -> Self {

@@ -5,6 +5,10 @@ macro_rules! impl_mixed_num_for_primitive{
 
         impl MixedNum for $T
         {
+        }
+
+        impl MixedReal for $T
+        {
             #[inline(always)]
             fn mixed_max_value() -> Self {
                 return Self::max_value();
