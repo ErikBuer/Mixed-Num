@@ -1,6 +1,9 @@
 //! 
-//! No-STD abstraction layer enabling numerical functions to be implemented once, and simultaneously support both fixed and floating point types.
-//! The crate focueses on computationally efficient implementations of numerical operations.
+//! No-STD abstraction layer enabling numerical functions to be implemented once, and simultaneously support both real and complex numbers with, int, fixed and floating point types.
+//! 
+//! The library supplies complex structs `Polar<T>` and `Cartesian<T>` with no-std implementation of math traits, including `MixedNum` traits.
+//! 
+//! Some interoperability with num::Complex is implemented.
 //! 
 //! This is an experimental library.
 //! 
