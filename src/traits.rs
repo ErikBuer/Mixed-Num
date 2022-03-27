@@ -1,6 +1,9 @@
 mod math_traits;
 pub use math_traits::*;
 
+mod complex_traits;
+pub use complex_traits::*;
+
 pub trait MixedCeil
 {
     /// Round Self up to the closest nteger.
@@ -63,6 +66,11 @@ pub trait MixedNum
     fn mixed_is_positive( &self ) -> bool;
     /// Returns a bool if self is negative.
     fn mixed_is_negative( &self ) -> bool;
+}
+
+pub trait MixedComplex
+{
+
 }
 
 pub trait MixedNumSigned

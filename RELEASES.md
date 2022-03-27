@@ -1,5 +1,11 @@
 # Release Notes
 
+## Release 0.3.0 (2022-03-27)
+
+- Implements complex structs `Cartesian<T>` and `Polar<T>`.
+- Implements `MixedNum` traits on above structs.
+- Implements function for division of cartesian complex numbers.
+
 ## Release 0.2.0 (2022-03-20)
 
 - Larger changes of which traits groups.
