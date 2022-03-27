@@ -128,7 +128,6 @@ impl <T: MixedNum + MixedNumSigned + MixedAtan> Arg<T> for Cartesian<T>
     }
 }
 
-
 impl <T: MixedNum + MixedNumSigned + MixedOps> core::ops::Mul<Cartesian<T>> for Cartesian<T> {
     type Output = Self;
     #[inline]
@@ -137,14 +136,21 @@ impl <T: MixedNum + MixedNumSigned + MixedOps> core::ops::Mul<Cartesian<T>> for 
     }
 }
 
-impl <T: MixedNum + MixedNumSigned + MixedTrigonometry + MixedWrapPhase + MixedOps + ToCartesian<T>> core::ops::Mul<Polar<T>> for Cartesian<T> {
-    type Output = Self;
-    #[inline]
-    fn mul(self, rhs: Polar<T>) -> Self {
-        let rhs_cartesian = rhs.to_cartesian();
-        return ops::mul_cartesian(self, rhs_cartesian);
+macro_rules! impl_core_ops_cartesian_for_cartesian{
+    ( $T:ty ) => {
+        impl <T: MixedNum + MixedNumSigned + MixedOps> core::ops::Mul<$T> for Cartesian<T> {
+            type Output = Self;
+            #[inline]
+            fn mul(self, rhs: $T) -> Cartesian<T> {
+                return ops::mul_cartesian(self, *rhs);
+            }
+        }
     }
 }
+
+impl_core_ops_cartesian_for_cartesian!(&Cartesian<T>);
+impl_core_ops_cartesian_for_cartesian!(&mut Cartesian<T>);
+
 
 impl <T: MixedNum + MixedNumSigned + MixedOps> core::ops::Mul<T> for Cartesian<T> {
     type Output = Self;
@@ -153,6 +159,33 @@ impl <T: MixedNum + MixedNumSigned + MixedOps> core::ops::Mul<T> for Cartesian<T
         return Cartesian::new(self.re*rhs, self.im*rhs);
     }
 }
+
+macro_rules! impl_core_ops_polar_for_cartesian{
+    ( $T:ty ) => {
+        impl <T: MixedNum + MixedNumSigned + MixedTrigonometry + MixedWrapPhase + MixedOps> core::ops::Mul<$T> for Cartesian<T> {
+            type Output = Self;
+            #[inline]
+            fn mul(self, rhs: $T) -> Self {
+                let rhs_cartesian = rhs.to_cartesian();
+                return ops::mul_cartesian(self, rhs_cartesian);
+            }
+        }
+        
+        impl <T: MixedNum + MixedNumSigned + MixedOps + MixedTrigonometry + MixedWrapPhase> core::ops::MulAssign<$T> for Cartesian<T> {
+            #[inline]
+            fn mul_assign(&mut self, rhs: $T) {
+                let temp = *self* rhs.to_cartesian();
+                self.re = temp.re;
+                self.im = temp.im;
+            }
+        }
+    }
+}
+
+impl_core_ops_polar_for_cartesian!(Polar<T>);
+impl_core_ops_polar_for_cartesian!(&Polar<T>);
+impl_core_ops_polar_for_cartesian!(&mut Polar<T>);
+
 
 impl <T: MixedNum + MixedNumSigned + MixedOps + MixedZero> core::ops::Div<T> for Cartesian<T> {
     type Output = Self;
@@ -166,6 +199,97 @@ impl <T: MixedNum + MixedNumSigned + MixedOps + MixedZero> core::ops::Div<T> for
 }
 
 
+
+impl <T: MixedNum + MixedNumSigned + MixedOps + MixedZero> core::ops::Add<T> for Cartesian<T> {
+    type Output = Self;
+    #[inline]
+    fn add(self, rhs: T) -> Self {
+        return Cartesian::new(self.re+rhs, self.im);
+    }
+}
+
+impl <T: MixedNum + MixedNumSigned + MixedOps + MixedZero> core::ops::Add<&T> for Cartesian<T> {
+    type Output = Self;
+    #[inline]
+    fn add(self, rhs: &T) -> Self {
+        return Cartesian::new(self.re+*rhs, self.im);
+    }
+}
+
+impl <T: MixedNum + MixedNumSigned + MixedOps + MixedZero> core::ops::AddAssign<T> for Cartesian<T> {
+    #[inline]
+    fn add_assign(&mut self, rhs: T) {
+        self.re =  self.re+rhs;
+    }
+}
+
+macro_rules! impl_core_ops_add_sub_for_cartesian{
+    ( $T:ty ) => {
+        impl <T: MixedNum + MixedNumSigned + MixedOps + MixedZero> core::ops::Add<$T> for Cartesian<T> {
+            type Output = Self;
+            #[inline]
+            fn add(self, rhs: $T) -> Self {
+                return Cartesian::new(self.re+rhs.re, self.im+rhs.im);
+            }
+        }
+
+        impl <T: MixedNum + MixedNumSigned + MixedOps + MixedZero> core::ops::AddAssign<$T> for Cartesian<T> {
+            #[inline]
+            fn add_assign(&mut self, rhs: $T) {
+                self.re =  self.re+rhs.re;
+                self.im =  self.re+rhs.im;
+            }
+        }
+        
+        impl <T: MixedNum + MixedNumSigned + MixedOps + MixedZero> core::ops::Sub<$T> for Cartesian<T> {
+            type Output = Self;
+            #[inline]
+            fn sub(self, rhs: $T) -> Self {
+                return Cartesian::new(self.re-rhs.re, self.im-rhs.im);
+            }
+        }
+
+        impl <T: MixedNum + MixedNumSigned + MixedOps + MixedZero> core::ops::SubAssign<$T> for Cartesian<T> {
+            #[inline]
+            fn sub_assign(&mut self, rhs: $T) {
+                self.re =  self.re-rhs.re;
+                self.im =  self.re-rhs.im;
+            }
+        }
+    }
+}
+
+impl_core_ops_add_sub_for_cartesian!(Cartesian<T>);
+impl_core_ops_add_sub_for_cartesian!(&Cartesian<T>);
+impl_core_ops_add_sub_for_cartesian!(&mut Cartesian<T>);
+
+impl_core_ops_add_sub_for_cartesian!(num::Complex<T>);
+impl_core_ops_add_sub_for_cartesian!(&num::Complex<T>);
+impl_core_ops_add_sub_for_cartesian!(&mut num::Complex<T>);
+
+
+impl <T: MixedNum + MixedNumSigned + MixedOps + MixedZero> core::ops::Sub<T> for Cartesian<T> {
+    type Output = Self;
+    #[inline]
+    fn sub(self, rhs: T) -> Self {
+        return Cartesian::new(self.re-rhs, self.im);
+    }
+}
+
+impl <T: MixedNum + MixedNumSigned + MixedOps + MixedZero> core::ops::Sub<&T> for Cartesian<T> {
+    type Output = Self;
+    #[inline]
+    fn sub(self, rhs: &T) -> Self {
+        return Cartesian::new(self.re-*rhs, self.im);
+    }
+}
+
+impl <T: MixedNum + MixedNumSigned + MixedOps + MixedZero> core::ops::SubAssign<T> for Cartesian<T> {
+    #[inline]
+    fn sub_assign(&mut self, rhs: T) {
+        self.re =  self.re-rhs;
+    }
+}
 
 impl<T> core::fmt::Display for Cartesian<T>
 where
