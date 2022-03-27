@@ -187,19 +187,6 @@ impl_core_ops_polar_for_cartesian!(&Polar<T>);
 impl_core_ops_polar_for_cartesian!(&mut Polar<T>);
 
 
-impl <T: MixedNum + MixedNumSigned + MixedOps + MixedZero> core::ops::Div<T> for Cartesian<T> {
-    type Output = Self;
-    #[inline]
-    fn div(self, rhs: T) -> Self {
-        if rhs == T::mixed_zero() {
-            return Cartesian::new(T::mixed_max_value(), T::mixed_max_value());
-        }
-        return Cartesian::new(self.re/rhs, self.im/rhs);
-    }
-}
-
-
-
 impl <T: MixedNum + MixedNumSigned + MixedOps + MixedZero> core::ops::Add<T> for Cartesian<T> {
     type Output = Self;
     #[inline]
@@ -288,6 +275,68 @@ impl <T: MixedNum + MixedNumSigned + MixedOps + MixedZero> core::ops::SubAssign<
     #[inline]
     fn sub_assign(&mut self, rhs: T) {
         self.re =  self.re-rhs;
+    }
+}
+
+macro_rules! impl_core_ops_div_cartesian_for_cartesian{
+    ( $T:ty ) => {
+        impl <T: MixedNum + MixedNumSigned + MixedOps + MixedZero + MixedPowi> core::ops::Div<$T> for Cartesian<T> {
+            type Output = Self;
+            fn div(self, rhs: $T) -> Self {
+                //  ((a,bi))/((c,di))=((ac+bd)/(c^2+d^2),(bc-ad)/(c^2+d^2) i)
+        
+                let a = self.re;
+                let b = self.im;
+                let c = rhs.re;
+                let d = rhs.re;
+        
+                return Cartesian::new((a*c+b*d)/(c.mixed_powi(2)+d.mixed_powi(2)), (b*c-a*d)/(c.mixed_powi(2)+d.mixed_powi(2)));
+            }
+        }
+
+        impl <T: MixedNum + MixedNumSigned + MixedOps + MixedZero + MixedPowi> core::ops::DivAssign<$T> for Cartesian<T> {
+            fn div_assign(&mut self, rhs: $T) {
+                //  ((a,bi))/((c,di))=((ac+bd)/(c^2+d^2),(bc-ad)/(c^2+d^2) i)
+        
+                let a = self.re;
+                let b = self.im;
+                let c = rhs.re;
+                let d = rhs.re;
+        
+                self.re = (a*c+b*d)/(c.mixed_powi(2)+d.mixed_powi(2));
+                self.im = (b*c-a*d)/(c.mixed_powi(2)+d.mixed_powi(2));
+            }
+        }
+    }
+}
+
+impl_core_ops_div_cartesian_for_cartesian!(Cartesian<T>);
+impl_core_ops_div_cartesian_for_cartesian!(&Cartesian<T>);
+impl_core_ops_div_cartesian_for_cartesian!(&mut Cartesian<T>);
+
+impl_core_ops_div_cartesian_for_cartesian!(num::Complex<T>);
+impl_core_ops_div_cartesian_for_cartesian!(&num::Complex<T>);
+impl_core_ops_div_cartesian_for_cartesian!(&mut num::Complex<T>);
+
+
+impl <T: MixedNum + MixedNumSigned + MixedOps + MixedZero> core::ops::Div<T> for Cartesian<T> {
+    type Output = Self;
+    #[inline]
+    fn div(self, rhs: T) -> Self {
+        if rhs == T::mixed_zero() {
+            return Cartesian::new(T::mixed_max_value(), T::mixed_max_value());
+        }
+        return Cartesian::new(self.re/rhs, self.im/rhs);
+    }
+}
+
+impl <T: MixedNum + MixedNumSigned + MixedOps + MixedZero> core::ops::DivAssign<T> for Cartesian<T> {
+    #[inline]
+    fn div_assign(&mut self, rhs: T) {
+        if rhs == T::mixed_zero() {
+            self.re =T::mixed_max_value();
+        }
+        self.re = self.re/rhs;
     }
 }
 
