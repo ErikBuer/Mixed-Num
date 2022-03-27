@@ -1,7 +1,7 @@
 use crate::*;
 
-pub trait ToComplex<T> {
-    fn to_complex( &self ) -> Complex<T>;
+pub trait ToCartesian<T> {
+    fn to_cartesian( &self ) -> Cartesian<T>;
 }
 
 pub trait ToPolar<T> {

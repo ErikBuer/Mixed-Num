@@ -1,18 +1,18 @@
 use super::*;
 
-impl <T: MixedNum + MixedNumSigned> MixedComplex for Complex<T>
+impl <T: MixedNum + MixedNumSigned> MixedComplex for Cartesian<T>
 {
 }
 
-impl<T> Complex<T>
+impl<T> Cartesian<T>
 {
     pub fn new(re:T, im:T) -> Self
     {
-        return Complex{re:re, im:im};
+        return Cartesian{re:re, im:im};
     }
 }
 
-impl <T: MixedNum + MixedNumSigned> NewFromCartesian<T> for Complex<T>
+impl <T: MixedNum + MixedNumSigned> NewFromCartesian<T> for Cartesian<T>
 {
     /// Type cast from real number T to Complex<T>.
     fn new_from_cartesian( re:T, im:T ) -> Self
@@ -21,15 +21,15 @@ impl <T: MixedNum + MixedNumSigned> NewFromCartesian<T> for Complex<T>
     }
 }
 
-impl <T: MixedNum + MixedNumSigned + MixedWrapPhase + MixedTrigonometry + MixedOps> NewFromPolar<T> for Complex<T>
+impl <T: MixedNum + MixedNumSigned + MixedWrapPhase + MixedTrigonometry + MixedOps> NewFromPolar<T> for Cartesian<T>
 {
     fn new_from_polar( mag:T, ang:T ) -> Self
     {
-        return ops::to_cartsian(Polar::new(mag, ang));
+        return ops::to_cartesian(Polar::new(mag, ang));
     }
 }
 
-impl <T: MixedNum + MixedNumConversion<T2> + MixedZero, T2: MixedNum> MixedNumConversion<T2> for Complex<T>
+impl <T: MixedNum + MixedNumConversion<T2> + MixedZero, T2: MixedNum> MixedNumConversion<T2> for Cartesian<T>
 {
     #[inline(always)]
     fn mixed_from_num( number:T2 ) -> Self {
@@ -41,17 +41,17 @@ impl <T: MixedNum + MixedNumConversion<T2> + MixedZero, T2: MixedNum> MixedNumCo
     }
 }
 
-impl <T: MixedNum + MixedNumSigned> ToComplex<T> for Complex<T>
+impl <T: MixedNum + MixedNumSigned> ToCartesian<T> for Cartesian<T>
 {
-    /// Complex<T> to Polar<T>.
+    /// Converison to Complex<T>.
     #[inline(always)]
-    fn to_complex( &self ) -> Complex<T>
+    fn to_cartesian( &self ) -> Cartesian<T>
     {
         return *self;
     }
 }
 
-impl <T: MixedNum + MixedNumSigned + MixedSqrt + MixedOps + MixedAbs + MixedPowi + MixedAtan> ToPolar<T> for Complex<T>
+impl <T: MixedNum + MixedNumSigned + MixedSqrt + MixedOps + MixedAbs + MixedPowi + MixedAtan> ToPolar<T> for Cartesian<T>
 {
     /// Complex<T> to Polar<T>.
     #[inline(always)]
@@ -61,7 +61,7 @@ impl <T: MixedNum + MixedNumSigned + MixedSqrt + MixedOps + MixedAbs + MixedPowi
     }
 }
 
-impl <T: MixedNum + MixedZero> MixedZero for Complex<T>
+impl <T: MixedNum + MixedZero> MixedZero for Cartesian<T>
 {
     /// Return the zero value of type Self.
     #[inline(always)]
@@ -70,7 +70,7 @@ impl <T: MixedNum + MixedZero> MixedZero for Complex<T>
     }
 }
 
-impl <T: MixedNum + MixedZero + MixedOne> MixedOne for Complex<T>
+impl <T: MixedNum + MixedZero + MixedOne> MixedOne for Cartesian<T>
 {
     /// Return the zero value of type Self.
     #[inline(always)]
@@ -79,7 +79,7 @@ impl <T: MixedNum + MixedZero + MixedOne> MixedOne for Complex<T>
     }
 }
 
-impl <T: MixedNum + MixedZero> MixedComplexConversion<T>  for Complex<T>
+impl <T: MixedNum + MixedZero> MixedComplexConversion<T>  for Cartesian<T>
 {
     /// Type cast from real number T to Complex<T>.
     fn mixed_to_complex( number:T ) -> Self {
@@ -87,7 +87,7 @@ impl <T: MixedNum + MixedZero> MixedComplexConversion<T>  for Complex<T>
     }
 }
 
-impl <T: MixedNum + MixedNumSigned + MixedSqrt + MixedPowi + MixedOps> Mag<T> for Complex<T>
+impl <T: MixedNum + MixedNumSigned + MixedSqrt + MixedPowi + MixedOps> Mag<T> for Cartesian<T>
 {
     /// Magnitude of the complex number.
     #[inline(always)]
@@ -103,7 +103,7 @@ impl <T: MixedNum + MixedNumSigned + MixedSqrt + MixedPowi + MixedOps> Mag<T> fo
     }
 }
 
-impl <T: MixedNum + MixedNumSigned + MixedSqrt + MixedPowi + MixedOps + MixedZero> MixedAbs for Complex<T>
+impl <T: MixedNum + MixedNumSigned + MixedSqrt + MixedPowi + MixedOps + MixedZero> MixedAbs for Cartesian<T>
 {
     fn mixed_abs( &self ) -> Self
     {
@@ -111,7 +111,7 @@ impl <T: MixedNum + MixedNumSigned + MixedSqrt + MixedPowi + MixedOps + MixedZer
     }
 }
 
-impl <T: MixedNum + MixedNumSigned + MixedAtan> Arg<T> for Complex<T>
+impl <T: MixedNum + MixedNumSigned + MixedAtan> Arg<T> for Cartesian<T>
 {
     /// Argument of the complex number.
     #[inline(always)]
@@ -129,7 +129,7 @@ impl <T: MixedNum + MixedNumSigned + MixedAtan> Arg<T> for Complex<T>
 }
 
 
-impl <T: MixedNum + MixedNumSigned + MixedOps> core::ops::Mul<Complex<T>> for Complex<T> {
+impl <T: MixedNum + MixedNumSigned + MixedOps> core::ops::Mul<Cartesian<T>> for Cartesian<T> {
     type Output = Self;
     #[inline]
     fn mul(self, rhs: Self) -> Self {
@@ -137,30 +137,41 @@ impl <T: MixedNum + MixedNumSigned + MixedOps> core::ops::Mul<Complex<T>> for Co
     }
 }
 
-impl <T: MixedNum + MixedNumSigned + MixedTrigonometry + MixedWrapPhase + MixedOps + ToComplex<T>> core::ops::Mul<Polar<T>> for Complex<T> {
+impl <T: MixedNum + MixedNumSigned + MixedTrigonometry + MixedWrapPhase + MixedOps + ToCartesian<T>> core::ops::Mul<Polar<T>> for Cartesian<T> {
     type Output = Self;
     #[inline]
     fn mul(self, rhs: Polar<T>) -> Self {
-        let rhs_cartesian = rhs.to_complex();
+        let rhs_cartesian = rhs.to_cartesian();
         return ops::mul_cartesian(self, rhs_cartesian);
     }
 }
 
-impl <T: MixedNum + MixedNumSigned + MixedOps> core::ops::Mul<T> for Complex<T> {
+impl <T: MixedNum + MixedNumSigned + MixedOps> core::ops::Mul<T> for Cartesian<T> {
     type Output = Self;
     #[inline]
     fn mul(self, rhs: T) -> Self {
-        return Complex::new(self.re*rhs, self.im*rhs);
+        return Cartesian::new(self.re*rhs, self.im*rhs);
     }
 }
 
-impl <T: MixedNum + MixedNumSigned + MixedOps + MixedZero> core::ops::Div<T> for Complex<T> {
+impl <T: MixedNum + MixedNumSigned + MixedOps + MixedZero> core::ops::Div<T> for Cartesian<T> {
     type Output = Self;
     #[inline]
     fn div(self, rhs: T) -> Self {
         if rhs == T::mixed_zero() {
-            return Complex::new(T::mixed_max_value(), T::mixed_max_value());
+            return Cartesian::new(T::mixed_max_value(), T::mixed_max_value());
         }
-        return Complex::new(self.re/rhs, self.im/rhs);
+        return Cartesian::new(self.re/rhs, self.im/rhs);
+    }
+}
+
+
+
+impl<T> core::fmt::Display for Cartesian<T>
+where
+    T: core::fmt::Display,
+{
+    fn fmt(&self, f: &mut core::fmt::Formatter<'_>) -> core::fmt::Result {
+        write!(f, "{}+{}i", self.re, self.im)
     }
 }

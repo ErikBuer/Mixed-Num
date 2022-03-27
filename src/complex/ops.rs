@@ -6,7 +6,7 @@ use super::*;
 /// 
 /// * `x` - The number transform.
 ///
-pub fn to_polar<T>( x: Complex<T> ) -> Polar<T>
+pub fn to_polar<T>( x: Cartesian<T> ) -> Polar<T>
     where T:  MixedNum + MixedNumSigned + MixedSqrt + MixedAtan + MixedPowi + MixedAbs + MixedOps
 {
     let c_polar = Polar::<T>{
@@ -25,14 +25,14 @@ pub fn to_polar<T>( x: Complex<T> ) -> Polar<T>
 /// ## Example
 /// 
 /// ```
-/// use Complex;
-/// use fixed_trigonometry::complex::*;
+/// use mixed_num::Polar;
+/// use mixed_num::complex::*;
 /// 
-/// let mut x = Complex{re:1f32, im:0f32};
+/// let mut x = Cartesian{re:1f32, im:0f32};
 /// assert_eq!{ abs(x), 1f32 };
 /// ``` 
 /// 
-pub fn abs<T>( a: Complex<T> ) -> T
+pub fn abs<T>( a: Cartesian<T> ) -> T
 where T: MixedNum + MixedNumSigned + MixedSqrt + MixedPowi + MixedOps
 {
     let r_sqr = a.re.mixed_powi(2) + a.im.mixed_powi(2);
@@ -48,20 +48,20 @@ where T: MixedNum + MixedNumSigned + MixedSqrt + MixedPowi + MixedOps
 /// ## Example
 /// 
 /// ```
-/// use Complex;
-/// use fixed_trigonometry::complex::*;
+/// use mixed_num::Polar;
+/// use mixed_num::complex::*;
 /// 
-/// let mut x = Polar{r:1f32, theta:0f32};
-/// assert_eq!{ to_cartsian(x).to_string(), "1+0i" };
+/// let mut x = Polar::new(1f32, 0f32);
+/// assert_eq!{ to_cartesian(x).to_string(), "1+0i" };
 /// ``` 
 /// 
-pub fn to_cartsian<T>( a: Polar<T> ) -> Complex<T>
+pub fn to_cartesian<T>( a: Polar<T> ) -> Cartesian<T>
     where T: MixedNum + MixedNumSigned + MixedTrigonometry + MixedWrapPhase + MixedOps
 {
     let theta = a.ang.mixed_wrap_phase();
     let (imag_s, real_s) = theta.mixed_sincos();
 
-    let c_cartesian = Complex::<T>{
+    let c_cartesian = Cartesian::<T>{
         re: a.mag*real_s,
         im: a.mag*imag_s
     };
@@ -70,10 +70,10 @@ pub fn to_cartsian<T>( a: Polar<T> ) -> Complex<T>
 
 /// Add two complex fixed-point numbers in cartesian form.
 /// 
-pub fn add<T>( a: Complex<T>, b: Complex<T> ) -> Complex<T>
+pub fn add<T>( a: Cartesian<T>, b: Cartesian<T> ) -> Cartesian<T>
     where T: MixedNum + MixedOps
 {
-    let c_cartesian = Complex::<T>{
+    let c_cartesian = Cartesian::<T>{
         re: a.re + b.re,
         im: a.im + b.im
     };
@@ -83,10 +83,10 @@ pub fn add<T>( a: Complex<T>, b: Complex<T> ) -> Complex<T>
 /// Subtract b from a.
 /// c = a-b
 /// 
-pub fn sub<T>( a: Complex<T>, b: Complex<T> ) -> Complex<T>
+pub fn sub<T>( a: Cartesian<T>, b: Cartesian<T> ) -> Cartesian<T>
     where T: MixedNum + MixedNumSigned +  core::ops::Sub<Output = T>
 {
-    let c_cartesian = Complex::<T>{
+    let c_cartesian = Cartesian::<T>{
         re: a.re - b.re,
         im: a.im - b.im
     };
@@ -118,7 +118,7 @@ pub fn mul_polar<T>( a: Polar<T>, b: Polar<T> ) -> Polar<T>
 
 /// Multiply two cartesian complex numbers.
 /// 
-pub fn mul_cartesian<T>( ab: Complex<T>, bc: Complex<T> ) -> Complex<T>
+pub fn mul_cartesian<T>( ab: Cartesian<T>, bc: Cartesian<T> ) -> Cartesian<T>
     where T:  MixedNum + MixedNumSigned + MixedOps 
 {   
     let a = ab.re;
@@ -128,7 +128,7 @@ pub fn mul_cartesian<T>( ab: Complex<T>, bc: Complex<T> ) -> Complex<T>
 
     let re = (a*c) - (b*d);
     let im = (a*d) + (b*c);
-    return Complex{re:re, im:im}
+    return Cartesian{re:re, im:im}
 }
 
 /// Rase a complex fixed-point number to an real-valued integer power.
@@ -142,19 +142,19 @@ pub fn mul_cartesian<T>( ab: Complex<T>, bc: Complex<T> ) -> Complex<T>
 /// ## Example
 /// 
 /// ```
-/// use fixed_trigonometry as trig;
+/// use mixed_num::Polar;
+/// use mixed_num::complex::*;
+/// 
 /// use fixed::{types::extra::U22, FixedI32};
-/// use Complex;
 /// 
+/// let x = Cartesian::new( FixedI32::<U22>::from_num(1f32), FixedI32::<U22>::from_num(1f32) );
+/// let y = powi( x, 2 );
 /// 
-/// let x = Complex::new( FixedI32::<U22>::from_num(1), FixedI32::<U22>::from_num(1) );
-/// let y = trig::complex::powi( x, 2 );
-/// 
-/// let result = Complex::new( FixedI32::<U22>::from_num( -0.0000038, ), FixedI32::<U22>::from_num( 1.996035 ));
+/// let result = Cartesian::new( FixedI32::<U22>::from_num( -0.0000038f32, ), FixedI32::<U22>::from_num( 1.996035f32 ));
 /// assert_eq!{ y, result };
 /// ```
 /// 
-pub fn powi<T>( base: Complex<T>, power:usize ) -> Complex<T>
+pub fn powi<T>( base: Cartesian<T>, power:usize ) -> Cartesian<T>
     where T: fixed::traits::FixedSigned + MixedNum + MixedNumSigned + MixedAtan + MixedSin + MixedSqrt + MixedPowi
 {   
     // Calculate raised magnitude.
@@ -168,13 +168,13 @@ pub fn powi<T>( base: Complex<T>, power:usize ) -> Complex<T>
     let real   = mag*real_s;
     let imag   = mag*imag_s;
 
-    return Complex::new_from_cartesian( real, imag);
+    return Cartesian::new_from_cartesian( real, imag);
 }
 
 /// Divide a cartesian complex by a real scalar.
 /// c = a/b
 /// 
-pub fn div_cartesian<T>( a: Complex<T>, b: T  ) -> Complex<T>
+pub fn div_cartesian<T>( a: Cartesian<T>, b: T  ) -> Cartesian<T>
     where T: MixedNum + MixedNumSigned + MixedOps
 {
     let mut c = a;

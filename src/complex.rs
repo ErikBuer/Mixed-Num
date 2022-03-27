@@ -11,7 +11,7 @@ pub use polar_impl::*;
 
 #[derive(PartialEq, Eq, Copy, Clone, Debug, Default)]
 #[repr(C)]
-pub struct Complex<T> {
+pub struct Cartesian<T> {
     /// Real part.
     pub re: T,
     /// Imaginary part.
