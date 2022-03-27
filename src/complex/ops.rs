@@ -174,7 +174,7 @@ pub fn powi<T>( base: Cartesian<T>, power:usize ) -> Cartesian<T>
 /// Divide a cartesian complex by a real scalar.
 /// c = a/b
 /// 
-pub fn div_cartesian<T>( a: Cartesian<T>, b: T  ) -> Cartesian<T>
+pub fn div_scalar_cartesian<T>( a: Cartesian<T>, b: T  ) -> Cartesian<T>
     where T: MixedNum + MixedNumSigned + MixedOps
 {
     let mut c = a;
@@ -190,4 +190,22 @@ pub fn div_cartesian<T>( a: Cartesian<T>, b: T  ) -> Cartesian<T>
         c.im = a.im / b;
     }
     return c;
+}
+
+/// Divide a cartesian complex by a real scalar.
+/// c = a/b
+/// 
+pub fn div_cartesian<T>( numerator: Cartesian<T>, denominator: Cartesian<T>  ) -> Cartesian<T>
+    where T: MixedNum + MixedNumSigned + MixedOps + MixedPowi
+{
+    //  ((a,bi))/((c,di))=((ac+bd)/(c^2+d^2),(bc-ad)/(c^2+d^2) i)
+
+    let a = numerator.re;
+    let b = numerator.im;
+    let c = denominator.re;
+    let d = denominator.re;
+
+    let re = (a*c+b*d)/(c.mixed_powi(2)+d.mixed_powi(2));
+    let im = (b*c-a*d)/(c.mixed_powi(2)+d.mixed_powi(2));
+    return Cartesian::new(re, im);
 }

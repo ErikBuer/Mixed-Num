@@ -165,6 +165,14 @@ impl <T: MixedNum + MixedNumSigned + MixedOps + MixedZero> core::ops::Div<T> for
     }
 }
 
+impl <T: MixedComplex + NewFromPolar<T2>, T2: MixedNum + MixedNumSigned> Conj<T> for Polar<T2>
+{
+    /// Complex Conjugate of T.
+    fn conj( &self ) -> T {
+        return T::new_from_polar(self.mag, -self.ang);
+    }
+}
+
 impl<T> core::fmt::Display for Polar<T>
 where
     T: core::fmt::Display,

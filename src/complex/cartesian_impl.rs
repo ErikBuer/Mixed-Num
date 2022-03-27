@@ -354,6 +354,14 @@ impl <T: MixedNum + MixedNumSigned + MixedOps + MixedZero> core::ops::DivAssign<
     }
 }
 
+impl <T: MixedComplex + NewFromCartesian<T2>, T2: MixedNum + MixedNumSigned> Conj<T> for Cartesian<T2>
+{
+    /// Complex Conjugate of T.
+    fn conj( &self ) -> T {
+        return T::new_from_cartesian(self.re, -self.im);
+    }
+}
+
 impl<T> core::fmt::Display for Cartesian<T>
 where
     T: core::fmt::Display,

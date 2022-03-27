@@ -45,3 +45,10 @@ pub trait Arg<T>
     /// Angle of the complex number.
     fn ang( &self ) -> T;
 }
+
+pub trait Conj<T>
+    where Self: MixedComplex
+{
+    /// Complex Conjugate of T.
+    fn conj( &self ) -> T;
+}
