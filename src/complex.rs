@@ -9,7 +9,7 @@ pub use cartesian_impl::*;
 mod polar_impl;
 pub use polar_impl::*;
 
-#[derive(PartialEq, Eq, Copy, Clone, Debug, Default)]
+#[derive(PartialEq, PartialOrd, Eq, Copy, Clone, Debug, Default)]
 #[repr(C)]
 pub struct Cartesian<T> {
     /// Real part.
@@ -18,7 +18,7 @@ pub struct Cartesian<T> {
     pub im: T,
 }
 
-#[derive(PartialEq, Eq, Copy, Clone, Debug, Default)]
+#[derive(PartialEq, PartialOrd, Eq, Copy, Clone, Debug, Default)]
 #[repr(C)]
 /// Polar complex nuber.
 pub struct Polar<T> {

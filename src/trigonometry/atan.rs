@@ -73,7 +73,7 @@ fn atan_poly_2<T>( y: T, x: T ) -> T
 /// ![Alt version](https://github.com/ErikBuer/Fixed-Trigonometry/blob/main/figures/atan2_comparisons.png?raw=true)
 /// 
 pub fn atan2<T>( y: T, x: T ) -> T
-    where T:  crate::MixedNum + crate::MixedNumSigned + crate::MixedOps + crate::MixedZero + crate::MixedPi + crate::MixedAbs + crate::MixedPowi
+    where T:  crate::MixedReal + crate::MixedNumSigned + crate::MixedOps + crate::MixedZero + crate::MixedPi + crate::MixedAbs + crate::MixedPowi
 {
     // Precompute
     let y_abs = y.mixed_abs();
@@ -192,7 +192,7 @@ pub fn atan2<T>( y: T, x: T ) -> T
 /// ![Alt version](https://github.com/ErikBuer/Fixed-Trigonometry/blob/main/figures/atan_error_comparisons.png?raw=true)
 /// 
 pub fn atan<T>( x: T ) -> T
-    where T: crate::MixedNum + crate::MixedNumSigned + crate::MixedOps + crate::MixedZero + crate::MixedPi + crate::MixedAbs + crate::MixedPowi + crate::MixedOne
+    where T: crate::MixedReal + crate::MixedNumSigned + crate::MixedOps + crate::MixedZero + crate::MixedPi + crate::MixedAbs + crate::MixedPowi + crate::MixedOne
 {
     return atan2(x,T::mixed_one());
 }

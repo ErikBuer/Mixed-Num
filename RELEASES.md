@@ -1,5 +1,9 @@
 # Release Notes
 
+## Release 0.4 (2022-03-27)
+
+- Splits `MixedNum` into itself and `MixedReal` to enable use of traits with complex numbers.
+
 ## Release 0.3.0 (2022-03-27)
 
 - Implements complex structs `Cartesian<T>` and `Polar<T>`.

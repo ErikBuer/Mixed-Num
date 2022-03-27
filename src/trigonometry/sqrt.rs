@@ -1,4 +1,4 @@
-use crate::{MixedNum};
+use crate::*;
 
 // This file is a modified version of a file grabbed from the fixed trigonometry crate.
 
@@ -58,7 +58,7 @@ use crate::{MixedNum};
 /// 
 /// ![Alt version](https://github.com/ErikBuer/Fixed-Trigonometry/blob/main/figures/sqrt_error_comparison.png?raw=true)
 pub fn niirf<T>( x: T, iterations: usize ) -> T 
-    where T: crate::MixedNum + crate::MixedZero + crate::MixedAbs + crate::MixedOps + crate::MixedPowi
+    where T: crate::MixedReal + crate::MixedZero + crate::MixedAbs + crate::MixedOps + crate::MixedPowi
 {
     if x == T::mixed_zero()
     {
@@ -82,7 +82,7 @@ pub fn niirf<T>( x: T, iterations: usize ) -> T
 
     /// LUT for getting the acceleration factor β.
     fn beta<T>( x: T) -> T
-        where T: MixedNum
+        where T: MixedReal
     {   
         // There is one β value for each of the 12 regions in the range 4/16 to 16/16.
         let beta_values = [ T::mixed_from_num(0.961914),

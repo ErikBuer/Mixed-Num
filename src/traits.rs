@@ -48,12 +48,18 @@ pub trait MixedConsts
 }
 
 pub trait MixedNum
-    where Self:   MixedNumConversion<u32> + MixedNumConversion<u64>
-                + MixedNumConversion<i32> + MixedNumConversion<i64>
-                + MixedNumConversion<f32> + MixedNumConversion<f64>
-                + core::cmp::PartialOrd
+    where Self:   core::cmp::PartialOrd
                 + core::marker::Sized
                 + Copy
+                + Clone
+{
+}
+
+pub trait MixedReal
+    where Self:   MixedNum
+                + MixedNumConversion<u32> + MixedNumConversion<u64>
+                + MixedNumConversion<i32> + MixedNumConversion<i64>
+                + MixedNumConversion<f32> + MixedNumConversion<f64>
 {
     /// Maximum value of the type.
     fn mixed_max_value() -> Self;

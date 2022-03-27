@@ -1,5 +1,9 @@
 use super::*;
 
+impl <T: MixedNum> MixedNum for Polar<T>
+{
+}
+
 impl <T: MixedNum + MixedNumSigned> MixedComplex for Polar<T>
 {
 }
@@ -154,7 +158,7 @@ impl <T: MixedNum + MixedNumSigned + MixedOps> core::ops::Mul<T> for Polar<T> {
     }
 }
 
-impl <T: MixedNum + MixedNumSigned + MixedOps + MixedZero> core::ops::Div<T> for Polar<T> {
+impl <T: MixedReal + MixedNumSigned + MixedOps + MixedZero> core::ops::Div<T> for Polar<T> {
     type Output = Self;
     #[inline]
     fn div(self, rhs: T) -> Self {
