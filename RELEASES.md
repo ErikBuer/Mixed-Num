@@ -1,5 +1,9 @@
 # Release Notes
 
+## Release 0.4.1 (2022-03-28)
+
+- Implements trats for cross type operations on `Cartesian<T>`.
+
 ## Release 0.4 (2022-03-27)
 
 - Splits `MixedNum` into itself and `MixedReal` to enable use of traits with complex numbers.

@@ -152,11 +152,23 @@ impl_core_ops_cartesian_for_cartesian!(&Cartesian<T>);
 impl_core_ops_cartesian_for_cartesian!(&mut Cartesian<T>);
 
 
-impl <T: MixedNum + MixedNumSigned + MixedOps> core::ops::Mul<T> for Cartesian<T> {
+
+impl <T1: MixedNum + MixedOps, T2: MixedNum + MixedOps + MixedNumConversion<T1>> core::ops::Mul<T1> for Cartesian<T2> {
     type Output = Self;
+    /// ## Example
+    /// 
+    /// ```
+    /// use mixed_num::*;
+    /// use mixed_num::traits::*;
+    /// 
+    /// let mut c_num = Cartesian::new(1f32,2f32);
+    /// 
+    /// c_num = c_num*2f64;
+    /// assert_eq!{ c_num.to_string(), "2+4i" };
+    /// ``` 
     #[inline]
-    fn mul(self, rhs: T) -> Self {
-        return Cartesian::new(self.re*rhs, self.im*rhs);
+    fn mul(self, rhs: T1) -> Self {
+        return Cartesian::new(self.re*T2::mixed_from_num(rhs), self.im*T2::mixed_from_num(rhs));
     }
 }
 
@@ -187,33 +199,40 @@ impl_core_ops_polar_for_cartesian!(&Polar<T>);
 impl_core_ops_polar_for_cartesian!(&mut Polar<T>);
 
 
-impl <T: MixedNum + MixedNumSigned + MixedOps + MixedZero> core::ops::Add<T> for Cartesian<T> {
+impl <T1: MixedNum + MixedOps + MixedZero, T2: MixedNum + MixedOps + MixedNumConversion<T1>> core::ops::Add<T1> for Cartesian<T2> {
     type Output = Self;
+    /// ## Example
+    /// 
+    /// ```
+    /// use mixed_num::*;
+    /// use mixed_num::traits::*;
+    /// 
+    /// let mut c_num = Cartesian::new(1f32,2f32);
+    /// 
+    /// c_num = c_num+2f64;
+    /// assert_eq!{ c_num.to_string(), "3+2i" };
+    /// ```
     #[inline]
-    fn add(self, rhs: T) -> Self {
-        return Cartesian::new(self.re+rhs, self.im);
+    fn add(self, rhs: T1) -> Self {
+        return Cartesian::new(self.re+T2::mixed_from_num(rhs), self.im);
     }
 }
 
-impl <T: MixedNum + MixedNumSigned + MixedOps + MixedZero> core::ops::Add<&T> for Cartesian<T> {
-    type Output = Self;
+impl <T1: MixedNum + MixedOps + MixedZero, T2: MixedOps + MixedNumConversion<T1>> core::ops::AddAssign<T1> for Cartesian<T2> {
+    /// ## Example
+    /// 
+    /// ```
+    /// use mixed_num::*;
+    /// use mixed_num::traits::*;
+    /// 
+    /// let mut c_num = Cartesian::new(1f32,2f32);
+    /// 
+    /// c_num += 2f64;
+    /// assert_eq!{ c_num.to_string(), "3+2i" };
+    /// ```
     #[inline]
-    fn add(self, rhs: &T) -> Self {
-        return Cartesian::new(self.re+*rhs, self.im);
-    }
-}
-
-impl <T: MixedNum + MixedNumSigned + MixedOps + MixedZero> core::ops::AddAssign<T> for Cartesian<T> {
-    #[inline]
-    fn add_assign(&mut self, rhs: T) {
-        self.re =  self.re+rhs;
-    }
-}
-
-impl <T: MixedNum + MixedNumSigned + MixedOps + MixedZero> core::ops::AddAssign<&T> for Cartesian<T> {
-    #[inline]
-    fn add_assign(&mut self, rhs: &T) {
-        self.re =  self.re+*rhs;
+    fn add_assign(&mut self, rhs: T1) {
+        self.re =  self.re+T2::mixed_from_num(rhs);
     }
 }
 
@@ -262,39 +281,46 @@ impl_core_ops_add_sub_for_cartesian!(&num::Complex<T>);
 impl_core_ops_add_sub_for_cartesian!(&mut num::Complex<T>);
 
 
-impl <T: MixedNum + MixedNumSigned + MixedOps + MixedZero> core::ops::Sub<T> for Cartesian<T> {
+impl <T1: MixedNum + MixedOps, T2: MixedOps + MixedNumConversion<T1>> core::ops::Sub<T1> for Cartesian<T2> {
     type Output = Self;
+    /// ## Example
+    /// 
+    /// ```
+    /// use mixed_num::*;
+    /// use mixed_num::traits::*;
+    /// 
+    /// let mut c_num = Cartesian::new(1f32,2f32);
+    /// 
+    /// c_num = c_num-2f64;
+    /// assert_eq!{ c_num.to_string(), "-1+2i" };
+    /// ```
     #[inline]
-    fn sub(self, rhs: T) -> Self {
-        return Cartesian::new(self.re-rhs, self.im);
+    fn sub(self, rhs: T1) -> Self {
+        return Cartesian::new(self.re-T2::mixed_from_num(rhs), self.im);
     }
 }
 
-impl <T: MixedNum + MixedNumSigned + MixedOps + MixedZero> core::ops::Sub<&T> for Cartesian<T> {
-    type Output = Self;
+impl <T1: MixedNum + MixedOps, T2: MixedOps + MixedNumConversion<T1>> core::ops::SubAssign<T1> for Cartesian<T2> {
+    /// ## Example
+    /// 
+    /// ```
+    /// use mixed_num::*;
+    /// use mixed_num::traits::*;
+    /// 
+    /// let mut c_num = Cartesian::new(1f32,2f32);
+    /// 
+    /// c_num = c_num-2f64;
+    /// assert_eq!{ c_num.to_string(), "-1+2i" };
+    /// ```
     #[inline]
-    fn sub(self, rhs: &T) -> Self {
-        return Cartesian::new(self.re-*rhs, self.im);
-    }
-}
-
-impl <T: MixedNum + MixedNumSigned + MixedOps + MixedZero> core::ops::SubAssign<T> for Cartesian<T> {
-    #[inline]
-    fn sub_assign(&mut self, rhs: T) {
-        self.re =  self.re-rhs;
-    }
-}
-
-impl <T: MixedNum + MixedNumSigned + MixedOps + MixedZero> core::ops::SubAssign<&T> for Cartesian<T> {
-    #[inline]
-    fn sub_assign(&mut self, rhs: &T) {
-        self.re =  self.re-*rhs;
+    fn sub_assign(&mut self, rhs: T1) {
+        self.re =  self.re-T2::mixed_from_num(rhs);
     }
 }
 
 macro_rules! impl_core_ops_div_cartesian_for_cartesian{
     ( $T:ty ) => {
-        impl <T: MixedNum + MixedNumSigned + MixedOps + MixedZero + MixedPowi> core::ops::Div<$T> for Cartesian<T> {
+        impl <T: MixedNum + MixedNumSigned + MixedOps + MixedPowi> core::ops::Div<$T> for Cartesian<T> {
             type Output = Self;
             fn div(self, rhs: $T) -> Self {
                 //  ((a,bi))/((c,di))=((ac+bd)/(c^2+d^2),(bc-ad)/(c^2+d^2) i)
@@ -333,30 +359,66 @@ impl_core_ops_div_cartesian_for_cartesian!(&num::Complex<T>);
 impl_core_ops_div_cartesian_for_cartesian!(&mut num::Complex<T>);
 
 
-impl <T: MixedReal + MixedNumSigned + MixedOps + MixedZero> core::ops::Div<T> for Cartesian<T> {
+impl <T1: MixedNumSigned + MixedOps + MixedZero, T2: MixedReal + MixedOps + MixedNumConversion<T1>> core::ops::Div<T1> for Cartesian<T2> {
     type Output = Self;
+    /// ## Example
+    /// 
+    /// ```
+    /// use mixed_num::*;
+    /// use mixed_num::traits::*;
+    /// 
+    /// let mut c_num = Cartesian::new(-2f32,4f32);
+    /// 
+    /// c_num = c_num/2f64;
+    /// assert_eq!{ c_num.to_string(), "-1+2i" };
+    /// ```
     #[inline]
-    fn div(self, rhs: T) -> Self {
-        if rhs == T::mixed_zero() {
-            return Cartesian::new(T::mixed_max_value(), T::mixed_max_value());
+    fn div(self, rhs: T1) -> Self {
+        if rhs == T1::mixed_zero() {
+            return Cartesian::new(T2::mixed_max_value(), T2::mixed_max_value());
         }
-        return Cartesian::new(self.re/rhs, self.im/rhs);
+        return Cartesian::new(self.re/T2::mixed_from_num(rhs), self.im/T2::mixed_from_num(rhs));
     }
 }
 
-impl <T: MixedReal + MixedNumSigned + MixedOps + MixedZero> core::ops::DivAssign<T> for Cartesian<T> {
+impl <T1: MixedNumSigned + MixedOps + MixedZero, T2: MixedReal + MixedOps + MixedNumConversion<T1>> core::ops::DivAssign<T1> for Cartesian<T2> {
+    /// ## Example
+    /// 
+    /// ```
+    /// use mixed_num::*;
+    /// use mixed_num::traits::*;
+    /// 
+    /// let mut c_num = Cartesian::new(-2f32,4f32);
+    /// 
+    /// c_num /= 2f64;
+    /// assert_eq!{ c_num.to_string(), "-1+2i" };
+    /// ```
     #[inline]
-    fn div_assign(&mut self, rhs: T) {
-        if rhs == T::mixed_zero() {
-            self.re =T::mixed_max_value();
+    fn div_assign(&mut self, rhs: T1) {
+        if rhs == T1::mixed_zero() {
+            self.re =T2::mixed_max_value();
+            self.im =T2::mixed_max_value();
         }
-        self.re = self.re/rhs;
+        self.re = self.re/T2::mixed_from_num(rhs);
+        self.im = self.im/T2::mixed_from_num(rhs);
     }
 }
 
 impl <T: MixedComplex + NewFromCartesian<T2>, T2: MixedNum + MixedNumSigned> Conj<T> for Cartesian<T2>
 {
     /// Complex Conjugate of T.
+    /// 
+    /// ## Example
+    /// 
+    /// ```
+    /// use mixed_num::*;
+    /// use mixed_num::traits::*;
+    /// 
+    /// let mut c_num = Cartesian::new(-2f32,-4f32);
+    /// 
+    /// c_num = c_num.conj();
+    /// assert_eq!{ c_num.to_string(), "-2+4i" };
+    /// ```
     fn conj( &self ) -> T {
         return T::new_from_cartesian(self.re, -self.im);
     }
