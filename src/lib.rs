@@ -42,6 +42,34 @@
 //! 
 //! assert_eq!{ polar_conj.to_string(), "2.236068∠-1.1071488" };
 //! ``` 
+//! 
+//! Selected `core::ops` traits are implemented on the complex structs.
+//! 
+//! ## Example
+//! 
+//! ```
+//! use mixed_num::*;
+//! use mixed_num::traits::*;
+//! 
+//! let mut c_num = Cartesian::new(1f32,2f32);
+//! 
+//! c_num = c_num*c_num;
+//! assert_eq!{ c_num.to_string(), "-3+4i" };
+//! ```
+//! 
+//! This includes support for operation of mixed types.
+//! 
+//! ## Example
+//! 
+//! ```
+//! use mixed_num::*;
+//! use mixed_num::traits::*;
+//! 
+//! let mut c_num = Cartesian::new(1f32,2f32);
+//! 
+//! c_num = c_num*2f64;
+//! assert_eq!{ c_num.to_string(), "2+4i" };
+//! ``` 
 
 #![crate_name = "mixed_num"]
 #![no_std]
@@ -66,3 +94,5 @@ pub use complex::*;
 
 mod int_impl;
 pub use int_impl::*;
+
+mod utility;
