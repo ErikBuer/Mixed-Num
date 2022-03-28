@@ -94,5 +94,3 @@ pub use complex::*;
 
 mod int_impl;
 pub use int_impl::*;
-
-mod utility;
