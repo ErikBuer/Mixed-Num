@@ -1,7 +1,7 @@
 use super::*;
 
 #[macro_use]
-mod write_complex;
+mod num_complex;
 
 impl <T: MixedNum + MixedNumSigned> MixedComplex for Cartesian<T>
 {
@@ -424,28 +424,5 @@ impl <T: MixedComplex + NewFromCartesian<T2>, T2: MixedNum + MixedNumSigned> Con
     /// ```
     fn conj( &self ) -> T {
         return T::new_from_cartesian(self.re, -self.im);
-    }
-}
-
-
-impl<T> core::fmt::Display for Cartesian<T>
-where
-    T: core::fmt::Display + PartialOrd + Clone + MixedZero + MixedNum + core::ops::Sub<Output = T>,
-{
-    /// Complex Conjugate of T.
-    /// 
-    /// ## Example
-    /// 
-    /// ```
-    /// use mixed_num::*;
-    /// use mixed_num::traits::*;
-    /// 
-    /// let mut c_num = Cartesian::new(-2f32,4f32);
-    /// assert_eq!{ c_num.to_string(), "-2+4i" };
-    /// let mut c_num = Cartesian::new(2f32,-4f32);
-    /// assert_eq!{ c_num.to_string(), "2-4i" };
-    /// ```
-    fn fmt(&self, f: &mut core::fmt::Formatter<'_>) -> core::fmt::Result {
-        write_complex!(f, "", "", self.re, self.im)
     }
 }

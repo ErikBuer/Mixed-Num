@@ -1,5 +1,10 @@
-// This file is an edited version of a macro in the num_complex crate.
+// This file is an edited version of the lib.rs file of the num-complex crate.
 // The lisence of this particular code section is included in the LISENCE file.
+
+use crate::traits::*;
+use crate::Cartesian;
+use core::fmt;
+
 
 macro_rules! write_complex {
     ($f:ident, $t:expr, $prefix:expr, $re:expr, $im:expr) => {{
@@ -89,4 +94,96 @@ macro_rules! write_complex {
             write!(f, "{}", complex)
         }
     }};
+}
+
+impl<T> fmt::Display for Cartesian<T>
+where
+    T: fmt::Display + PartialOrd + Clone + MixedZero + MixedNum + core::ops::Sub<Output = T>,
+{
+    /// ## Example
+    /// 
+    /// ```
+    /// use mixed_num::*;
+    /// use mixed_num::traits::*;
+    /// 
+    /// let mut c_num = Cartesian::new(-2f32,4f32);
+    /// assert_eq!{ c_num.to_string(), "-2+4i" };
+    /// let mut c_num = Cartesian::new(2f32,-4f32);
+    /// assert_eq!{ c_num.to_string(), "2-4i" };
+    /// ```
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        write_complex!(f, "", "", self.re, self.im)
+    }
+}
+
+impl<T> fmt::LowerExp for Cartesian<T>
+where
+    T: fmt::LowerExp + PartialOrd + Clone + MixedZero + MixedNum + core::ops::Sub<Output = T>,
+{
+    /// ## Example
+    /// 
+    /// ```
+    /// use mixed_num::*;
+    /// use mixed_num::traits::*;
+    /// 
+    /// let mut c_num = Cartesian::new(2e9f32,-4f32);
+    /// assert_eq!{ format!("{:e}", c_num), "2e9-4e0i" };
+    /// ```
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        write_complex!(f, "e", "", self.re, self.im)
+    }
+}
+
+impl<T> fmt::UpperExp for Cartesian<T>
+where
+    T: fmt::UpperExp + PartialOrd + Clone + MixedZero + MixedNum + core::ops::Sub<Output = T>,
+{
+    /// ## Example
+    /// 
+    /// ```
+    /// use mixed_num::*;
+    /// use mixed_num::traits::*;
+    /// 
+    /// let mut c_num = Cartesian::new(2e9f32,-4f32);
+    /// assert_eq!{ format!("{:E}", c_num), "2E9-4E0i" };
+    /// ```
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        write_complex!(f, "E", "", self.re, self.im)
+    }
+}
+
+impl<T> fmt::LowerHex for Cartesian<T>
+where
+    T: fmt::LowerHex + PartialOrd + Clone + MixedZero + MixedNum + core::ops::Sub<Output = T>,
+{
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        write_complex!(f, "x", "0x", self.re, self.im)
+    }
+}
+
+impl<T> fmt::UpperHex for Cartesian<T>
+where
+    T: fmt::UpperHex + PartialOrd + Clone + MixedZero + MixedNum + core::ops::Sub<Output = T>,
+{
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        write_complex!(f, "X", "0x", self.re, self.im)
+    }
+}
+
+impl<T> fmt::Octal for Cartesian<T>
+where
+    T: fmt::Octal + PartialOrd + Clone + MixedZero + MixedNum + core::ops::Sub<Output = T>,
+{
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        write_complex!(f, "o", "0o", self.re, self.im)
+    }
+}
+
+impl<T> fmt::Binary for Cartesian<T>
+where
+    T: fmt::Binary + PartialOrd + Clone + MixedZero + MixedNum + core::ops::Sub<Output = T>,
+{
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        write_complex!(f, "b", "0b", self.re, self.im)
+    }
 }
