@@ -1,11 +1,11 @@
 [package]
 name = "mixed-num"
-version = "0.4.2"
+version = "0.4.3"
 authors = ["Erik Buer"]
 edition = "2021"
 description = "A trait for generic implementations of numerical methods."
 readme = "README.md"
-repository = "https://github.com/norsk-datateknikk/Mixed-Num"
+repository = "https://github.com/ErikBuer/Mixed-Num"
 license-file = "LICENSE"
 keywords = ["dsp", "radio", "audio", "no_std"]
 
