@@ -1,6 +1,6 @@
 # Release Notes
 
-## Release 0.4.2 (2022-03-)
+## Release 0.4.2 (2022-03-30)
 
 - Improves `core::fmt` for `Cartesian<T>` by using a modified version of the [`write_complex`](https://docs.rs/num-complex/latest/src/num_complex/lib.rs.html#1123-1211) macro from num_complex (link to the original macro, at the time of writing).
 
