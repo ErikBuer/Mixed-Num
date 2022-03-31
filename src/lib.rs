@@ -80,7 +80,7 @@ extern crate std;
 pub mod trigonometry;
 
 pub mod traits;
-use traits::*;
+pub use traits::*;
 
 mod float_impl;
 pub use float_impl::*;

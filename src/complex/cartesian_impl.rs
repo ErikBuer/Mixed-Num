@@ -431,8 +431,6 @@ impl <T: MixedComplex + NewFromCartesian<T2>, T2: MixedNum + MixedNumSigned> Con
 
 impl <T: MixedReal + MixedNumSigned + MixedSin + MixedExp + core::ops::MulAssign> MixedExp for Cartesian<T>
 {
-    /// Complex Conjugate of T.
-    /// 
     /// ## Example
     /// 
     /// ```
