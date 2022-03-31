@@ -1,7 +1,8 @@
-use super::*;
+use crate::*;
+use crate::complex::ops;
 
 #[macro_use]
-mod write_complex;
+mod num_complex_impl;
 
 impl <T: MixedNum + MixedNumSigned> MixedComplex for Cartesian<T>
 {
@@ -157,7 +158,7 @@ impl_core_ops_cartesian_for_cartesian!(&mut Cartesian<T>);
 
 
 impl <T1: MixedNum + MixedOps, T2: MixedNum + MixedOps + MixedNumConversion<T1>> core::ops::Mul<T1> for Cartesian<T2> {
-    type Output = Self;
+    type Output = Cartesian<T2>;
     /// ## Example
     /// 
     /// ```
@@ -428,24 +429,35 @@ impl <T: MixedComplex + NewFromCartesian<T2>, T2: MixedNum + MixedNumSigned> Con
 }
 
 
-impl<T> core::fmt::Display for Cartesian<T>
-where
-    T: core::fmt::Display + PartialOrd + Clone + MixedZero + MixedNum + core::ops::Sub<Output = T>,
+impl <T: MixedReal + MixedNumSigned + MixedSin + MixedExp + core::ops::MulAssign> MixedExp for Cartesian<T>
 {
-    /// Complex Conjugate of T.
-    /// 
     /// ## Example
     /// 
     /// ```
     /// use mixed_num::*;
     /// use mixed_num::traits::*;
     /// 
-    /// let mut c_num = Cartesian::new(-2f32,4f32);
-    /// assert_eq!{ c_num.to_string(), "-2+4i" };
-    /// let mut c_num = Cartesian::new(2f32,-4f32);
-    /// assert_eq!{ c_num.to_string(), "2-4i" };
+    /// let mut c_num = Cartesian::new(0f32,f32::mixed_pi());
+    /// 
+    /// c_num = c_num.mixed_exp();
+    /// assert_eq!{ c_num.to_string(), "-1+-0i" };
+    /// 
+    /// let mut c_num = Cartesian::new(1f32,f32::mixed_pi());
+    /// 
+    /// c_num = c_num.mixed_exp();
+    /// assert_eq!{ c_num.to_string(), "-2.7182817+-0i" };
+    /// 
+    /// let mut c_num = Cartesian::new(1f32,0f32);
+    /// 
+    /// c_num = c_num.mixed_exp();
+    /// assert_eq!{ c_num.to_string(), "2.7182817+0i" };
     /// ```
-    fn fmt(&self, f: &mut core::fmt::Formatter<'_>) -> core::fmt::Result {
-        write_complex!(f, "", "", self.re, self.im)
+    fn mixed_exp( &self ) -> Cartesian<T> {
+        let (im, re) = self.im.mixed_sincos();
+        let scale = self.re.mixed_exp();
+        let mut r_value =  Self::new_from_cartesian(re, im);
+        r_value.re *= scale;
+        r_value.im *= scale;
+        return r_value;
     }
 }

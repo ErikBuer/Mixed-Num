@@ -1,5 +1,5 @@
 This project in its entirety is under an MIT License. 
-The below notice applies to the crate, excluding the file write_complex.rs.
+The below notice applies to the crate, excluding the file num_complex_impl.rs.
 It as a separate copyright notice, which is at the end of this file.
 ___________________________________________________________________________________
 
@@ -25,7 +25,7 @@ SOFTWARE.
 
 ___________________________________________________________________________________
 
-The below copyright notice applies to the file write_complex.rs
+The below copyright notice applies to the file num_complex_impl.rs
 ___________________________________________________________________________________
 
 Copyright (c) 2014 The Rust Project Developers

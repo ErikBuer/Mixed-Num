@@ -1,3 +1,6 @@
+// As this is a library intended for design reuse, the primary traits to be implemented are the ***Mixed*** traits.
+// With that said, as the complex structs are created in this library, they can have trais with sorter names, whih allow increased readability.
+
 use crate::*;
 
 pub trait ToCartesian<T> {
