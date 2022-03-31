@@ -2,7 +2,7 @@ use crate::*;
 use crate::complex::ops;
 
 #[macro_use]
-mod num_complex_impls;
+mod num_complex_impl;
 
 impl <T: MixedNum + MixedNumSigned> MixedComplex for Cartesian<T>
 {
