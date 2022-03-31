@@ -448,6 +448,11 @@ impl <T: MixedReal + MixedNumSigned + MixedSin + MixedExp + core::ops::MulAssign
     /// 
     /// c_num = c_num.mixed_exp();
     /// assert_eq!{ c_num.to_string(), "-2.7182817+-0i" };
+    /// 
+    /// let mut c_num = Cartesian::new(1f32,0f32);
+    /// 
+    /// c_num = c_num.mixed_exp();
+    /// assert_eq!{ c_num.to_string(), "2.7182817+0i" };
     /// ```
     fn mixed_exp( &self ) -> Cartesian<T> {
         let (im, re) = self.im.mixed_sincos();
