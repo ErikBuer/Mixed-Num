@@ -1,5 +1,9 @@
 # Release Notes
 
+## Release 0.4.4 (2022-03-31)
+
+- Implements `MixedExp` for `Cartesian<T>`.
+
 ## Release 0.4.3 (2022-03-30)
 
 - Correction of git link in the cargo.toml file.

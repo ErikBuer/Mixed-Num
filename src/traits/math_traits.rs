@@ -174,7 +174,6 @@ pub trait MixedPow
     fn mixed_pow(&self, power:Self) -> Self;
 }
 
-
 pub trait Mixedlog
 {
     /// Take natural logarithm, of `self`.
