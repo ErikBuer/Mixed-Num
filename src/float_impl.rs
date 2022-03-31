@@ -40,6 +40,32 @@ macro_rules! impl_mixed_num_for_primitive{
             }
         }
 
+        impl MixedNumConversion<Cartesian<f32>> for $T
+        {
+            /// Only uses the real part.
+            #[inline(always)]
+            fn mixed_from_num( number:Cartesian<f32> ) -> Self {
+                return number.re as Self;
+            }
+            #[inline(always)]
+            fn mixed_to_num( &self ) -> Cartesian<f32> {
+                return Cartesian::new(*self as f32, f32::mixed_zero());
+            }
+        }
+
+        impl MixedNumConversion<Cartesian<f64>> for $T
+        {
+            /// Only uses the real part.
+            #[inline(always)]
+            fn mixed_from_num( number:Cartesian<f64> ) -> Self {
+                return number.re as Self;
+            }
+            #[inline(always)]
+            fn mixed_to_num( &self ) -> Cartesian<f64> {
+                return Cartesian::new(*self as f64, f64::mixed_zero());
+            }
+        }
+
         impl MixedNumConversion<u32> for $T
         {
             #[inline(always)]

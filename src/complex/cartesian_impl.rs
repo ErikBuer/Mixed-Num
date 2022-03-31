@@ -169,6 +169,10 @@ impl <T1: MixedNum + MixedOps, T2: MixedNum + MixedOps + MixedNumConversion<T1>>
     /// 
     /// c_num = c_num*2f64;
     /// assert_eq!{ c_num.to_string(), "2+4i" };
+    /// 
+    /// let mut c_num = Cartesian::new(1f32,2f32);
+    /// c_num = c_num*2f32;
+    /// assert_eq!{ c_num.to_string(), "2+4i" };
     /// ``` 
     #[inline]
     fn mul(self, rhs: T1) -> Self {
