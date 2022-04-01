@@ -1,5 +1,9 @@
 # Release Notes
 
+## Release 0.5.1 (2022-04-1)
+
+- Corrects `arg` for `Cartesian<T>`.
+
 ## Release 0.5.0 (2022-04-1)
 
 - Removes `MixedNumConversion<T>` for conversion to/from real types and `Cartesian<T>`, as it can lead to ambigious behaviour.
