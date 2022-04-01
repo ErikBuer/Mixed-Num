@@ -1,5 +1,10 @@
 # Release Notes
 
+## Release 0.5.0 (2022-04-1)
+
+- Removes `MixedNumConversion<T>` for conversion to/from real types and `Cartesian<T>`, as it can lead to ambigious behaviour.
+- Implements `MixedNumConversion<T>` for conversion between `Cartesian<T>`of various `T`.
+
 ## Release 0.4.5 (2022-03-31)
 
 - Implements `MixedNumConversion<T>` for conversion to/from real types and `Cartesian<T>`.

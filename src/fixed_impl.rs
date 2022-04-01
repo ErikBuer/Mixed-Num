@@ -31,7 +31,7 @@ macro_rules! impl_mixed_num_for_fixed{
                 return self.to_num::<f64>();
             }
         }
-
+        /*
         impl MixedNumConversion<Cartesian<$T>> for $T
         {
             /// Only uses the real part.
@@ -70,6 +70,7 @@ macro_rules! impl_mixed_num_for_fixed{
                 return Cartesian::new(self.to_num::<f64>(), f64::mixed_zero());
             }
         }
+        */
 
         impl MixedNumConversion<u32> for $T
         {
