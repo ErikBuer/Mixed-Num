@@ -33,18 +33,6 @@ impl <T: MixedNum + MixedNumSigned + MixedWrapPhase + MixedTrigonometry + MixedO
     }
 }
 
-impl <T: MixedNum + MixedNumConversion<T2> + MixedZero, T2: MixedNum> MixedNumConversion<T2> for Cartesian<T>
-{
-    #[inline(always)]
-    fn mixed_from_num( number:T2 ) -> Self {
-        return Self{re:T::mixed_from_num(number), im:T::mixed_zero()};
-    }
-    #[inline(always)]
-    fn mixed_to_num( &self ) -> T2 {
-        return self.re.mixed_to_num();
-    }
-}
-
 impl <T: MixedNum + MixedNumSigned> ToCartesian<T> for Cartesian<T>
 {
     /// Converison to Complex<T>.
@@ -504,4 +492,8 @@ impl <T: MixedReal + MixedNumSigned + MixedSin + MixedExp + core::ops::MulAssign
         r_value.im *= scale;
         return r_value;
     }
+}
+
+impl <T: MixedNum + MixedNumSigned> MixedNum for Cartesian<T>
+{
 }
