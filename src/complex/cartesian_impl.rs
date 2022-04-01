@@ -118,13 +118,39 @@ impl <T: MixedNum + MixedNumSigned + MixedSqrt + MixedPowi + MixedOps + MixedZer
 impl <T: MixedNum + MixedNumSigned + MixedAtan> Arg<T> for Cartesian<T>
 {
     /// Argument of the complex number.
+    /// 
+    /// ## Example
+    /// 
+    /// ```
+    /// use mixed_num::*;
+    /// use mixed_num::traits::*;
+    ///
+    /// let polar_num = Polar::new(1f32,0.5f32);
+    ///  
+    /// let cartesian_num = polar_num.to_cartesian();
+    /// 
+    /// assert_eq!{ cartesian_num.arg().to_string(), "0.5" };
+    /// ``` 
     #[inline(always)]
     fn arg( &self ) -> T
     {
-        return self.re.mixed_atan2(self.im);
+        return self.im.mixed_atan2(self.re);
     }
 
     /// Angle of the complex number.
+    /// 
+    /// ## Example
+    /// 
+    /// ```
+    /// use mixed_num::*;
+    /// use mixed_num::traits::*;
+    ///
+    /// let polar_num = Polar::new(1f32,0.5f32);
+    ///  
+    /// let cartesian_num = polar_num.to_cartesian();
+    /// 
+    /// assert_eq!{ cartesian_num.ang().to_string(), "0.5" };
+    /// ``` 
     #[inline(always)]
     fn ang( &self ) -> T
     {
