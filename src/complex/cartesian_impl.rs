@@ -180,6 +180,20 @@ impl <T1: MixedNum + MixedOps, T2: MixedNum + MixedOps + MixedNumConversion<T1>>
     }
 }
 
+impl <T1: MixedNum, T2: MixedNum + MixedNumSigned + MixedNumConversion<T1>> MixedNumConversion<Cartesian<T1>> for Cartesian<T2>
+{
+    /// Only uses the real part.
+    #[inline(always)]
+    fn mixed_from_num( number:Cartesian<T1> ) -> Self {
+        let r_val = Self::new_from_cartesian(T2::mixed_from_num(number.re), T2::mixed_from_num(number.im));
+        return r_val;
+    }
+    #[inline(always)]
+    fn mixed_to_num( &self ) -> Cartesian<T1> {
+        return Cartesian::new(self.re.mixed_to_num(), self.im.mixed_to_num());
+    }
+}
+
 macro_rules! impl_core_ops_polar_for_cartesian{
     ( $T:ty ) => {
         impl <T: MixedNum + MixedNumSigned + MixedTrigonometry + MixedWrapPhase + MixedOps> core::ops::Mul<$T> for Cartesian<T> {

@@ -39,7 +39,7 @@ macro_rules! impl_mixed_num_for_primitive{
                 return *self as f64;
             }
         }
-
+        /*
         impl MixedNumConversion<Cartesian<f32>> for $T
         {
             /// Only uses the real part.
@@ -65,6 +65,7 @@ macro_rules! impl_mixed_num_for_primitive{
                 return Cartesian::new(*self as f64, f64::mixed_zero());
             }
         }
+        */
 
         impl MixedNumConversion<u32> for $T
         {
