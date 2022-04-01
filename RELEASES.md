@@ -1,5 +1,9 @@
 # Release Notes
 
+## Release 0.5.2 (2022-04-1)
+
+- Implements `MixedNum` for `Cartesian<T>`.
+
 ## Release 0.5.1 (2022-04-1)
 
 - Corrects `arg` for `Cartesian<T>`.
