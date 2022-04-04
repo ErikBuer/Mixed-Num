@@ -1,5 +1,9 @@
 # Release Notes
 
+## Release 0.5.4 (2022-04-04)
+
+- Implements `MixedNum` triats for `usize` and `u8`-`u128`.
+
 ## Release 0.5.3 (2022-04-04)
 
 - Implements `MixedNum` triats for `isize` and `i8`-`i128`.
