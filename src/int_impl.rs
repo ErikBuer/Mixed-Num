@@ -1,5 +1,21 @@
 use crate::*;
 
+macro_rules! impl_mixed_num_conversion{
+    ( $T1:ty, $T2:ty ) => {
+        impl MixedNumConversion<$T2> for $T1
+        {
+            #[inline(always)]
+            fn mixed_from_num( number:$T2 ) -> Self {
+                return number as Self;
+            }
+            #[inline(always)]
+            fn mixed_to_num( &self ) -> $T2 {
+                return *self as $T2;
+            }
+        }
+    }
+}
+
 macro_rules! impl_mixed_num_for_primitive{
     ( $T:ty ) => {
 
@@ -34,77 +50,24 @@ macro_rules! impl_mixed_num_for_primitive{
         {
         }
 
-        impl MixedNumConversion<f32> for $T
-        {
-            #[inline(always)]
-            fn mixed_from_num( number:f32 ) -> Self {
-                return number as Self;
-            }
-            #[inline(always)]
-            fn mixed_to_num( &self ) -> f32 {
-                return *self as f32;
-            }
-        }
+        impl_mixed_num_conversion!($T, f32);
+        impl_mixed_num_conversion!($T, f64);
+        
+        impl_mixed_num_conversion!($T, usize);
+        impl_mixed_num_conversion!($T, isize);
+        
+        impl_mixed_num_conversion!($T, u8);
+        impl_mixed_num_conversion!($T, u16);
+        impl_mixed_num_conversion!($T, u32);
+        impl_mixed_num_conversion!($T, u64);
+        impl_mixed_num_conversion!($T, u128);
 
-        impl MixedNumConversion<f64> for $T
-        {
-            #[inline(always)]
-            fn mixed_from_num( number:f64 ) -> Self {
-                return number as Self;
-            }
-            #[inline(always)]
-            fn mixed_to_num( &self ) -> f64 {
-                return *self as f64;
-            }
-        }
+        impl_mixed_num_conversion!($T, i8);
+        impl_mixed_num_conversion!($T, i16);
+        impl_mixed_num_conversion!($T, i32);
+        impl_mixed_num_conversion!($T, i64);
+        impl_mixed_num_conversion!($T, i128);
 
-        impl MixedNumConversion<u32> for $T
-        {
-            #[inline(always)]
-            fn mixed_from_num( number:u32 ) -> Self {
-                return number as Self;
-            }
-            #[inline(always)]
-            fn mixed_to_num( &self ) -> u32 {
-                return *self as u32;
-            }
-        }
-
-        impl MixedNumConversion<u64> for $T
-        {
-            #[inline(always)]
-            fn mixed_from_num( number:u64 ) -> Self {
-                return number as Self;
-            }
-            #[inline(always)]
-            fn mixed_to_num( &self ) -> u64 {
-                return *self as u64;
-            }
-        }
-
-        impl MixedNumConversion<i32> for $T
-        {
-            #[inline(always)]
-            fn mixed_from_num( number:i32 ) -> Self {
-                return number as Self;
-            }
-            #[inline(always)]
-            fn mixed_to_num( &self ) -> i32 {
-                return *self as i32;
-            }
-        }
-
-        impl MixedNumConversion<i64> for $T
-        {
-            #[inline(always)]
-            fn mixed_from_num( number:i64 ) -> Self {
-                return number as Self;
-            }
-            #[inline(always)]
-            fn mixed_to_num( &self ) -> i64 {
-                return *self as i64;
-            }
-        }
 
         impl MixedAbs for $T
         {
@@ -151,7 +114,10 @@ macro_rules! impl_mixed_num_for_primitive{
     }
 }
 
+impl_mixed_num_for_primitive!(isize);
+
 impl_mixed_num_for_primitive!(i8);
 impl_mixed_num_for_primitive!(i16);
 impl_mixed_num_for_primitive!(i32);
 impl_mixed_num_for_primitive!(i64);
+impl_mixed_num_for_primitive!(i128);
