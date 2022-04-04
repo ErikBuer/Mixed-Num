@@ -1,5 +1,10 @@
 # Release Notes
 
+## Release 0.5.3 (2022-04-04)
+
+- Implements `MixedNum` triats for `isize` and `i8`-`i128`.
+- Implements `MixedNumConversion` with `<usize>` and `<isize>`.
+
 ## Release 0.5.2 (2022-04-1)
 
 - Implements `MixedNum` for `Cartesian<T>`.
