@@ -1,6 +1,6 @@
 # Release Notes
 
-## Release 0.5.5 (2022-04-04)
+## Release 0.5.5 (2022-04-22)
 
 - Implements `MixedNumConversion` between real and cartesian complex.
 
