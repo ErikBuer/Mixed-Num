@@ -82,12 +82,36 @@ impl <T: MixedNum + MixedZero> MixedComplexConversion<T>  for Cartesian<T>
 impl <T: MixedNum + MixedNumSigned + MixedSqrt + MixedPowi + MixedOps> Mag<T> for Cartesian<T>
 {
     /// Magnitude of the complex number.
+    ///  
+    /// ```
+    /// use mixed_num::*;
+    /// use mixed_num::traits::*;
+    ///
+    /// let polar_num = Polar::new(0.5f32,0.5f32);
+    /// let cartesian_num = polar_num.to_cartesian();
+    ///  
+    /// let absolute = cartesian_num.mag();
+    /// 
+    /// assert_eq!{ absolute.to_string(), "0.5" };
+    /// ```
     #[inline(always)]
     fn mag( &self ) -> T
     {
         return (self.re.mixed_powi(2)+self.im.mixed_powi(2)).mixed_sqrt();
     }
     /// Magnitude of the complex number.
+    /// 
+    /// ```
+    /// use mixed_num::*;
+    /// use mixed_num::traits::*;
+    ///
+    /// let polar_num = Polar::new(0.5f32,0.5f32);
+    /// let cartesian_num = polar_num.to_cartesian();
+    ///  
+    /// let absolute = cartesian_num.abs();
+    /// 
+    /// assert_eq!{ absolute.to_string(), "0.5" };
+    /// ```
     #[inline(always)]
     fn abs( &self ) -> T
     {
@@ -96,7 +120,7 @@ impl <T: MixedNum + MixedNumSigned + MixedSqrt + MixedPowi + MixedOps> Mag<T> fo
 }
 
 impl <T: MixedNum + MixedNumSigned + MixedSqrt + MixedPowi + MixedOps + MixedZero> MixedAbs for Cartesian<T>
-{
+{   
     fn mixed_abs( &self ) -> Self
     {
         return Self::new(self.mag(), T::mixed_zero());
