@@ -14,6 +14,20 @@ macro_rules! impl_mixed_num_conversion{
                 return self.to_num::<$T2>();
             }
         }
+
+        impl MixedNumConversion<Cartesian<$T2>> for $T1
+        {
+            /// Extracts real part of self, including type cast to the target type.
+            #[inline(always)]
+            fn mixed_from_num( number:Cartesian<$T2> ) -> Self {
+                return Self::from_num(number.re);
+            }
+            /// Casting real number to a complex, including type cast of T1 to T2 (Cartesian<T2>).
+            #[inline(always)]
+            fn mixed_to_num( &self ) -> Cartesian<$T2> {
+                return Cartesian::new(self.to_num::<$T2>(), <$T2>::mixed_zero());
+            }
+        }
     }
 }
 

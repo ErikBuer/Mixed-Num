@@ -11,6 +11,7 @@ pub use polar_impl::*;
 
 #[derive(PartialEq, PartialOrd, Eq, Copy, Clone, Debug, Default)]
 #[repr(C)]
+/// Cartesian complex number.
 pub struct Cartesian<T> {
     /// Real part.
     pub re: T,
@@ -20,7 +21,7 @@ pub struct Cartesian<T> {
 
 #[derive(PartialEq, PartialOrd, Eq, Copy, Clone, Debug, Default)]
 #[repr(C)]
-/// Polar complex nuber.
+/// Polar complex number.
 pub struct Polar<T> {
     // Magnitude
     pub mag: T,

@@ -1,5 +1,9 @@
 # Release Notes
 
+## Release 0.5.5 (2022-04-04)
+
+- Implements `MixedNumConversion` between real and cartesian complex.
+
 ## Release 0.5.4 (2022-04-04)
 
 - Implements `MixedNum` triats for `usize` and `u8`-`u128`.

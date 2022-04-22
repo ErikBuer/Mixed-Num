@@ -21,9 +21,47 @@ macro_rules! impl_mixed_num_conversion{
                 return *self as $T2;
             }
         }
+
+        impl MixedNumConversion<Cartesian<$T2>> for $T1
+        {
+            /// Extracts real part of self, including type cast to the target type.
+            /// 
+            /// ## Example
+            /// 
+            /// ```
+            /// use mixed_num::*;
+            /// use mixed_num::traits::*;
+            ///
+            /// let num = Cartesian::new(1f32,0f32);
+            /// 
+            /// let real_num:f64 = f64::mixed_from_num(num);
+            /// 
+            /// assert_eq!{ real_num, 1f64 };
+            /// ```
+            #[inline(always)]
+            fn mixed_from_num( number:Cartesian<$T2> ) -> Self {
+                return number.re as Self;
+            }
+            /// Casting real number to a complex, including type cast of T1 to T2 (Cartesian<T2>). 
+            ///  
+            /// ## Example
+            /// 
+            /// ```
+            /// use mixed_num::*;
+            /// use mixed_num::traits::*;
+            /// 
+            /// // Notice the support cor type cast as well as real/complex conversion. 
+            /// let num: Cartesian<f64> = 2f32.mixed_to_num();
+            /// 
+            /// assert_eq!{ num.to_string(), "2+0i" };
+            /// ```
+            #[inline(always)]
+            fn mixed_to_num( &self ) -> Cartesian<$T2> {
+                return Cartesian::new(*self as $T2, <$T2>::mixed_zero());
+            }
+        }
     }
 }
-
 
 macro_rules! impl_mixed_num_for_primitive{
     ( $T:ty ) => {
@@ -31,34 +69,6 @@ macro_rules! impl_mixed_num_for_primitive{
         impl MixedNum for $T
         {
         }
-
-        /*
-        impl MixedNumConversion<Cartesian<f32>> for $T
-        {
-            /// Only uses the real part.
-            #[inline(always)]
-            fn mixed_from_num( number:Cartesian<f32> ) -> Self {
-                return number.re as Self;
-            }
-            #[inline(always)]
-            fn mixed_to_num( &self ) -> Cartesian<f32> {
-                return Cartesian::new(*self as f32, f32::mixed_zero());
-            }
-        }
-
-        impl MixedNumConversion<Cartesian<f64>> for $T
-        {
-            /// Only uses the real part.
-            #[inline(always)]
-            fn mixed_from_num( number:Cartesian<f64> ) -> Self {
-                return number.re as Self;
-            }
-            #[inline(always)]
-            fn mixed_to_num( &self ) -> Cartesian<f64> {
-                return Cartesian::new(*self as f64, f64::mixed_zero());
-            }
-        }
-        */
 
         impl_mixed_num_conversion!($T, f32);
         impl_mixed_num_conversion!($T, f64);
