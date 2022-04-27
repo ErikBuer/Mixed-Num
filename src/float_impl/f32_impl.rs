@@ -96,6 +96,19 @@ impl MixedAtan for f32
 
 impl MixedSqrt for f32
 {
+    /// Calculate the square root of self.
+    /// 
+    /// ```
+    /// use mixed_num::*;
+    /// 
+    /// let mut num = 4f32;
+    /// num = num.mixed_sqrt();
+    /// assert_eq!(num, 2f32 );
+    /// 
+    /// let mut num = 0f32;
+    /// num = num.mixed_sqrt();
+    /// assert_eq!(num, 0f32 );
+    /// ``` 
     #[inline(always)]
     fn mixed_sqrt(&self) -> Self {
         return libm::sqrtf(*self);
