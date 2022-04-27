@@ -113,7 +113,7 @@ impl MixedSqrt for f64
     /// num = num.mixed_sqrt();
     /// assert_eq!(num, 2f64 );
     /// 
-    /// let mut num = 0f64
+    /// let mut num = 0f64;
     /// num = num.mixed_sqrt();
     /// assert_eq!(num, 0f64 );
     /// ``` 

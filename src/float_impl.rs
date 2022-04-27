@@ -98,6 +98,23 @@ macro_rules! impl_mixed_num_for_primitive{
 
         impl MixedAbs for $T
         {
+            /// Return the absolute value of self.
+            /// 
+            /// ```
+            /// use mixed_num::*;
+            /// 
+            /// let mut num = 4f32;
+            /// num = num.mixed_abs();
+            /// assert_eq!(num, 4f32 );
+            /// 
+            ///  let mut num = -4f64;
+            /// num = num.mixed_abs();
+            /// assert_eq!(num, 4f64 );
+            /// 
+            /// let mut num = 0f32;
+            /// num = num.mixed_abs();
+            /// assert_eq!(num, 0f32 );
+            /// ``` 
             #[inline(always)]
             fn mixed_abs( &self ) -> Self {
                 return self.abs();
