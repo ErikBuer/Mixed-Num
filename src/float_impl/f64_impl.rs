@@ -184,6 +184,23 @@ impl Mixedlog for f64
 
 impl Mixedlog10 for f64
 {
+    /// Calculate the log10 of self.
+    /// 
+    /// ```
+    /// use mixed_num::*;
+    /// 
+    /// let mut num = 10f64;
+    /// num = num.mixed_log10();
+    /// assert_eq!(num, 1f64 );
+    /// 
+    /// let mut num = 1f64;
+    /// num = num.mixed_log10();
+    /// assert_eq!(num, 0f64 );
+    /// 
+    ///  let mut num = 0f64;
+    /// num = num.mixed_log10();
+    /// assert_eq!(num.to_string(), "-inf" );
+    /// ``` 
     #[inline(always)]
     fn mixed_log10(&self) -> Self {
         return libm::log10(*self);
